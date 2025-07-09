@@ -24,6 +24,258 @@ const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) =>
   );
 };
 
+// Helper function to parse inline markdown formatting
+const parseInlineMarkdown = (text: string) => {
+  const tokens: Array<{ text: string; bold: boolean; italic: boolean; link?: string; code: boolean }> = [];
+  let current = '';
+  let i = 0;
+  
+  while (i < text.length) {
+    const char = text[i];
+    
+    // Handle code spans first (highest priority)
+    if (char === '`') {
+      if (current) {
+        tokens.push({ text: current, bold: false, italic: false, code: false });
+        current = '';
+      }
+      
+      // Find closing backtick
+      let j = i + 1;
+      let codeContent = '';
+      while (j < text.length && text[j] !== '`') {
+        codeContent += text[j];
+        j++;
+      }
+      
+      if (j < text.length) {
+        tokens.push({ text: codeContent, bold: false, italic: false, code: true });
+        i = j + 1;
+        continue;
+      }
+    }
+    
+    // Handle links [text](url)
+    if (char === '[') {
+      if (current) {
+        tokens.push({ text: current, bold: false, italic: false, code: false });
+        current = '';
+      }
+      
+      // Find closing bracket and parentheses
+      let j = i + 1;
+      let linkText = '';
+      while (j < text.length && text[j] !== ']') {
+        linkText += text[j];
+        j++;
+      }
+      
+      if (j < text.length && text[j + 1] === '(') {
+        let k = j + 2;
+        let linkUrl = '';
+        while (k < text.length && text[k] !== ')') {
+          linkUrl += text[k];
+          k++;
+        }
+        
+        if (k < text.length) {
+          tokens.push({ text: linkText, bold: false, italic: false, link: linkUrl, code: false });
+          i = k + 1;
+          continue;
+        }
+      }
+    }
+    
+    // Handle bold **text**
+    if (char === '*' && text[i + 1] === '*') {
+      if (current) {
+        tokens.push({ text: current, bold: false, italic: false, code: false });
+        current = '';
+      }
+      
+      // Find closing **
+      let j = i + 2;
+      let boldContent = '';
+      while (j < text.length - 1 && !(text[j] === '*' && text[j + 1] === '*')) {
+        boldContent += text[j];
+        j++;
+      }
+      
+      if (j < text.length - 1) {
+        tokens.push({ text: boldContent, bold: true, italic: false, code: false });
+        i = j + 2;
+        continue;
+      }
+    }
+    
+    // Handle italic *text*
+    if (char === '*' && text[i + 1] !== '*' && (i === 0 || text[i - 1] !== '*')) {
+      if (current) {
+        tokens.push({ text: current, bold: false, italic: false, code: false });
+        current = '';
+      }
+      
+      // Find closing *
+      let j = i + 1;
+      let italicContent = '';
+      while (j < text.length && text[j] !== '*') {
+        italicContent += text[j];
+        j++;
+      }
+      
+      if (j < text.length) {
+        tokens.push({ text: italicContent, bold: false, italic: true, code: false });
+        i = j + 1;
+        continue;
+      }
+    }
+    
+    current += char;
+    i++;
+  }
+  
+  if (current) {
+    tokens.push({ text: current, bold: false, italic: false, code: false });
+  }
+  
+  return tokens;
+};
+
+// Helper function to render formatted text in PDF
+const renderFormattedText = (pdf: jsPDF, tokens: ReturnType<typeof parseInlineMarkdown>, x: number, y: number, maxWidth: number) => {
+  let currentX = x;
+  const lines: string[] = [''];
+  const lineFormats: Array<Array<{ text: string; bold: boolean; italic: boolean; link?: string; code: boolean }>> = [[]];
+  
+  // Process tokens and handle line wrapping
+  for (const token of tokens) {
+    const words = token.text.split(' ');
+    
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i] + (i < words.length - 1 ? ' ' : '');
+      const testLine = lines[lines.length - 1] + word;
+      
+      // Set font for width measurement
+      if (token.bold) {
+        pdf.setFont('times', 'bold');
+      } else if (token.italic) {
+        pdf.setFont('times', 'italic');
+      } else {
+        pdf.setFont('times', 'normal');
+      }
+      
+      const lineWidth = pdf.getTextWidth(testLine);
+      
+      if (lineWidth > maxWidth && lines[lines.length - 1] !== '') {
+        // Start new line
+        lines.push(word);
+        lineFormats.push([{ ...token, text: word }]);
+      } else {
+        // Add to current line
+        lines[lines.length - 1] = testLine;
+        if (lineFormats[lineFormats.length - 1].length === 0) {
+          lineFormats[lineFormats.length - 1].push({ ...token, text: word });
+        } else {
+          lineFormats[lineFormats.length - 1].push({ ...token, text: word });
+        }
+      }
+    }
+  }
+  
+  // Render each line with proper formatting
+  let currentY = y;
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    currentX = x;
+    const lineTokens = lineFormats[lineIndex];
+    
+    for (const token of lineTokens) {
+      // Set font style
+      if (token.code) {
+        pdf.setFont('courier', 'normal');
+        pdf.setFontSize(10);
+      } else if (token.bold) {
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(11);
+      } else if (token.italic) {
+        pdf.setFont('times', 'italic');
+        pdf.setFontSize(11);
+      } else {
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(11);
+      }
+      
+      // Add link indicator if present
+      let displayText = token.text;
+      if (token.link) {
+        displayText += ` (${token.link})`;
+      }
+      
+      pdf.text(displayText, currentX, currentY);
+      currentX += pdf.getTextWidth(displayText);
+    }
+    
+    currentY += 6; // Line height
+  }
+  
+  return currentY;
+};
+
+// Helper function to parse and render tables
+const renderTable = (pdf: jsPDF, tableContent: string, x: number, y: number, maxWidth: number) => {
+  const lines = tableContent.split('\n').filter(line => line.trim());
+  if (lines.length < 2) return y;
+  
+  // Parse table structure
+  const rows: string[][] = [];
+  for (const line of lines) {
+    if (line.includes('---')) continue; // Skip separator lines
+    const cells = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+    if (cells.length > 0) {
+      rows.push(cells);
+    }
+  }
+  
+  if (rows.length === 0) return y;
+  
+  // Calculate column widths
+  const numCols = Math.max(...rows.map(row => row.length));
+  const colWidth = maxWidth / numCols;
+  
+  let currentY = y;
+  
+  // Render table
+  for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+    const row = rows[rowIndex];
+    const isHeader = rowIndex === 0;
+    
+    // Set font for header or body
+    if (isHeader) {
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(10);
+    } else {
+      pdf.setFont('times', 'normal');
+      pdf.setFontSize(10);
+    }
+    
+    // Render cells
+    for (let colIndex = 0; colIndex < row.length; colIndex++) {
+      const cellX = x + colIndex * colWidth;
+      const cellText = row[colIndex];
+      
+      // Add cell border
+      pdf.rect(cellX, currentY - 4, colWidth, 8);
+      
+      // Add cell text
+      const wrappedText = pdf.splitTextToSize(cellText, colWidth - 2);
+      pdf.text(wrappedText, cellX + 1, currentY);
+    }
+    
+    currentY += 8;
+  }
+  
+  return currentY + 5;
+};
+
 // Function to generate PDF from markdown content
 const generatePDF = async (markdownContent: string, searchTerm: string) => {
   const pdf = new jsPDF('p', 'mm', 'a4');
@@ -87,14 +339,32 @@ const generatePDF = async (markdownContent: string, searchTerm: string) => {
   const cleanContent = markdownContent.replace(/content:/g, '');
   const contentLines = cleanContent.split('\n');
   
-  pdf.setFontSize(11);
-  pdf.setFont('times', 'normal');
+  // Check for table content
+  let inTable = false;
+  let tableContent = '';
   
-  for (const line of contentLines) {
+  for (let i = 0; i < contentLines.length; i++) {
+    const line = contentLines[i];
+    
     // Check if we need a new page
     if (currentY > pageHeight - margin) {
       pdf.addPage();
       currentY = margin;
+    }
+    
+    // Handle table detection
+    if (line.includes('|') && line.trim() !== '') {
+      if (!inTable) {
+        inTable = true;
+        tableContent = '';
+      }
+      tableContent += line + '\n';
+      continue;
+    } else if (inTable) {
+      // End of table
+      currentY = renderTable(pdf, tableContent, margin, currentY, contentWidth);
+      inTable = false;
+      tableContent = '';
     }
     
     if (line.trim() === '') {
@@ -110,8 +380,6 @@ const generatePDF = async (markdownContent: string, searchTerm: string) => {
       const headerLines = pdf.splitTextToSize(headerText, contentWidth);
       pdf.text(headerLines, margin, currentY);
       currentY += headerLines.length * 8 + 8;
-      pdf.setFontSize(11);
-      pdf.setFont('times', 'normal');
     } else if (line.startsWith('## ')) {
       pdf.setFontSize(14);
       pdf.setFont('times', 'bold');
@@ -119,8 +387,6 @@ const generatePDF = async (markdownContent: string, searchTerm: string) => {
       const headerLines = pdf.splitTextToSize(headerText, contentWidth);
       pdf.text(headerLines, margin, currentY);
       currentY += headerLines.length * 7 + 6;
-      pdf.setFontSize(11);
-      pdf.setFont('times', 'normal');
     } else if (line.startsWith('### ')) {
       pdf.setFontSize(12);
       pdf.setFont('times', 'bold');
@@ -128,35 +394,64 @@ const generatePDF = async (markdownContent: string, searchTerm: string) => {
       const headerLines = pdf.splitTextToSize(headerText, contentWidth);
       pdf.text(headerLines, margin, currentY);
       currentY += headerLines.length * 6 + 5;
-      pdf.setFontSize(11);
-      pdf.setFont('times', 'normal');
     } else if (line.startsWith('- ') || line.startsWith('* ')) {
-      // Handle bullet points
+      // Handle bullet points with inline formatting
       const bulletText = line.replace(/^[*-] /, '');
-      const bulletLines = pdf.splitTextToSize(`• ${bulletText}`, contentWidth - 5);
-      pdf.text(bulletLines, margin + 5, currentY);
-      currentY += bulletLines.length * 5 + 3;
-    } else if (line.match(/^\d+\. /)) {
-      // Handle numbered lists
-      const numberText = line;
-      const numberLines = pdf.splitTextToSize(numberText, contentWidth - 5);
-      pdf.text(numberLines, margin + 5, currentY);
-      currentY += numberLines.length * 5 + 3;
-    } else if (line.startsWith('> ')) {
-      // Handle blockquotes
-      pdf.setFont('times', 'italic');
-      const quoteText = line.replace('> ', '');
-      const quoteLines = pdf.splitTextToSize(quoteText, contentWidth - 10);
-      pdf.text(quoteLines, margin + 10, currentY);
-      currentY += quoteLines.length * 5 + 3;
+      const tokens = parseInlineMarkdown(bulletText);
       pdf.setFont('times', 'normal');
+      pdf.setFontSize(11);
+      pdf.text('•', margin + 5, currentY);
+      currentY = renderFormattedText(pdf, tokens, margin + 10, currentY, contentWidth - 10);
+      currentY += 3;
+    } else if (line.match(/^\d+\. /)) {
+      // Handle numbered lists with inline formatting
+      const match = line.match(/^(\d+\. )(.*)/);
+      if (match) {
+        const [, number, text] = match;
+        const tokens = parseInlineMarkdown(text);
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(11);
+        pdf.text(number, margin + 5, currentY);
+        currentY = renderFormattedText(pdf, tokens, margin + 15, currentY, contentWidth - 15);
+        currentY += 3;
+      }
+    } else if (line.startsWith('> ')) {
+      // Handle blockquotes with inline formatting
+      const quoteText = line.replace('> ', '');
+      const tokens = parseInlineMarkdown(quoteText);
+      pdf.setFont('times', 'italic');
+      currentY = renderFormattedText(pdf, tokens, margin + 10, currentY, contentWidth - 10);
+      currentY += 3;
+    } else if (line.startsWith('```')) {
+      // Handle code blocks
+      pdf.setFont('courier', 'normal');
+      pdf.setFontSize(10);
+      i++; // Skip opening ```
+      while (i < contentLines.length && !contentLines[i].startsWith('```')) {
+        if (currentY > pageHeight - margin) {
+          pdf.addPage();
+          currentY = margin;
+        }
+        pdf.text(contentLines[i], margin + 5, currentY);
+        currentY += 5;
+        i++;
+      }
+      currentY += 5;
     } else {
-      // Handle regular paragraphs
-      const cleanLine = line.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1'); // Remove markdown formatting
-      const textLines = pdf.splitTextToSize(cleanLine, contentWidth);
-      pdf.text(textLines, margin, currentY);
-      currentY += textLines.length * 5 + 3;
+      // Handle regular paragraphs with inline formatting
+      const tokens = parseInlineMarkdown(line);
+      currentY = renderFormattedText(pdf, tokens, margin, currentY, contentWidth);
+      currentY += 5;
     }
+    
+    // Reset font
+    pdf.setFont('times', 'normal');
+    pdf.setFontSize(11);
+  }
+  
+  // Handle remaining table if file ends with one
+  if (inTable) {
+    currentY = renderTable(pdf, tableContent, margin, currentY, contentWidth);
   }
   
   // Add footer with generation date
