@@ -4,8 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Search, Globe, BookText, Video, Newspaper, GraduationCap } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
 import Markdown from 'react-markdown';
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 interface Source {
   title?: string;
@@ -59,6 +61,9 @@ export default function LibraryPage() {
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
+        // Import Supabase client dynamically to avoid build-time evaluation
+        const { supabase } = await import('@/lib/supabaseClient');
+        
         const { data, error } = await supabase
           .from('search_results')
           .select('*')
