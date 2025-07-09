@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import type { ImgHTMLAttributes } from 'react';
 import Markdown from 'react-markdown';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
+import jsPDF from 'jspdf';
 
 // Image component with error handling
 const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) => {
@@ -21,6 +22,151 @@ const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) =>
       onError={() => setHasError(true)}
     />
   );
+};
+
+// Function to generate PDF from markdown content
+const generatePDF = async (markdownContent: string, searchTerm: string) => {
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  
+  // Set Times New Roman font (use built-in times)
+  pdf.setFont('times', 'normal');
+  
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const margin = 20;
+  const contentWidth = pageWidth - 2 * margin;
+  
+  let currentY = margin;
+  
+  try {
+    // Add logo at the top
+    const logoImg = new Image();
+    logoImg.crossOrigin = 'anonymous';
+    
+    await new Promise((resolve, reject) => {
+      logoImg.onload = resolve;
+      logoImg.onerror = reject;
+      logoImg.src = '/logo.png';
+    });
+    
+    // Calculate logo dimensions (maintain aspect ratio)
+    const logoAspectRatio = logoImg.width / logoImg.height;
+    const logoHeight = 15; // 15mm height
+    const logoWidth = logoHeight * logoAspectRatio;
+    
+    // Center the logo
+    const logoX = (pageWidth - logoWidth) / 2;
+    pdf.addImage(logoImg, 'PNG', logoX, currentY, logoWidth, logoHeight);
+    currentY += logoHeight + 10;
+    
+  } catch (error) {
+    console.warn('Could not load logo, continuing without it:', error);
+    // Add text-based header instead
+    pdf.setFontSize(18);
+    pdf.setFont('times', 'bold');
+    const titleText = 'rSearch Results';
+    const titleWidth = pdf.getTextWidth(titleText);
+    pdf.text(titleText, (pageWidth - titleWidth) / 2, currentY);
+    currentY += 15;
+  }
+  
+  // Add search term as title
+  pdf.setFontSize(16);
+  pdf.setFont('times', 'bold');
+  const searchText = `Search: ${searchTerm}`;
+  const lines = pdf.splitTextToSize(searchText, contentWidth);
+  pdf.text(lines, margin, currentY);
+  currentY += lines.length * 8 + 10;
+  
+  // Add a line separator
+  pdf.setLineWidth(0.5);
+  pdf.line(margin, currentY, pageWidth - margin, currentY);
+  currentY += 10;
+  
+  // Process markdown content
+  const cleanContent = markdownContent.replace(/content:/g, '');
+  const contentLines = cleanContent.split('\n');
+  
+  pdf.setFontSize(11);
+  pdf.setFont('times', 'normal');
+  
+  for (const line of contentLines) {
+    // Check if we need a new page
+    if (currentY > pageHeight - margin) {
+      pdf.addPage();
+      currentY = margin;
+    }
+    
+    if (line.trim() === '') {
+      currentY += 5; // Add space for empty lines
+      continue;
+    }
+    
+    // Handle headers
+    if (line.startsWith('# ')) {
+      pdf.setFontSize(16);
+      pdf.setFont('times', 'bold');
+      const headerText = line.replace('# ', '');
+      const headerLines = pdf.splitTextToSize(headerText, contentWidth);
+      pdf.text(headerLines, margin, currentY);
+      currentY += headerLines.length * 8 + 8;
+      pdf.setFontSize(11);
+      pdf.setFont('times', 'normal');
+    } else if (line.startsWith('## ')) {
+      pdf.setFontSize(14);
+      pdf.setFont('times', 'bold');
+      const headerText = line.replace('## ', '');
+      const headerLines = pdf.splitTextToSize(headerText, contentWidth);
+      pdf.text(headerLines, margin, currentY);
+      currentY += headerLines.length * 7 + 6;
+      pdf.setFontSize(11);
+      pdf.setFont('times', 'normal');
+    } else if (line.startsWith('### ')) {
+      pdf.setFontSize(12);
+      pdf.setFont('times', 'bold');
+      const headerText = line.replace('### ', '');
+      const headerLines = pdf.splitTextToSize(headerText, contentWidth);
+      pdf.text(headerLines, margin, currentY);
+      currentY += headerLines.length * 6 + 5;
+      pdf.setFontSize(11);
+      pdf.setFont('times', 'normal');
+    } else if (line.startsWith('- ') || line.startsWith('* ')) {
+      // Handle bullet points
+      const bulletText = line.replace(/^[*-] /, '');
+      const bulletLines = pdf.splitTextToSize(`• ${bulletText}`, contentWidth - 5);
+      pdf.text(bulletLines, margin + 5, currentY);
+      currentY += bulletLines.length * 5 + 3;
+    } else if (line.match(/^\d+\. /)) {
+      // Handle numbered lists
+      const numberText = line;
+      const numberLines = pdf.splitTextToSize(numberText, contentWidth - 5);
+      pdf.text(numberLines, margin + 5, currentY);
+      currentY += numberLines.length * 5 + 3;
+    } else if (line.startsWith('> ')) {
+      // Handle blockquotes
+      pdf.setFont('times', 'italic');
+      const quoteText = line.replace('> ', '');
+      const quoteLines = pdf.splitTextToSize(quoteText, contentWidth - 10);
+      pdf.text(quoteLines, margin + 10, currentY);
+      currentY += quoteLines.length * 5 + 3;
+      pdf.setFont('times', 'normal');
+    } else {
+      // Handle regular paragraphs
+      const cleanLine = line.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1'); // Remove markdown formatting
+      const textLines = pdf.splitTextToSize(cleanLine, contentWidth);
+      pdf.text(textLines, margin, currentY);
+      currentY += textLines.length * 5 + 3;
+    }
+  }
+  
+  // Add footer with generation date
+  const date = new Date().toLocaleDateString();
+  pdf.setFontSize(8);
+  pdf.setFont('times', 'normal');
+  pdf.text(`Generated on ${date} by rSearch`, margin, pageHeight - 10);
+  
+  // Save the PDF
+  pdf.save('rSearch-response.pdf');
 };
 
 interface ResultsProps {
@@ -41,6 +187,7 @@ interface ResultsProps {
   mode: string;
   generateSearchId: (query: string, mode: string) => string;
   getWebsiteName: (url: string) => string;
+  searchTerm: string;
 }
 
 export default function Results({ 
@@ -51,7 +198,8 @@ export default function Results({
   searchResults,
   mode,
   generateSearchId,
-  getWebsiteName
+  getWebsiteName,
+  searchTerm
 }: ResultsProps) {
   const { toast } = useToast()
 
@@ -254,17 +402,22 @@ export default function Results({
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    const markdown = aiResponse.replace(/content:/g, '');
-                    const blob = new Blob([markdown], { type: 'text/markdown' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'rsearch-response.md';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                  onClick={async () => {
+                    try {
+                      await generatePDF(aiResponse, searchTerm);
+                      toast({
+                        title: "PDF Downloaded!",
+                        description: "Your rSearch response has been saved as a PDF",
+                        duration: 3000,
+                      });
+                    } catch (error) {
+                      console.error('Error generating PDF:', error);
+                      toast({
+                        title: "Error",
+                        description: "Failed to generate PDF. Please try again.",
+                        duration: 3000,
+                      });
+                    }
                   }}
                   className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                 >
@@ -278,10 +431,10 @@ export default function Results({
                     strokeWidth="2" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
-                    aria-label="Download markdown"
+                    aria-label="Download PDF"
                     role="img"
                   >
-                    <title>Download markdown</title>
+                    <title>Download PDF</title>
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                   </svg>
                 </button>

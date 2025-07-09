@@ -184,6 +184,7 @@ export default function ArticleContent({ initialData }: ArticleContentProps) {
               mode={initialData.mode as SearchSource}
               generateSearchId={() => ''}
               getWebsiteName={getWebsiteName}
+              searchTerm={initialData.searchTerm}
             />
           )}
         </section>
