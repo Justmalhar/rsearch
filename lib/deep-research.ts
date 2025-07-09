@@ -191,6 +191,8 @@ export async function deepResearch({
   visitedUrls = [],
   onProgress,
   onDepthChange,
+  onLearningsUpdate,
+  onUrlsUpdate,
 }: {
   query: string;
   breadth: number;
@@ -199,6 +201,8 @@ export async function deepResearch({
   visitedUrls?: string[];
   onProgress?: (progress: string) => Promise<void>;
   onDepthChange?: (depth: number) => Promise<void>;
+  onLearningsUpdate?: (learnings: string[]) => Promise<void>;
+  onUrlsUpdate?: (urls: string[]) => Promise<void>;
 }): Promise<ResearchResult> {
   const serpQueries = await generateSerpQueries({
     query,
@@ -239,6 +243,15 @@ export async function deepResearch({
           const allLearnings = [...learnings, ...newLearnings.learnings];
           const allUrls = [...visitedUrls, ...newUrls];
 
+          // Notify about new learnings and URLs
+          if (onLearningsUpdate && newLearnings.learnings.length > 0) {
+            await onLearningsUpdate(newLearnings.learnings);
+          }
+          
+          if (onUrlsUpdate && newUrls.length > 0) {
+            await onUrlsUpdate(newUrls);
+          }
+
           if (newDepth > 0) {
             if (onProgress) {
               await onProgress('Going deeper into research...');
@@ -260,6 +273,8 @@ export async function deepResearch({
               visitedUrls: allUrls,
               onProgress,
               onDepthChange,
+              onLearningsUpdate,
+              onUrlsUpdate,
             });
           }
           
