@@ -5,6 +5,7 @@ import type { ImgHTMLAttributes } from 'react';
 import Markdown from 'react-markdown';
 import { useToast } from "@/hooks/use-toast";
 import { generateMarkdownPDF } from '@/lib/pdfGenerator';
+import type { SearchResult } from '@/types/search';
 
 // Image component with error handling
 const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) => {
@@ -25,9 +26,9 @@ const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) =>
 };
 
 // Simple PDF generation function using the new library
-const generatePDF = async (markdownContent: string, searchTerm: string) => {
+const generatePDF = async (markdownContent: string, searchTerm: string, sources: SearchResult[], getWebsiteName: (url: string) => string) => {
   const cleanContent = markdownContent.replace(/content:/g, '');
-  await generateMarkdownPDF(cleanContent, searchTerm);
+  await generateMarkdownPDF(cleanContent, searchTerm, sources, getWebsiteName);
 };
 
 interface ResultsProps {
@@ -49,6 +50,7 @@ interface ResultsProps {
   generateSearchId: (query: string, mode: string) => string;
   getWebsiteName: (url: string) => string;
   searchTerm: string;
+  sources: SearchResult[];
 }
 
 export default function Results({ 
@@ -60,7 +62,8 @@ export default function Results({
   mode,
   generateSearchId,
   getWebsiteName,
-  searchTerm
+  searchTerm,
+  sources
 }: ResultsProps) {
   const { toast } = useToast()
 
@@ -265,7 +268,7 @@ export default function Results({
                   type="button"
                   onClick={async () => {
                     try {
-                      await generatePDF(aiResponse, searchTerm);
+                      await generatePDF(aiResponse, searchTerm, sources, getWebsiteName);
                       toast({
                         title: "PDF Downloaded!",
                         description: "Your rSearch response has been saved as a PDF",

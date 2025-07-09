@@ -431,6 +431,7 @@ function SearchPageContent() {
               generateSearchId={() => ''}
               getWebsiteName={getWebsiteName}
               searchTerm={searchTerm}
+              sources={sources}
             />
           )}
         </section>

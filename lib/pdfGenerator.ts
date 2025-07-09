@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import type { SearchResult } from '@/types/search';
 
 // Color scheme
 const COLORS = {
@@ -571,6 +572,51 @@ class PDFMarkdownRenderer {
     this.currentY += LAYOUT.sectionSpacing;
   }
 
+  // Add sources section
+  private addSources(sources: SearchResult[], getWebsiteName: (url: string) => string): void {
+    if (!sources || sources.length === 0) return;
+    
+    // Add some spacing before sources
+    this.currentY += LAYOUT.sectionSpacing;
+    
+    // Sources heading
+    this.renderHeading('Sources', 2);
+    
+    // Render each source
+    sources.forEach((source, index) => {
+      const sourceNumber = index + 1;
+      const websiteName = getWebsiteName(source.link);
+      
+      // Source number and title
+      this.pdf.setFont(FONTS.body.family, FONTS.body.style);
+      this.pdf.setTextColor(COLORS.text);
+      this.pdf.setFontSize(11);
+      
+      const sourceText = `${sourceNumber}. ${source.title}`;
+      const sourceLines = this.pdf.splitTextToSize(sourceText, this.contentWidth);
+      
+      this.checkPageBreak(sourceLines.length * LAYOUT.lineHeight + 15);
+      
+      this.pdf.text(sourceLines, LAYOUT.margin, this.currentY);
+      this.currentY += sourceLines.length * LAYOUT.lineHeight + 2;
+      
+      // Website name
+      this.pdf.setFont(FONTS.body.family, FONTS.body.style);
+      this.pdf.setTextColor(COLORS.muted);
+      this.pdf.setFontSize(9);
+      this.pdf.text(websiteName, LAYOUT.margin + 5, this.currentY);
+      this.currentY += LAYOUT.lineHeight;
+      
+      // URL
+      this.pdf.setFont(FONTS.body.family, FONTS.body.style);
+      this.pdf.setTextColor(COLORS.primary);
+      this.pdf.setFontSize(9);
+      const urlLines = this.pdf.splitTextToSize(source.link, this.contentWidth - 5);
+      this.pdf.text(urlLines, LAYOUT.margin + 5, this.currentY);
+      this.currentY += urlLines.length * LAYOUT.lineHeight + 8;
+    });
+  }
+
   // Add footer
   private addFooter(): void {
     const date = new Date().toLocaleDateString();
@@ -581,7 +627,7 @@ class PDFMarkdownRenderer {
   }
 
   // Main render method
-  public async generatePDF(content: string, searchTerm: string): Promise<void> {
+  public async generatePDF(content: string, searchTerm: string, sources?: SearchResult[], getWebsiteName?: (url: string) => string): Promise<void> {
     // Add header
     await this.addHeader(searchTerm);
     
@@ -626,6 +672,11 @@ class PDFMarkdownRenderer {
       }
     }
     
+    // Add sources section if provided
+    if (sources && getWebsiteName) {
+      this.addSources(sources, getWebsiteName);
+    }
+    
     // Add footer
     this.addFooter();
     
@@ -635,7 +686,7 @@ class PDFMarkdownRenderer {
 }
 
 // Export function
-export const generateMarkdownPDF = async (content: string, searchTerm: string): Promise<void> => {
+export const generateMarkdownPDF = async (content: string, searchTerm: string, sources?: SearchResult[], getWebsiteName?: (url: string) => string): Promise<void> => {
   const renderer = new PDFMarkdownRenderer();
-  await renderer.generatePDF(content, searchTerm);
+  await renderer.generatePDF(content, searchTerm, sources, getWebsiteName);
 };
