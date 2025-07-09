@@ -69,7 +69,6 @@ export async function POST(req: Request) {
         // Initialize research state
         let currentLearnings: string[] = [];
         let currentUrls: string[] = [];
-        let currentDepth = depth;
 
         await writeUpdate({
           state: 'initializing',
@@ -100,7 +99,6 @@ export async function POST(req: Request) {
             });
           },
           onDepthChange: async (newDepth: number) => {
-            currentDepth = newDepth;
             await writeUpdate({
               depth: newDepth,
               progress: `🔍 Going deeper - now at depth level ${newDepth}`,

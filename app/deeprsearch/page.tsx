@@ -103,9 +103,7 @@ function DeepSearchPageContent() {
           if (done) {
             if (isMounted) {
               setIsResearching(false);
-              if (researchState !== 'completed' && researchState !== 'error') {
-                setResearchState('completed');
-              }
+              setResearchState('completed');
             }
             break;
           }

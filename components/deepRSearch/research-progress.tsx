@@ -7,7 +7,7 @@ type ResearchState = 'initializing' | 'generating_queries' | 'searching' | 'proc
 interface ResearchProgressProps {
   reasoningContent?: string | null;
   state?: ResearchState;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown> | null;
 }
 
 export default function ResearchProgress({ reasoningContent, state, metadata }: ResearchProgressProps) {
@@ -22,6 +22,14 @@ export default function ResearchProgress({ reasoningContent, state, metadata }: 
       setFormattedContent(lines);
     }
   }, [reasoningContent]);
+
+  // Helper function to safely get and display metadata values
+  const getMetadataValue = (key: string): string | null => {
+    if (!metadata || !(key in metadata) || metadata[key] === undefined || metadata[key] === null) {
+      return null;
+    }
+    return String(metadata[key]);
+  };
 
   const getLineStyle = (line: string) => {
     if (line.includes('🚀') || line.startsWith('Starting')) {
@@ -114,13 +122,27 @@ export default function ResearchProgress({ reasoningContent, state, metadata }: 
               <div className="mb-4 p-3 bg-white rounded border border-gray-200">
                 <h4 className="text-sm font-semibold text-gray-700 mb-2">Research Metadata</h4>
                 <div className="text-xs text-gray-600 space-y-1">
-                  {metadata.query && <p><strong>Query:</strong> {String(metadata.query)}</p>}
-                  {metadata.breadthUsed && <p><strong>Breadth:</strong> {String(metadata.breadthUsed)}</p>}
-                  {metadata.depthUsed && <p><strong>Depth:</strong> {String(metadata.depthUsed)}</p>}
-                  {metadata.totalLearnings && <p><strong>Total Insights:</strong> {String(metadata.totalLearnings)}</p>}
-                  {metadata.totalSources && <p><strong>Total Sources:</strong> {String(metadata.totalSources)}</p>}
-                  {metadata.currentDepth !== undefined && <p><strong>Current Depth:</strong> {String(metadata.currentDepth)}</p>}
-                  {metadata.maxDepth && <p><strong>Max Depth:</strong> {String(metadata.maxDepth)}</p>}
+                  {getMetadataValue('query') && (
+                    <p><strong>Query:</strong> {getMetadataValue('query')}</p>
+                  )}
+                  {getMetadataValue('breadthUsed') && (
+                    <p><strong>Breadth:</strong> {getMetadataValue('breadthUsed')}</p>
+                  )}
+                  {getMetadataValue('depthUsed') && (
+                    <p><strong>Depth:</strong> {getMetadataValue('depthUsed')}</p>
+                  )}
+                  {getMetadataValue('totalLearnings') && (
+                    <p><strong>Total Insights:</strong> {getMetadataValue('totalLearnings')}</p>
+                  )}
+                  {getMetadataValue('totalSources') && (
+                    <p><strong>Total Sources:</strong> {getMetadataValue('totalSources')}</p>
+                  )}
+                  {getMetadataValue('currentDepth') && (
+                    <p><strong>Current Depth:</strong> {getMetadataValue('currentDepth')}</p>
+                  )}
+                  {getMetadataValue('maxDepth') && (
+                    <p><strong>Max Depth:</strong> {getMetadataValue('maxDepth')}</p>
+                  )}
                 </div>
               </div>
             )}
@@ -139,7 +161,7 @@ export default function ResearchProgress({ reasoningContent, state, metadata }: 
               <div className="absolute left-2.5 top-0 h-full w-0.5 bg-orange-200" />
               
               <div className="space-y-6">
-                {formattedContent.map((line, i) => {
+                {formattedContent.map((line: string, i: number) => {
                   const styles = getLineStyle(line);
                   const uniqueKey = `${line.slice(0, 20)}-${i}`;
 
