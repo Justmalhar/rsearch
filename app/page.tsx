@@ -184,6 +184,7 @@ export default function Home() {
               {/* Controls Row */}
               <div className="flex items-center justify-between px-2">
                 <div className="flex gap-2 items-center">
+                  {/* Improve Query button hidden
                   <Button
                     variant="ghost"
                     size="sm"
@@ -197,6 +198,7 @@ export default function Home() {
                     <Wand2 className={`h-4 w-4 ${enableQueryRefinement ? 'text-white' : ''}`} />
                     Improve Query
                   </Button>
+                  */}
                   {isDesktop ? (
                     <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
                       <DropdownMenuTrigger asChild>
