@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Search, Globe, BookText, Video, 
   Zap, ShoppingBag, MapPin, 
-  Newspaper, GraduationCap, Lightbulb,
-  Wand2
+  Newspaper, GraduationCap, Lightbulb
 } from "lucide-react";
 import { SearchSource } from "@/types/search";
 import {
@@ -56,17 +55,17 @@ export default function Home() {
     }
   }, []);
 
-  // Update settings when toggle changes
-  const handleQueryRefinementToggle = () => {
-    const newValue = !enableQueryRefinement;
-    setEnableQueryRefinement(newValue);
-    const savedSettings = localStorage.getItem("rSearch_settings");
-    if (savedSettings) {
-      const settings = JSON.parse(savedSettings);
-      settings.enableQueryRefinement = newValue;
-      localStorage.setItem("rSearch_settings", JSON.stringify(settings));
-    }
-  };
+  // Update settings when toggle changes - removed since button is hidden
+  // const handleQueryRefinementToggle = () => {
+  //   const newValue = !enableQueryRefinement;
+  //   setEnableQueryRefinement(newValue);
+  //   const savedSettings = localStorage.getItem("rSearch_settings");
+  //   if (savedSettings) {
+  //     const settings = JSON.parse(savedSettings);
+  //     settings.enableQueryRefinement = newValue;
+  //     localStorage.setItem("rSearch_settings", JSON.stringify(settings));
+  //   }
+  // };
 
   const searchModes = [
     {
@@ -184,6 +183,7 @@ export default function Home() {
               {/* Controls Row */}
               <div className="flex items-center justify-between px-2">
                 <div className="flex gap-2 items-center">
+                  {/* Improve Query button hidden
                   <Button
                     variant="ghost"
                     size="sm"
@@ -197,6 +197,7 @@ export default function Home() {
                     <Wand2 className={`h-4 w-4 ${enableQueryRefinement ? 'text-white' : ''}`} />
                     Improve Query
                   </Button>
+                  */}
                   {isDesktop ? (
                     <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
                       <DropdownMenuTrigger asChild>
