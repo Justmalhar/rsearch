@@ -2,11 +2,6 @@ import { refineSearchQueryPrompt } from '@/lib/prompts';
 import OpenAI from 'openai';
 import { z } from 'zod';
 
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
-  baseURL: process.env.NEXT_PUBLIC_AI_PROVIDER_BASE_URL,
-});
-
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -19,6 +14,12 @@ const RefinedSearchSchema = z.object({
 export async function POST(req: Request) {
   try {
     const { searchTerm, mode } = await req.json();
+
+    // Create OpenAI client at runtime to avoid build-time evaluation
+    const openai = new OpenAI({
+      apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
+      baseURL: process.env.NEXT_PUBLIC_AI_PROVIDER_BASE_URL,
+    });
 
     const currentDate = new Date().toISOString().split('T')[0];
 

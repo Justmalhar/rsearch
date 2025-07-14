@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import type { ImgHTMLAttributes } from 'react';
 import Markdown from 'react-markdown';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast";
+import { generateMarkdownPDF } from '@/lib/pdfGenerator';
+import type { SearchResult } from '@/types/search';
 
 // Image component with error handling
 const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) => {
@@ -21,6 +23,12 @@ const ImageWithFallback = ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) =>
       onError={() => setHasError(true)}
     />
   );
+};
+
+// Simple PDF generation function using the new library
+const generatePDF = async (markdownContent: string, searchTerm: string, sources: SearchResult[], getWebsiteName: (url: string) => string) => {
+  const cleanContent = markdownContent.replace(/content:/g, '');
+  await generateMarkdownPDF(cleanContent, searchTerm, sources, getWebsiteName);
 };
 
 interface ResultsProps {
@@ -41,6 +49,8 @@ interface ResultsProps {
   mode: string;
   generateSearchId: (query: string, mode: string) => string;
   getWebsiteName: (url: string) => string;
+  searchTerm: string;
+  sources: SearchResult[];
 }
 
 export default function Results({ 
@@ -51,7 +61,9 @@ export default function Results({
   searchResults,
   mode,
   generateSearchId,
-  getWebsiteName
+  getWebsiteName,
+  searchTerm,
+  sources
 }: ResultsProps) {
   const { toast } = useToast()
 
@@ -254,17 +266,22 @@ export default function Results({
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    const markdown = aiResponse.replace(/content:/g, '');
-                    const blob = new Blob([markdown], { type: 'text/markdown' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'rsearch-response.md';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                  onClick={async () => {
+                    try {
+                      await generatePDF(aiResponse, searchTerm, sources, getWebsiteName);
+                      toast({
+                        title: "PDF Downloaded!",
+                        description: "Your rSearch response has been saved as a PDF",
+                        duration: 3000,
+                      });
+                    } catch (error) {
+                      console.error('Error generating PDF:', error);
+                      toast({
+                        title: "Error",
+                        description: "Failed to generate PDF. Please try again.",
+                        duration: 3000,
+                      });
+                    }
                   }}
                   className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
                 >
@@ -278,10 +295,10 @@ export default function Results({
                     strokeWidth="2" 
                     strokeLinecap="round" 
                     strokeLinejoin="round"
-                    aria-label="Download markdown"
+                    aria-label="Download PDF"
                     role="img"
                   >
-                    <title>Download markdown</title>
+                    <title>Download PDF</title>
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                   </svg>
                 </button>

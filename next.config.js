@@ -9,6 +9,11 @@ const nextConfig = {
       },
     ],
   },
+  // Optimize build performance
+  experimental: {
+    // Reduce memory usage during build
+    workerThreads: false,
+  },
 }
 
 module.exports = nextConfig;

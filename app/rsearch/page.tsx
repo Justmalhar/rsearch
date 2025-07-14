@@ -1,8 +1,10 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
 import { useMediaQuery } from '@/hooks/use-media-query';
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 import { Skeleton } from "@/components/ui/skeleton";
 import Query from '@/components/rSearch/query';
 import Thinking from '@/components/rSearch/thinking';
@@ -259,6 +261,9 @@ function SearchPageContent() {
       if (!isAiComplete || !searchTerm || !aiResponse) return;
 
       try {
+        // Import Supabase client dynamically to avoid build-time evaluation
+        const { supabase } = await import('@/lib/supabaseClient');
+        
         const { error } = await supabase
           .from('search_results')
           .insert({
@@ -425,6 +430,8 @@ function SearchPageContent() {
               mode={mode}
               generateSearchId={() => ''}
               getWebsiteName={getWebsiteName}
+              searchTerm={searchTerm}
+              sources={sources}
             />
           )}
         </section>

@@ -9,12 +9,6 @@ import type {
 } from '@/types/search';
 import { rSearchPrompt } from '@/lib/prompts';
 
-const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
-  baseURL: process.env.NEXT_PUBLIC_AI_PROVIDER_BASE_URL,
-});
-
-
 // Make sure to export these properly for Next.js API routes
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
@@ -22,6 +16,12 @@ export const revalidate = 0;
 
 export async function POST(req: Request) {
   try {
+    // Create OpenAI client at runtime to avoid build-time evaluation
+    const openai = new OpenAI({
+      apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
+      baseURL: process.env.NEXT_PUBLIC_AI_PROVIDER_BASE_URL,
+    });
+
     const { 
       searchTerm, 
       searchResults,

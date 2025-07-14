@@ -1,23 +1,16 @@
 import type { Metadata } from 'next';
 import ArticleContent from '@/components/article-content';
 import { notFound } from 'next/navigation';
-import { supabase } from '@/lib/supabaseClient';
 
-// Generate static params for all published articles
-export async function generateStaticParams() {
-  const { data: articles } = await supabase
-    .from('search_results')
-    .select('searchTerm, mode')
-    .eq('publishArticle', true);
-
-  return articles?.map((article) => ({
-    slug: encodeURIComponent(`${article.searchTerm}-${article.mode}`.toLowerCase().replace(/\s+/g, '-')),
-  })) || [];
-}
+// Force dynamic rendering for all article pages
+export const dynamic = 'force-dynamic';
 
 // Helper function to extract search params and fetch data
 async function getArticleDataFromSlug(slug: string) {
   try {
+    // Import Supabase client dynamically to avoid build-time evaluation
+    const { supabase } = await import('@/lib/supabaseClient');
+    
     // First try to get all published articles
     const { data: articles } = await supabase
       .from('search_results')
@@ -27,7 +20,7 @@ async function getArticleDataFromSlug(slug: string) {
     if (!articles) return { article: null, searchTerm: '', mode: '' };
 
     // Find the matching article by comparing generated slugs
-    const article = articles.find(article => {
+    const article = articles.find((article: { searchTerm: string; mode: string }) => {
       const generatedSlug = `${article.searchTerm}-${article.mode}`
         .toLowerCase()
         .replace(/\s+/g, '-');
