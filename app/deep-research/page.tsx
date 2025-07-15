@@ -8,7 +8,7 @@ import type { SearchResult, SearchSource, SerperResponse } from '@/types/search'
 import Results from '@/components/rSearch/results';
 import Sources from '@/components/rSearch/sources';
 import { getWebsiteName } from '@/lib/utils';
-import { Brain, Search, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
+import { Brain, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -41,7 +41,6 @@ function DeepResearchContent() {
   const hasExecutedSearches = useRef(false);
 
   // UI state
-  const [isSourcesExpanded, setIsSourcesExpanded] = useState(true);
   const [isResultsExpanded, setIsResultsExpanded] = useState(true);
   const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
 
@@ -51,7 +50,6 @@ function DeepResearchContent() {
     if (savedSettings) {
       const settings = JSON.parse(savedSettings);
       const autoExpand = settings.autoExpandSections ?? true;
-      setIsSourcesExpanded(autoExpand);
       setIsResultsExpanded(autoExpand);
     }
   }, []);
@@ -232,7 +230,7 @@ function DeepResearchContent() {
     };
 
     executeSearches();
-  }, [researchPlan.length, isGeneratingPlan]);
+  }, [researchPlan, isGeneratingPlan]);
 
   // Generate final report using rSearch prompt
   useEffect(() => {
@@ -242,14 +240,6 @@ function DeepResearchContent() {
       try {
         setIsGeneratingReport(true);
         
-        // Create context from all search results
-        const context = allResults.map((result, index) => {
-          const snippet = 'snippet' in result ? result.snippet : 'No description available';
-          return `[${index + 1}] ${result.title}
-Source: ${result.link}
-${snippet}`;
-        }).join('\n\n');
-
         const response = await fetch('/api/rsearch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -489,7 +479,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
                   getWebsiteName={getWebsiteName}
                   error={null}
                   setShowSourcesSidebar={() => {}}
-                  knowledgeGraph={null}
+                  knowledgeGraph={undefined}
                 />
               </div>
             )}

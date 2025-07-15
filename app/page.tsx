@@ -122,12 +122,6 @@ export default function Home() {
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
     
-    router.push(`/rsearch/?q=${encodeURIComponent(searchTerm)}&mode=${searchMode || 'web'}&refine=${enableQueryRefinement}`);
-  };
-
-  const handleSearch = () => {
-    if (!searchTerm.trim()) return;
-    
     if (enableDeepResearch) {
       router.push(`/deep-research/?query=${encodeURIComponent(searchTerm)}&mode=${searchMode || 'web'}`);
     } else {
