@@ -14,6 +14,30 @@ interface ResearchStep {
   status: string;
 }
 
+// Helper function to safely get snippet or fallback for different result types
+const getResultSnippet = (result: SearchResult): string => {
+  if ('snippet' in result && result.snippet) {
+    return result.snippet;
+  }
+  
+  // For image results, use source info
+  if ('source' in result && result.source) {
+    return `Image from ${result.source}`;
+  }
+  
+  // For place results, use address
+  if ('address' in result && result.address) {
+    return `Location: ${result.address}`;
+  }
+  
+  // For shopping results, use price info
+  if ('price' in result && result.price) {
+    return `Price: ${result.price}`;
+  }
+  
+  return 'No description available';
+};
+
 const deepResearchReportPrompt = (
   query: string, 
   researchPlan: ResearchStep[], 
@@ -39,7 +63,7 @@ ${researchPlan.map((step, index) => `
 ${step.results.slice(0, 5).map((result, resultIndex) => `
 ${resultIndex + 1}. **${result.title}**
    - Source: ${result.link}
-   - ${result.snippet || 'No snippet available'}
+   - ${getResultSnippet(result)}
 `).join('')}
 ${step.results.length > 5 ? `... and ${step.results.length - 5} more results` : ''}
 `).join('')}
