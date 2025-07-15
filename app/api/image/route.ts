@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       num_outputs: 4,
       aspect_ratio: aspectRatio || "1:1",
       output_format: "jpg",
-      output_quality: 80,
+      output_quality: 100,
       prompt_strength: 0.8,
       num_inference_steps: 28
     };

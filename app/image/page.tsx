@@ -241,14 +241,7 @@ export default function ImageGenerator() {
                       </Button>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Image {index + 1}</span>
-                      <span className="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">
-                        {aspectRatio}
-                      </span>
-                    </div>
-                  </div>
+
                 </CardContent>
               </Card>
             ))}
