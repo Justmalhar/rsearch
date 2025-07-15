@@ -364,6 +364,6 @@ export default function ImageGenerator() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
