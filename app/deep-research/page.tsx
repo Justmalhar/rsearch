@@ -43,6 +43,7 @@ function DeepResearchContent() {
   // UI state
   const [isResultsExpanded, setIsResultsExpanded] = useState(true);
   const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
+  const [expandedSources, setExpandedSources] = useState<Set<string>>(new Set());
 
   // Load saved settings
   useEffect(() => {
@@ -405,6 +406,18 @@ This deep research analysis provides a comprehensive overview of "${query}" base
     });
   };
 
+  const toggleSourcesExpansion = (stepId: string) => {
+    setExpandedSources(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(stepId)) {
+        newSet.delete(stepId);
+      } else {
+        newSet.add(stepId);
+      }
+      return newSet;
+    });
+  };
+
   if (!query) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -472,24 +485,52 @@ This deep research analysis provides a comprehensive overview of "${query}" base
             </div>
 
             {expandedSteps.has(step.id) && (
-              <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-4">
-                <div className="mb-4">
-                  <p className="text-sm text-gray-600">
-                    Step {index + 1} Results: {step.results.length} sources found
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Status: {step.status}
-                  </p>
-                </div>
-                <Sources
-                  sources={step.results}
-                  mode={step.mode}
-                  getWebsiteName={getWebsiteName}
-                  error={step.status === 'error' ? 'Error occurred while searching.' : null}
-                  isSearchLoading={step.status === 'active'}
-                  setShowSourcesSidebar={() => {}}
-                  knowledgeGraph={undefined}
-                />
+              <div className="space-y-4">
+                {/* Show Sources Button */}
+                {step.status === 'completed' && step.results.length > 0 && (
+                  <div className="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={() => toggleSourcesExpansion(step.id)}
+                      className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg transition-colors font-medium"
+                    >
+                      {expandedSources.has(step.id) ? (
+                        <>
+                          <ChevronUp className="w-4 h-4" />
+                          Hide Sources ({step.results.length})
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown className="w-4 h-4" />
+                          Show Sources ({step.results.length})
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+
+                {/* Sources Display */}
+                {expandedSources.has(step.id) && step.results.length > 0 && (
+                  <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-4">
+                    <div className="mb-4">
+                      <p className="text-sm text-gray-600">
+                        Step {index + 1} Results: {step.results.length} sources found
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Status: {step.status}
+                      </p>
+                    </div>
+                    <Sources
+                      sources={step.results}
+                      mode={step.mode}
+                      getWebsiteName={getWebsiteName}
+                      error={step.status === 'error' ? 'Error occurred while searching.' : null}
+                      isSearchLoading={step.status === 'active'}
+                      setShowSourcesSidebar={() => {}}
+                      knowledgeGraph={undefined}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </section>
