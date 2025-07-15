@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Search, Globe, BookText, Video, 
   Zap, ShoppingBag, MapPin, 
-  Newspaper, GraduationCap, Lightbulb
+  Newspaper, GraduationCap, Lightbulb, Sparkles
 } from "lucide-react";
 import { SearchSource } from "@/types/search";
 import {
@@ -304,6 +304,17 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Image Generator Call-to-Action */}
+        <div className="mt-8 text-center">
+          <Link 
+            href="/image" 
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium text-lg"
+          >
+            <Sparkles className="h-5 w-5" />
+            Try our new Image Generator
+          </Link>
         </div>
       </main>
 

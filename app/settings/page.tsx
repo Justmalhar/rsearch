@@ -2,10 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import Link from "next/link";
 
 export default function SettingsPage() {
   const [autoExpandSections, setAutoExpandSections] = useState(true);
@@ -79,23 +78,7 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow border-orange-500 hover:border-orange-600">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2 text-orange-500">
-                <Sparkles className="h-4 w-4" />
-                <CardTitle className=" text-lg">Try Our New Features</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <Link 
-                href="/image" 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
-              >
-                <Sparkles className="h-4 w-4" />
-                Try our new Image Generator
-              </Link>
-            </CardContent>
-          </Card>
+
         </div>
       </div>
     </div>
