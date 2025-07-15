@@ -1,66 +1,21 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Settings, Search, ChevronDown } from "lucide-react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
-
-const aiProviders = [
-  {
-    id: "deepseek",
-    name: "DeepSeek", 
-    description: "Use DeepSeek's language models deepseek-chat and deepseek-reasoner with reasoning",
-    disabled: false
-  },
-  {
-    id: "openai",
-    name: "OpenAI",
-    description: "Coming soon - o1 and o1-mini reasoning mode not available",
-    disabled: true
-  },
-  {
-    id: "openrouter", 
-    name: "OpenRouter",
-    description: "Coming soon - Access multiple AI models through OpenRouter",
-    disabled: true
-  }
-];
-
-const searchProviders = [
-  {
-    id: "serper",
-    name: "Serper.dev",
-    description: "Google Search API via Serper.dev",
-    disabled: false
-  },
-  {
-    id: "tavily",
-    name: "Tavily", 
-    description: "Coming soon",
-    disabled: true
-  },
-  {
-    id: "searxng",
-    name: "SearXNG",
-    description: "Coming soon",
-    disabled: true
-  }
-];
+import Link from "next/link";
 
 export default function SettingsPage() {
-  const [selectedAIProvider, setSelectedAIProvider] = useState("deepseek");
-  const [selectedSearchProvider, setSelectedSearchProvider] = useState("serper");
   const [autoExpandSections, setAutoExpandSections] = useState(true);
   const [enableQueryRefinement, setEnableQueryRefinement] = useState(true);
+  
   // Load saved settings on mount
   useEffect(() => {
     const savedSettings = localStorage.getItem("rSearch_settings");
     if (savedSettings) {
       const settings = JSON.parse(savedSettings);
-      setSelectedAIProvider(settings.aiProvider);
-      setSelectedSearchProvider(settings.searchProvider);
       setAutoExpandSections(settings.autoExpandSections ?? true);
       setEnableQueryRefinement(settings.enableQueryRefinement ?? true);
     }
@@ -69,13 +24,11 @@ export default function SettingsPage() {
   // Save settings whenever they change
   useEffect(() => {
     const settings = {
-      aiProvider: selectedAIProvider,
-      searchProvider: selectedSearchProvider,
       autoExpandSections,
       enableQueryRefinement
     };
     localStorage.setItem("rSearch_settings", JSON.stringify(settings));
-  }, [selectedAIProvider, selectedSearchProvider, autoExpandSections, enableQueryRefinement]);
+  }, [autoExpandSections, enableQueryRefinement]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -129,76 +82,18 @@ export default function SettingsPage() {
           <Card className="hover:shadow-lg transition-shadow border-orange-500 hover:border-orange-600">
             <CardHeader className="pb-3">
               <div className="flex items-center gap-2 text-orange-500">
-                <Settings className="h-4 w-4" />
-                <CardTitle className=" text-lg">AI Provider</CardTitle>
+                <Sparkles className="h-4 w-4" />
+                <CardTitle className=" text-lg">Try Our New Features</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <RadioGroup 
-                value={selectedAIProvider} 
-                onValueChange={setSelectedAIProvider}
-                className="space-y-4"
+              <Link 
+                href="/image" 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
               >
-                {aiProviders.map((provider) => (
-                  <div key={provider.id} className={`flex items-start space-x-3 p-2 rounded-lg transition-colors ${provider.disabled ? 'opacity-50' : 'hover:bg-orange-50'}`}>
-                    <RadioGroupItem 
-                      value={provider.id} 
-                      id={`ai-${provider.id}`}
-                      disabled={provider.disabled}
-                      className="mt-1 border-orange-500 text-orange-600 focus:ring-orange-500 data-[state=checked]:bg-orange-500"
-                    />
-                    <Label 
-                      htmlFor={`ai-${provider.id}`}
-                      className="grid gap-1.5 leading-none cursor-pointer"
-                    >
-                      <div className="text-orange-600 font-medium ">
-                        {provider.name}
-                      </div>
-                      <div className="text-sm text-orange-500/80">
-                        {provider.description}
-                      </div>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow border-orange-500 hover:border-orange-600">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2 text-orange-500">
-                <Search className="h-4 w-4" />
-                <CardTitle className=" text-lg">Search Provider</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <RadioGroup 
-                value={selectedSearchProvider}
-                onValueChange={setSelectedSearchProvider}
-                className="space-y-4"
-              >
-                {searchProviders.map((provider) => (
-                  <div key={provider.id} className={`flex items-start space-x-3 p-2 rounded-lg transition-colors ${provider.disabled ? 'opacity-50' : 'hover:bg-orange-50'}`}>
-                    <RadioGroupItem 
-                      value={provider.id} 
-                      id={`search-${provider.id}`}
-                      disabled={provider.disabled}
-                      className="mt-1 border-orange-500 text-orange-600 focus:ring-orange-500 data-[state=checked]:bg-orange-500"
-                    />
-                    <Label 
-                      htmlFor={`search-${provider.id}`}
-                      className="grid gap-1.5 leading-none cursor-pointer"
-                    >
-                      <div className="text-orange-600 font-medium ">
-                        {provider.name}
-                      </div>
-                      <div className="text-sm text-orange-500/80">
-                        {provider.description}
-                      </div>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+                <Sparkles className="h-4 w-4" />
+                Try our new Image Generator
+              </Link>
             </CardContent>
           </Card>
         </div>
