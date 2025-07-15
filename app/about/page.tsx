@@ -86,7 +86,7 @@ export default function AboutPage() {
                 </h3>
               </div>
               <p className="text-orange-700 leading-relaxed">
-                rSearch doesn't just search the web - it searches across multiple content types 
+                rSearch doesn&apos;t just search the web - it searches across multiple content types 
                 including images, videos, news, academic papers, patents, shopping, and places. 
                 This multi-source approach ensures you get the most comprehensive and relevant results.
               </p>

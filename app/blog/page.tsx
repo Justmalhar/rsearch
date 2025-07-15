@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, User, Search, Brain, Zap } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, Search } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "rSearch Blog - AI Search, Reasoning Engine & Technology Insights",
@@ -234,7 +234,7 @@ export default function BlogPage() {
               Experience AI-Powered Search Today
             </h2>
             <p className="text-orange-700 mb-6">
-              Ready to try the advanced reasoning capabilities you've been reading about? 
+              Ready to try the advanced reasoning capabilities you&apos;ve been reading about? 
               Start using rSearch and discover the power of AI-powered search.
             </p>
             <Link 

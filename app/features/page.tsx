@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Search, Brain, Zap, Globe, Shield, Users, Code, Image, Video, Newspaper, GraduationCap, Lightbulb, MapPin, ShoppingBag } from "lucide-react";
+import { ArrowLeft, Search, Brain, Zap, Globe, Shield, Users, Image, Video, Newspaper, GraduationCap, Lightbulb, MapPin, ShoppingBag } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "rSearch Features - AI-Powered Search & Reasoning Capabilities",
