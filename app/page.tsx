@@ -368,7 +368,7 @@ export default function Home() {
               Comprehensive Search Modes Available
             </h2>
             <p className="text-orange-700 text-center mb-8 leading-relaxed">
-              Choose from 8 different search modes to find exactly what you're looking for across the entire internet
+              Choose from 8 different search modes to find exactly what you&apos;re looking for across the entire internet
             </p>
             
             <div className="grid md:grid-cols-4 gap-4">
