@@ -7,7 +7,7 @@ export interface StepperStep {
   title: string;
   description?: string;
   status: 'pending' | 'active' | 'completed' | 'error';
-  data?: any;
+  data?: unknown;
 }
 
 interface StepperProps {

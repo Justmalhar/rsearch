@@ -7,10 +7,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Stepper, type StepperStep } from "@/components/ui/stepper";
 import type { SearchResult, SearchSource, SerperResponse } from '@/types/search';
 import Results from '@/components/rSearch/results';
-import Sources from '@/components/rSearch/sources';
 import { getWebsiteName } from '@/lib/utils';
-import SourcesSidebar from '@/components/rSearch/sources-sidebar';
-import { Brain, Search, FileText, Sparkles } from 'lucide-react';
+import { Brain, Search, Sparkles } from 'lucide-react';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -41,7 +39,6 @@ function DeepResearchContent() {
   const [isComplete, setIsComplete] = useState(false);
 
   // UI state
-  const [showSourcesSidebar, setShowSourcesSidebar] = useState(false);
   const [isSourcesExpanded, setIsSourcesExpanded] = useState(true);
   const [isResultsExpanded, setIsResultsExpanded] = useState(true);
 
@@ -72,7 +69,7 @@ function DeepResearchContent() {
         if (!response.ok) throw new Error('Failed to generate research plan');
         
         const plan = await response.json();
-        setResearchPlan(plan.steps.map((step: any) => ({
+        setResearchPlan(plan.steps.map((step: DeepResearchStep) => ({
           ...step,
           results: [],
           status: 'pending' as const
@@ -267,7 +264,7 @@ function DeepResearchContent() {
             <h1 className="text-3xl font-bold text-gray-900">Deep Research</h1>
           </div>
           <p className="text-gray-600 mb-4">
-            Comprehensive analysis of: <span className="font-semibold text-blue-600">"{query}"</span>
+            Comprehensive analysis of: <span className="font-semibold text-blue-600">&quot;{query}&quot;</span>
           </p>
         </div>
 

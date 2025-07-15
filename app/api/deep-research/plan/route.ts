@@ -91,7 +91,7 @@ export async function POST(req: Request) {
       } else {
         steps = JSON.parse(content);
       }
-    } catch (parseError) {
+    } catch {
       console.error('Failed to parse AI response:', content);
       throw new Error('Failed to parse research plan from AI response');
     }

@@ -23,7 +23,7 @@ const deepResearchReportPrompt = (
   const currentDate = new Date().toISOString().split('T')[0];
   
   // Create a comprehensive context from all search results
-  let context = `# Deep Research Report Generation
+  const context = `# Deep Research Report Generation
 
 ## Original Query
 ${query}
