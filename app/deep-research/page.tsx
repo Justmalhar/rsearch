@@ -472,7 +472,15 @@ This deep research analysis provides a comprehensive overview of "${query}" base
             </div>
 
             {expandedSteps.has(step.id) && (
-              <div className="bg-white rounded-lg shadow-sm border border-orange-200">
+              <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-4">
+                <div className="mb-4">
+                  <p className="text-sm text-gray-600">
+                    Step {index + 1} Results: {step.results.length} sources found
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Status: {step.status}
+                  </p>
+                </div>
                 <Sources
                   sources={step.results}
                   mode={step.mode}
@@ -559,6 +567,50 @@ This deep research analysis provides a comprehensive overview of "${query}" base
             </div>
           )}
         </section>
+
+        {/* All Sources */}
+        {allResults.length > 0 && (
+          <section className="space-y-4">
+            <h2 className="text-xl md:text-2xl font-medium text-orange-600">All Sources</h2>
+            <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-gray-600">
+                    {allResults.length} total sources found across all research steps
+                  </p>
+                </div>
+                
+                <div className="grid gap-4">
+                  {allResults.map((result, index) => (
+                    <div key={`${result.link}-${index}`} className="flex items-start gap-3 p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-medium">
+                        {index + 1}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <a 
+                          href={result.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-orange-600 hover:text-orange-700 font-medium line-clamp-2 hover:underline"
+                        >
+                          {result.title}
+                        </a>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {getWebsiteName(result.link)}
+                        </p>
+                        {'snippet' in result && result.snippet && (
+                          <p className="text-sm text-gray-500 mt-2 line-clamp-2">
+                            {result.snippet}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
