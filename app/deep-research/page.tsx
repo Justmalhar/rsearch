@@ -434,8 +434,8 @@ This deep research analysis provides a comprehensive overview of "${query}" base
     <div className="flex min-h-screen">
       <div className="flex-1 p-4 md:p-8 max-w-7xl mx-auto space-y-6 md:space-y-8">
         {/* Header */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
+        <div className="space-y-4 mt-8 text-center">
+          <div className="flex items-center justify-center gap-3">
             <Brain className="h-8 w-8 text-orange-600" />
             <h1 className="text-2xl md:text-3xl font-bold text-orange-600">Deep Research</h1>
           </div>
@@ -470,67 +470,66 @@ This deep research analysis provides a comprehensive overview of "${query}" base
             
             <div className="space-y-2">
               <p className="text-orange-800 font-medium">Query: {step.query}</p>
-              <div className="flex items-center gap-2">
-                <div className={`w-3 h-3 rounded-full ${
-                  step.status === 'completed' ? 'bg-green-500' :
-                  step.status === 'active' ? 'bg-orange-500' :
-                  step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
-                }`} />
-                <span className="text-sm text-gray-600">
-                  {step.status === 'completed' ? `${step.results.length} results found` :
-                   step.status === 'active' ? 'Searching...' :
-                   step.status === 'error' ? 'Error occurred' : 'Pending'}
-                </span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className={`w-3 h-3 rounded-full ${
+                    step.status === 'completed' ? 'bg-green-500' :
+                    step.status === 'active' ? 'bg-orange-500' :
+                    step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
+                  }`} />
+                  <span className="text-sm text-gray-600">
+                    {step.status === 'completed' ? `${step.results.length} results found` :
+                     step.status === 'active' ? 'Searching...' :
+                     step.status === 'error' ? 'Error occurred' : 'Pending'}
+                  </span>
+                </div>
+                
+                {/* Show Sources Button - Always visible and right-aligned */}
+                <button
+                  type="button"
+                  onClick={() => toggleSourcesExpansion(step.id)}
+                  disabled={step.status !== 'completed' || step.results.length === 0}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-medium ${
+                    step.status === 'completed' && step.results.length > 0
+                      ? 'bg-orange-100 hover:bg-orange-200 text-orange-700'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {expandedSources.has(step.id) ? (
+                    <>
+                      <ChevronUp className="w-4 h-4" />
+                      Hide Sources ({step.results.length})
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-4 h-4" />
+                      Show Sources ({step.results.length})
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 
-            {expandedSteps.has(step.id) && (
-              <div className="space-y-4">
-                {/* Show Sources Button */}
-                {step.status === 'completed' && step.results.length > 0 && (
-                  <div className="flex justify-center">
-                    <button
-                      type="button"
-                      onClick={() => toggleSourcesExpansion(step.id)}
-                      className="flex items-center gap-2 px-4 py-2 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg transition-colors font-medium"
-                    >
-                      {expandedSources.has(step.id) ? (
-                        <>
-                          <ChevronUp className="w-4 h-4" />
-                          Hide Sources ({step.results.length})
-                        </>
-                      ) : (
-                        <>
-                          <ChevronDown className="w-4 h-4" />
-                          Show Sources ({step.results.length})
-                        </>
-                      )}
-                    </button>
-                  </div>
-                )}
-
-                {/* Sources Display */}
-                {expandedSources.has(step.id) && step.results.length > 0 && (
-                  <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-4">
-                    <div className="mb-4">
-                      <p className="text-sm text-gray-600">
-                        Step {index + 1} Results: {step.results.length} sources found
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Status: {step.status}
-                      </p>
-                    </div>
-                    <Sources
-                      sources={step.results}
-                      mode={step.mode}
-                      getWebsiteName={getWebsiteName}
-                      error={step.status === 'error' ? 'Error occurred while searching.' : null}
-                      isSearchLoading={step.status === 'active'}
-                      setShowSourcesSidebar={() => {}}
-                      knowledgeGraph={undefined}
-                    />
-                  </div>
-                )}
+            {/* Sources Display */}
+            {expandedSources.has(step.id) && step.results.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-4">
+                <div className="mb-4">
+                  <p className="text-sm text-gray-600">
+                    Step {index + 1} Results: {step.results.length} sources found
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Status: {step.status}
+                  </p>
+                </div>
+                <Sources
+                  sources={step.results}
+                  mode={step.mode}
+                  getWebsiteName={getWebsiteName}
+                  error={step.status === 'error' ? 'Error occurred while searching.' : null}
+                  isSearchLoading={step.status === 'active'}
+                  setShowSourcesSidebar={() => {}}
+                  knowledgeGraph={undefined}
+                />
               </div>
             )}
           </section>
