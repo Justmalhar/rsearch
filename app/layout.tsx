@@ -5,13 +5,31 @@ import { Sidebar } from "@/components/ui/sidebar";
 import { MobileHeader } from "@/components/ui/mobile-header";
 import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from "@/components/ui/toaster";
+
 const inter = Inter({ subsets: ["latin"] });
+
 export const metadata: Metadata = {
-  title: "rSearch: AI-Powered Reasoning Engine",
-  description: "A cutting-edge reasoning engine powered by artificial intelligence that harnesses advanced reasoning capabilities combined with comprehensive internet search functionality.",
+  title: "rSearch: AI-Powered Reasoning Engine | Alternative to Perplexity",
+  description: "rSearch is a cutting-edge AI-powered reasoning engine that combines advanced language models with comprehensive internet search. Get intelligent, well-reasoned responses to complex queries. Free alternative to Perplexity with DeepSeek R1 reasoning capabilities.",
   applicationName: "rSearch",
   authors: [{ name: "Malhar Ujawane", url: "https://twitter.com/justmalhar" }],
-  keywords: ["rsearch", "deepseek", "reasoning engine", "AI search", "semantic search", "research assistant", "AI powered search", "deepseek coder", "deepseek chat", "deepseek coder 2", "deepseek chat 2"],
+  keywords: [
+    "rsearch", "rSearch", "AI search engine", "artificial intelligence search", 
+    "reasoning engine", "AI reasoning", "DeepSeek R1", "DeepSeek reasoning",
+    "Perplexity alternative", "Perplexity AI alternative", "AI research assistant",
+    "semantic search", "intelligent search", "AI-powered search", "reasoning search",
+    "DeepSeek coder", "DeepSeek chat", "DeepSeek coder 2", "DeepSeek chat 2",
+    "AI image generator", "AI image search", "AI video search", "AI news search",
+    "AI shopping search", "AI scholar search", "AI patent search", "AI places search",
+    "chain of thought reasoning", "AI web search", "intelligent web search",
+    "AI research tool", "research assistant AI", "AI search with reasoning",
+    "free AI search", "open source AI search", "AI search engine alternative",
+    "GPT-4 search", "Claude search", "AI search comparison", "best AI search engine",
+    "AI search vs Google", "AI search vs Bing", "AI search vs Perplexity",
+    "reasoning AI", "AI that thinks", "AI reasoning capabilities",
+    "serper API", "AI search API", "customizable AI models", "OpenAI search",
+    "OpenRouter search", "DeepSeek search", "AI search integration"
+  ],
   creator: "Malhar Ujawane",
   publisher: "rSearch",
   metadataBase: new URL('https://rsearch.app'),
@@ -30,16 +48,16 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "rSearch: AI-Powered Reasoning Engine",
-    description: "Discover Insights, Not Just Results. AI-powered reasoning engine that thinks just like you do.",
+    title: "rSearch: AI-Powered Reasoning Engine | Free Alternative to Perplexity",
+    description: "Discover Insights, Not Just Results. AI-powered reasoning engine that thinks just like you do. Free alternative to Perplexity with advanced DeepSeek R1 reasoning capabilities.",
     url: 'https://rsearch.app',
     siteName: 'rSearch',
     images: [
       {
-        url: 'https://rsearch.app/og.png', // Using absolute URL
+        url: 'https://rsearch.app/og.png',
         width: 1200,
         height: 630,
-        alt: 'rSearch - AI-Powered Research Assistant'
+        alt: 'rSearch - AI-Powered Research Assistant with Advanced Reasoning'
       }
     ],
     locale: 'en_US',
@@ -47,11 +65,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'rSearch: AI-Powered Research Assistant',
-    description: 'Discover Insights, Not Just Results. AI-powered reasoning engine that thinks just like you do.',
+    title: 'rSearch: AI-Powered Research Assistant | Free Perplexity Alternative',
+    description: 'Discover Insights, Not Just Results. AI-powered reasoning engine that thinks just like you do. Free alternative to Perplexity.',
     creator: '@justmalhar',
     site: '@justmalhar',
-    images: ['https://rsearch.app/og.png'], // Using absolute URL
+    images: ['https://rsearch.app/og.png'],
   },
   icons: {
     icon: {
@@ -99,6 +117,9 @@ export const metadata: Metadata = {
     ],
   },
   category: 'technology',
+  other: {
+    'google-site-verification': 'your-verification-code-here', // Add your Google Search Console verification code
+  },
 };
 
 export default function RootLayout({
@@ -108,7 +129,71 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
+      <head>
+        {/* Structured Data for Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "rSearch",
+              "description": "AI-powered reasoning engine that combines advanced language models with comprehensive internet search functionality",
+              "url": "https://rsearch.app",
+              "applicationCategory": "SearchApplication",
+              "operatingSystem": "Web Browser",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              },
+              "author": {
+                "@type": "Person",
+                "name": "Malhar Ujawane",
+                "url": "https://twitter.com/justmalhar"
+              },
+              "creator": {
+                "@type": "Person",
+                "name": "Malhar Ujawane"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "rSearch"
+              },
+              "featureList": [
+                "AI-powered reasoning",
+                "Multi-source search",
+                "Image search",
+                "Video search", 
+                "News search",
+                "Scholar search",
+                "Patent search",
+                "Shopping search",
+                "Places search"
+              ],
+              "screenshot": "https://rsearch.app/og.png",
+              "softwareVersion": "1.0.0"
+            })
+          }}
+        />
+        
+        {/* Structured Data for Search Engine */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://rsearch.app/rsearch?q={search_term_string}",
+                "inLanguage": "en-US"
+              },
+              "query-input": "required name=search_term_string"
+            })
+          }}
+        />
+      </head>
       <body className={inter.className}>
         <div className="min-h-screen bg-white flex">
           <Sidebar />
