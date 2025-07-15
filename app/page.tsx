@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Search, Globe, BookText, Video, 
   Zap, ShoppingBag, MapPin, 
-  Newspaper, GraduationCap, Lightbulb, Sparkles
+  Newspaper, GraduationCap, Lightbulb, Sparkles, Brain
 } from "lucide-react";
 import { SearchSource } from "@/types/search";
 import {
@@ -122,6 +122,12 @@ export default function Home() {
     if (!searchTerm.trim()) return;
     
     router.push(`/rsearch/?q=${encodeURIComponent(searchTerm)}&mode=${searchMode || 'web'}&refine=${enableQueryRefinement}`);
+  };
+
+  const handleDeepResearch = () => {
+    if (!searchTerm.trim()) return;
+    
+    router.push(`/deep-research/?query=${encodeURIComponent(searchTerm)}&mode=${searchMode || 'web'}`);
   };
 
   return (
@@ -277,30 +283,43 @@ export default function Home() {
                   )}
                 </div>
 
-                <Button 
-                  size="icon"
-                  onClick={handleSearch}
-                  className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600
-                  transition-all duration-300 overflow-hidden group/btn flex items-center justify-center shadow-lg shadow-orange-500/20
-                  hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
-                  onMouseEnter={() => setIsSearchHovered(true)}
-                  onMouseLeave={() => setIsSearchHovered(false)}
-                  onFocus={() => setIsSearchHovered(true)}
-                  onBlur={() => setIsSearchHovered(false)}
-                >
-                  <Search className={`h-5 w-5 absolute transition-all duration-200 ${
-                    isSearchHovered 
-                      ? 'opacity-0 translate-y-full' 
-                      : 'opacity-100 translate-y-0'
-                  }`} />
-                  <span className={`text-2xl font-bold absolute transition-all duration-200 text-white mt-2 ${
-                    isSearchHovered 
-                      ? 'opacity-100 scale-125 translate-y-0' 
-                      : 'opacity-0 scale-75 -translate-y-full'
-                  }`}>
-                    *
-                  </span>
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    size="icon"
+                    onClick={handleSearch}
+                    className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600
+                    transition-all duration-300 overflow-hidden group/btn flex items-center justify-center shadow-lg shadow-orange-500/20
+                    hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
+                    onMouseEnter={() => setIsSearchHovered(true)}
+                    onMouseLeave={() => setIsSearchHovered(false)}
+                    onFocus={() => setIsSearchHovered(true)}
+                    onBlur={() => setIsSearchHovered(false)}
+                  >
+                    <Search className={`h-5 w-5 absolute transition-all duration-200 ${
+                      isSearchHovered 
+                        ? 'opacity-0 translate-y-full' 
+                        : 'opacity-100 translate-y-0'
+                    }`} />
+                    <span className={`text-2xl font-bold absolute transition-all duration-200 text-white mt-2 ${
+                      isSearchHovered 
+                        ? 'opacity-100 scale-125 translate-y-0' 
+                        : 'opacity-0 scale-75 -translate-y-full'
+                    }`}>
+                      *
+                    </span>
+                  </Button>
+                  
+                  <Button 
+                    size="icon"
+                    onClick={handleDeepResearch}
+                    className="h-12 w-12 rounded-full bg-blue-500 hover:bg-blue-600
+                    transition-all duration-300 overflow-hidden group/btn flex items-center justify-center shadow-lg shadow-blue-500/20
+                    hover:shadow-blue-500/30 hover:scale-105 active:scale-95"
+                    title="Deep Research - Comprehensive multi-step analysis"
+                  >
+                    <Brain className="h-5 w-5 text-white" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
