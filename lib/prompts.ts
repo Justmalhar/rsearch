@@ -1,3 +1,7 @@
+// About rSearch
+// rSearch is an AI-powered research engine powered by state-of-the-art models, 
+// built for students, creators, academics, business professionals, analysts, and researchers.
+// It provides comprehensive, well-structured answers with proper citations and formatting.
 
 export const refineSearchQueryPrompt = (searchTerm: string, mode: string, currentDate: string) => `You are an expert at refining search queries to get the most relevant and comprehensive results. Your task is to analyze the given search query and provide a refined version that will yield better search results.
 
