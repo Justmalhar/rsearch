@@ -163,7 +163,7 @@ export default function ImageGenerator() {
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full">
           <Sparkles className="h-4 w-4 text-orange-600" />
           <p className="text-gray-700 text-sm font-medium">
-            Create stunning images with AI using natural language prompts
+            Transform your ideas into beautiful artwork
           </p>
         </div>
       </motion.div>
