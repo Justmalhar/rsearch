@@ -106,6 +106,14 @@ export default function LibraryPage() {
     }
   };
 
+  const trimTitle = (title: string, maxWords: number = 20) => {
+    const words = title.split(' ');
+    if (words.length <= maxWords) {
+      return title;
+    }
+    return words.slice(0, maxWords).join(' ') + '...';
+  };
+
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -146,7 +154,7 @@ export default function LibraryPage() {
               >
                 <CardContent className="p-6">
                   <div className="text-2xl font-serif font-medium text-orange-700 mb-2 hover:text-orange-600 transition-colors leading-snug">
-                    {item.searchTerm}
+                    {trimTitle(item.searchTerm)}
                   </div>
                   <div className="text-base text-orange-600/90 prose prose-orange prose-sm mb-2 line-clamp-6 leading-relaxed">
                     <Markdown
