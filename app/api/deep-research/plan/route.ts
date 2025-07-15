@@ -13,9 +13,18 @@ interface ResearchStep {
   reasoning: string;
 }
 
-const deepResearchPlanPrompt = (query: string, mode: SearchSource) => `
+const deepResearchPlanPrompt = (query: string, mode: SearchSource) => {
+  const currentDate = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  return `
 You are an expert research strategist. Your task is to break down a complex research query into multiple focused sub-queries that will provide comprehensive coverage of the topic.
 
+Current Date: ${currentDate}
 Original Query: "${query}"
 Primary Search Mode: ${mode}
 
@@ -24,6 +33,7 @@ Generate 3-5 focused sub-queries that will help gather comprehensive information
 2. Use different search modes when appropriate (web, news, scholar, etc.)
 3. Be specific enough to yield relevant results
 4. Cover different perspectives or time periods if relevant
+5. Consider the current date (${currentDate}) when suggesting time-sensitive searches
 
 For each sub-query, provide:
 - A clear, focused search query
@@ -40,8 +50,9 @@ Return your response as a JSON array with this exact structure:
   }
 ]
 
-Make sure the queries are diverse and will provide different types of information to create a comprehensive understanding of the topic.
+Make sure the queries are diverse and will provide different types of information to create a comprehensive understanding of the topic. Consider including recent developments, current trends, or time-sensitive aspects when relevant to the query.
 `;
+};
 
 export async function POST(req: Request) {
   try {
