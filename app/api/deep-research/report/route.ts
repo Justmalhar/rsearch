@@ -17,8 +17,7 @@ interface ResearchStep {
 const deepResearchReportPrompt = (
   query: string, 
   researchPlan: ResearchStep[], 
-  allResults: SearchResult[], 
-  mode: SearchSource
+  allResults: SearchResult[]
 ) => {
   const currentDate = new Date().toISOString().split('T')[0];
   
@@ -97,7 +96,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const prompt = deepResearchReportPrompt(query, researchPlan, allResults, mode);
+    const prompt = deepResearchReportPrompt(query, researchPlan, allResults);
     const model = process.env.NEXT_PUBLIC_AI_REASONING_MODEL;
 
     const response = await openai.chat.completions.create({

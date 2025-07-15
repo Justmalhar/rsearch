@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-import { useMediaQuery } from '@/hooks/use-media-query';
 import { useSearchParams } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Stepper, type StepperStep } from "@/components/ui/stepper";
@@ -25,7 +24,6 @@ function DeepResearchContent() {
   const params = useSearchParams();
   const query = params.get('query') || '';
   const mode = (params.get('mode') || 'web') as SearchSource;
-  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   // State for the research process
   const [researchPlan, setResearchPlan] = useState<DeepResearchStep[]>([]);
@@ -196,9 +194,9 @@ function DeepResearchContent() {
                   result += data.content;
                   setAiResponse(result);
                 }
-              } catch (e) {
-                // Ignore parsing errors for incomplete JSON
-              }
+                             } catch {
+                 // Ignore parsing errors for incomplete JSON
+               }
             }
           }
         }
@@ -373,17 +371,17 @@ function DeepResearchContent() {
               {isSourcesExpanded && (
                 <div className="p-6">
                   <div className="space-y-4">
-                    {researchPlan.map((step, index) => (
-                      <div key={step.id} className="border border-gray-200 rounded-lg p-4">
+                                         {researchPlan.map((step) => (
+                       <div key={step.id} className="border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <div className={`w-3 h-3 rounded-full ${
                             step.status === 'completed' ? 'bg-green-500' :
                             step.status === 'active' ? 'bg-blue-500' :
                             step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
                           }`} />
-                          <span className="text-sm font-medium text-gray-900">
-                            Step {index + 1}: {step.mode}
-                          </span>
+                                                     <span className="text-sm font-medium text-gray-900">
+                             {step.mode}
+                           </span>
                         </div>
                         <p className="text-sm text-gray-600 mb-2">{step.query}</p>
                         {step.results.length > 0 && (
