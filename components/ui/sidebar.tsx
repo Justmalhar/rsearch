@@ -56,7 +56,10 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
           className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
         >
           <ImageIcon className="h-6 w-6" />
-          <span className="text-xs font-medium">Images</span>
+          <div className="text-xs font-medium text-center leading-tight">
+            <div>Generate</div>
+            <div>Images</div>
+          </div>
         </Link>
       </div>
 
