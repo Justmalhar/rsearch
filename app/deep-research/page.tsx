@@ -6,8 +6,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Stepper, type StepperStep } from "@/components/ui/stepper";
 import type { SearchResult, SearchSource, SerperResponse } from '@/types/search';
 import Results from '@/components/rSearch/results';
+import Sources from '@/components/rSearch/sources';
 import { getWebsiteName } from '@/lib/utils';
-import { Brain, Search, Sparkles } from 'lucide-react';
+import { Brain, Search, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
@@ -42,6 +43,7 @@ function DeepResearchContent() {
   // UI state
   const [isSourcesExpanded, setIsSourcesExpanded] = useState(true);
   const [isResultsExpanded, setIsResultsExpanded] = useState(true);
+  const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
 
   // Load saved settings
   useEffect(() => {
@@ -232,7 +234,7 @@ function DeepResearchContent() {
     executeSearches();
   }, [researchPlan.length, isGeneratingPlan]);
 
-  // Generate final report
+  // Generate final report using rSearch prompt
   useEffect(() => {
     if (isExecutingSearches || allResults.length === 0) return;
 
@@ -240,13 +242,23 @@ function DeepResearchContent() {
       try {
         setIsGeneratingReport(true);
         
-        const response = await fetch('/api/deep-research/report', {
+        // Create context from all search results
+        const context = allResults.map((result, index) => {
+          const snippet = 'snippet' in result ? result.snippet : 'No description available';
+          return `[${index + 1}] ${result.title}
+Source: ${result.link}
+${snippet}`;
+        }).join('\n\n');
+
+        const response = await fetch('/api/rsearch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
-            query,
-            researchPlan,
-            allResults,
+            searchTerm: query,
+            searchResults: {
+              organic: allResults,
+              knowledgeGraph: null
+            },
             mode
           })
         });
@@ -391,11 +403,23 @@ This deep research analysis provides a comprehensive overview of "${query}" base
                      isGeneratingReport ? stepperSteps.length - 1 : 
                      stepperSteps.length - 1;
 
+  const toggleStepExpansion = (stepId: string) => {
+    setExpandedSteps(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(stepId)) {
+        newSet.delete(stepId);
+      } else {
+        newSet.add(stepId);
+      }
+      return newSet;
+    });
+  };
+
   if (!query) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <Brain className="h-12 w-12 text-blue-500 mx-auto mb-4" />
+          <Brain className="h-12 w-12 text-orange-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Deep Research</h1>
           <p className="text-gray-600">No query provided for deep research.</p>
         </div>
@@ -404,150 +428,146 @@ This deep research analysis provides a comprehensive overview of "${query}" base
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
-      <div className="container mx-auto px-4 py-4 sm:py-8">
+    <div className="flex min-h-screen">
+      <div className="flex-1 p-4 md:p-8 max-w-7xl mx-auto space-y-6 md:space-y-8">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Deep Research</h1>
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <Brain className="h-8 w-8 text-orange-600" />
+            <h1 className="text-2xl md:text-3xl font-bold text-orange-600">Deep Research</h1>
           </div>
-          <p className="text-sm sm:text-base text-gray-600 mb-4">
-            Comprehensive analysis of: <span className="font-semibold text-orange-600">&quot;{query}&quot;</span>
+          <p className="text-lg text-orange-800">
+            Comprehensive analysis of: <span className="font-semibold">&quot;{query}&quot;</span>
           </p>
         </div>
 
         {/* Stepper */}
-        <div className="bg-white rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 shadow-sm border border-orange-200">
-          <Stepper steps={stepperSteps} currentStep={currentStep} />
-        </div>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8">
-          {/* Results */}
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-sm border border-orange-200">
-              <div className="p-4 sm:p-6 border-b border-orange-200">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Research Report</h2>
-                  </div>
-                  <button
-                    onClick={() => setIsResultsExpanded(!isResultsExpanded)}
-                    className="text-orange-600 hover:text-orange-700 text-sm"
-                  >
-                    {isResultsExpanded ? 'Collapse' : 'Expand'}
-                  </button>
-                </div>
-              </div>
-              
-              {isResultsExpanded && (
-                <div className="p-4 sm:p-6">
-                  {isGeneratingPlan && (
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-orange-600"></div>
-                        <span className="text-orange-600 text-sm sm:text-base">Generating research plan...</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {isExecutingSearches && (
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-orange-600"></div>
-                        <span className="text-orange-600 text-sm sm:text-base">
-                          Executing search {currentStepIndex + 1} of {researchPlan.length}...
-                        </span>
-                      </div>
-                      <div className="text-xs sm:text-sm text-gray-600">
-                        Current: {researchPlan[currentStepIndex]?.query}
-                      </div>
-                    </div>
-                  )}
-
-                  {isGeneratingReport && (
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-orange-600"></div>
-                        <span className="text-orange-600 text-sm sm:text-base">Generating comprehensive report...</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {aiError && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                      <p className="text-red-600 text-sm sm:text-base">Error: {aiError}</p>
-                    </div>
-                  )}
-
-                  {aiResponse && (
-                    <Results
-                      isAiLoading={isGeneratingReport}
-                      aiResponse={aiResponse}
-                      aiError={aiError}
-                      isAiComplete={isComplete}
-                      searchResults={null}
-                      mode={mode}
-                      generateSearchId={(q, m) => `${q}-${m}`}
-                      getWebsiteName={getWebsiteName}
-                      searchTerm={query}
-                      sources={allResults}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
+        <section className="space-y-4">
+          <h2 className="text-xl md:text-2xl font-medium text-orange-600">Research Progress</h2>
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-orange-200">
+            <Stepper steps={stepperSteps} currentStep={currentStep} />
           </div>
+        </section>
 
-          {/* Sources Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm border border-orange-200">
-              <div className="p-4 sm:p-6 border-b border-orange-200">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Search className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Sources</h2>
-                  </div>
-                  <button
-                    onClick={() => setIsSourcesExpanded(!isSourcesExpanded)}
-                    className="text-orange-600 hover:text-orange-700 text-sm"
-                  >
-                    {isSourcesExpanded ? 'Collapse' : 'Expand'}
-                  </button>
-                </div>
+        {/* Research Steps with Expandable Sources */}
+        {researchPlan.map((step, index) => (
+          <section key={step.id} className="space-y-4">
+            <button
+              type="button"
+              onClick={() => toggleStepExpansion(step.id)}
+              className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            >
+              <span>Step {index + 1}: {step.mode.toUpperCase()} Search</span>
+              {expandedSteps.has(step.id) ? (
+                <ChevronUp className="w-5 h-5" />
+              ) : (
+                <ChevronDown className="w-5 h-5" />
+              )}
+            </button>
+            
+            <div className="space-y-2">
+              <p className="text-orange-800 font-medium">Query: {step.query}</p>
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${
+                  step.status === 'completed' ? 'bg-green-500' :
+                  step.status === 'active' ? 'bg-orange-500' :
+                  step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
+                }`} />
+                <span className="text-sm text-gray-600">
+                  {step.status === 'completed' ? `${step.results.length} results found` :
+                   step.status === 'active' ? 'Searching...' :
+                   step.status === 'error' ? 'Error occurred' : 'Pending'}
+                </span>
               </div>
-              
-              {isSourcesExpanded && (
-                <div className="p-4 sm:p-6">
-                  <div className="space-y-3 sm:space-y-4">
-                    {researchPlan.map((step) => (
-                      <div key={step.id} className="border border-gray-200 rounded-lg p-3 sm:p-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
-                            step.status === 'completed' ? 'bg-green-500' :
-                            step.status === 'active' ? 'bg-orange-500' :
-                            step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
-                          }`} />
-                          <span className="text-xs sm:text-sm font-medium text-gray-900">
-                            {step.mode}
-                          </span>
-                        </div>
-                        <p className="text-xs sm:text-sm text-gray-600 mb-2">{step.query}</p>
-                        {step.results.length > 0 && (
-                          <div className="text-xs text-gray-500">
-                            {step.results.length} results found
-                          </div>
-                        )}
-                      </div>
-                    ))}
+            </div>
+
+            {expandedSteps.has(step.id) && step.results.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm border border-orange-200">
+                <Sources
+                  sources={step.results}
+                  mode={step.mode}
+                  getWebsiteName={getWebsiteName}
+                  error={null}
+                  setShowSourcesSidebar={() => {}}
+                  knowledgeGraph={null}
+                />
+              </div>
+            )}
+          </section>
+        ))}
+
+        {/* Results */}
+        <section>
+          <button
+            type="button"
+            onClick={() => setIsResultsExpanded(!isResultsExpanded)}
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+          >
+            <span>Research Report</span>
+            {isResultsExpanded ? (
+              <ChevronUp className="w-5 h-5" />
+            ) : (
+              <ChevronDown className="w-5 h-5" />
+            )}
+          </button>
+          
+          {isResultsExpanded && (
+            <div className="space-y-4">
+              {isGeneratingPlan && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+                    <span className="text-orange-600">Generating research plan...</span>
                   </div>
                 </div>
               )}
+
+              {isExecutingSearches && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+                    <span className="text-orange-600">
+                      Executing search {currentStepIndex + 1} of {researchPlan.length}...
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Current: {researchPlan[currentStepIndex]?.query}
+                  </div>
+                </div>
+              )}
+
+              {isGeneratingReport && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
+                    <span className="text-orange-600">Generating comprehensive report...</span>
+                  </div>
+                </div>
+              )}
+
+              {aiError && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <p className="text-red-600">Error: {aiError}</p>
+                </div>
+              )}
+
+              {aiResponse && (
+                <Results
+                  isAiLoading={isGeneratingReport}
+                  aiResponse={aiResponse}
+                  aiError={aiError}
+                  isAiComplete={isComplete}
+                  searchResults={null}
+                  mode={mode}
+                  generateSearchId={(q, m) => `${q}-${m}`}
+                  getWebsiteName={getWebsiteName}
+                  searchTerm={query}
+                  sources={allResults}
+                />
+              )}
             </div>
-          </div>
-        </div>
+          )}
+        </section>
       </div>
     </div>
   );
