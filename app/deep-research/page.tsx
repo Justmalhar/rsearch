@@ -221,7 +221,7 @@ function DeepResearchContent() {
       description: 'Generating research strategy',
       status: isGeneratingPlan ? 'active' : 'completed'
     },
-    ...researchPlan.map((step, index) => ({
+    ...researchPlan.map((step) => ({
       id: step.id,
       title: step.query.length > 30 ? step.query.substring(0, 30) + '...' : step.query,
       description: `${step.mode} search`,

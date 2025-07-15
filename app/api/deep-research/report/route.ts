@@ -80,13 +80,11 @@ export async function POST(req: Request) {
     const { 
       query, 
       researchPlan, 
-      allResults, 
-      mode 
+      allResults
     }: { 
       query: string; 
       researchPlan: ResearchStep[];
       allResults: SearchResult[];
-      mode: SearchSource;
     } = await req.json();
 
     if (!query || !researchPlan || !allResults) {
