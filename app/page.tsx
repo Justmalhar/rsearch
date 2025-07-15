@@ -313,9 +313,92 @@ export default function Home() {
             className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium text-sm"
           >
             <Sparkles className="h-4 w-4" />
-            Try our new Image Generator
+            Try our new AI Image Generator
           </Link>
         </div>
+
+        {/* SEO Content Section */}
+        <section className="mt-16 max-w-4xl mx-auto px-4">
+          <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-8 border border-orange-200/50">
+            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center">
+              The Most Advanced AI-Powered Reasoning Engine
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-lg font-semibold text-orange-800 mb-3">
+                  🤖 Advanced AI Reasoning
+                </h3>
+                <p className="text-orange-700 leading-relaxed">
+                  rSearch leverages cutting-edge AI reasoning models to provide intelligent, 
+                  well-reasoned responses to complex queries. Unlike traditional search engines, 
+                  rSearch thinks through problems step-by-step, delivering insights rather than just results.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold text-orange-800 mb-3">
+                  🔍 Multi-Source Search Capabilities
+                </h3>
+                <p className="text-orange-700 leading-relaxed">
+                  Search across web, images, videos, news, academic papers, patents, shopping, and places. 
+                  rSearch combines the power of AI reasoning with comprehensive internet search to give you 
+                  the most relevant and insightful results.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold text-orange-800 mb-3">
+                  🆓 Free Alternative to Perplexity
+                </h3>
+                <p className="text-orange-700 leading-relaxed">
+                  Get the same advanced AI reasoning capabilities as Perplexity AI, but completely free. 
+                  rSearch offers a powerful alternative to expensive AI search engines with no usage limits 
+                  or subscription fees.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="mt-12 max-w-4xl mx-auto px-4">
+          <h2 className="text-xl font-bold text-orange-900 mb-6 text-center">
+            Why Choose rSearch Over Other AI Search Engines?
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center p-4">
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Search className="h-6 w-6 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-2">Advanced Reasoning</h3>
+              <p className="text-sm text-orange-700">
+                Chain-of-thought reasoning for complex problem solving
+              </p>
+            </div>
+            
+            <div className="text-center p-4">
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Globe className="h-6 w-6 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-2">Multi-Source Search</h3>
+              <p className="text-sm text-orange-700">
+                Search web, images, videos, news, scholar, patents & more
+              </p>
+            </div>
+            
+            <div className="text-center p-4">
+              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Zap className="h-6 w-6 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-2">Free & Open</h3>
+              <p className="text-sm text-orange-700">
+                No usage limits, no subscription fees, completely free
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer - Now at the bottom */}

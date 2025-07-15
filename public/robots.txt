@@ -15,3 +15,27 @@ Allow: /favicon.ico
 
 # Sitemap
 Sitemap: https://rsearch.app/sitemap.xml
+
+# Additional SEO directives
+# Allow all search engines to crawl
+Allow: /
+
+# Optimize for Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Optimize for Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Block AI training bots (optional)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
