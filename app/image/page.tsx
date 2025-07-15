@@ -20,7 +20,6 @@ export default function ImageGenerator() {
   const [aspectRatio, setAspectRatio] = useState('1:1');
   const [isGenerating, setIsGenerating] = useState(false);
   const [images, setImages] = useState<GeneratedImage[]>([]);
-  const [requestId, setRequestId] = useState<string | null>(null);
 
   const aspectRatioOptions = [
     { value: '1:1', label: 'Square (1:1)' },
@@ -59,7 +58,6 @@ export default function ImageGenerator() {
         throw new Error(data.error || 'Failed to generate images');
       }
 
-      setRequestId(data.requestId);
       pollForResults(data.requestId);
 
     } catch (error) {
