@@ -19,7 +19,7 @@ interface StepperProps {
 export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
   return (
     <div className={cn("w-full", className)}>
-      <div className="flex items-center justify-between">
+      <div className="space-y-4">
         {steps.map((step, index) => {
           const isActive = index === currentStep;
           const isCompleted = step.status === 'completed';
@@ -27,13 +27,14 @@ export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
           const isPending = step.status === 'pending';
 
           return (
-            <React.Fragment key={step.id}>
+            <div key={step.id} className="flex items-start gap-4">
+              {/* Timeline line */}
               <div className="flex flex-col items-center">
                 <div
                   className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-200",
+                    "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-200 flex-shrink-0",
                     {
-                      "bg-blue-500 border-blue-500 text-white": isActive,
+                      "bg-orange-500 border-orange-500 text-white": isActive,
                       "bg-green-500 border-green-500 text-white": isCompleted,
                       "bg-red-500 border-red-500 text-white": isError,
                       "bg-gray-200 border-gray-300 text-gray-500": isPending,
@@ -50,50 +51,53 @@ export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
                     <span className="text-sm font-medium">{index + 1}</span>
                   )}
                 </div>
-                <div className="mt-2 text-center">
+                
+                {/* Vertical line */}
+                {index < steps.length - 1 && (
                   <div
                     className={cn(
-                      "text-sm font-medium transition-colors duration-200",
+                      "w-0.5 h-8 mt-2 transition-colors duration-200",
                       {
-                        "text-blue-600": isActive,
-                        "text-green-600": isCompleted,
-                        "text-red-600": isError,
-                        "text-gray-500": isPending,
+                        "bg-orange-500": isCompleted,
+                        "bg-gray-300": !isCompleted,
+                      }
+                    )}
+                  />
+                )}
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0 pb-4">
+                <div
+                  className={cn(
+                    "text-sm font-medium transition-colors duration-200",
+                    {
+                      "text-orange-600": isActive,
+                      "text-green-600": isCompleted,
+                      "text-red-600": isError,
+                      "text-gray-500": isPending,
+                    }
+                  )}
+                >
+                  {step.title}
+                </div>
+                {step.description && (
+                  <div
+                    className={cn(
+                      "text-xs mt-1 transition-colors duration-200",
+                      {
+                        "text-orange-500": isActive,
+                        "text-green-500": isCompleted,
+                        "text-red-500": isError,
+                        "text-gray-400": isPending,
                       }
                     )}
                   >
-                    {step.title}
+                    {step.description}
                   </div>
-                  {step.description && (
-                    <div
-                      className={cn(
-                        "text-xs mt-1 transition-colors duration-200",
-                        {
-                          "text-blue-500": isActive,
-                          "text-green-500": isCompleted,
-                          "text-red-500": isError,
-                          "text-gray-400": isPending,
-                        }
-                      )}
-                    >
-                      {step.description}
-                    </div>
-                  )}
-                </div>
+                )}
               </div>
-              
-              {index < steps.length - 1 && (
-                <div
-                  className={cn(
-                    "flex-1 h-0.5 mx-4 transition-colors duration-200",
-                    {
-                      "bg-blue-500": isCompleted,
-                      "bg-gray-300": !isCompleted,
-                    }
-                  )}
-                />
-              )}
-            </React.Fragment>
+            </div>
           );
         })}
       </div>

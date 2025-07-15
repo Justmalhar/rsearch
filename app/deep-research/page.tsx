@@ -253,38 +253,38 @@ function DeepResearchContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
+      <div className="container mx-auto px-4 py-4 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <Brain className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Deep Research</h1>
+            <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-orange-600" />
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Deep Research</h1>
           </div>
-          <p className="text-gray-600 mb-4">
-            Comprehensive analysis of: <span className="font-semibold text-blue-600">&quot;{query}&quot;</span>
+          <p className="text-sm sm:text-base text-gray-600 mb-4">
+            Comprehensive analysis of: <span className="font-semibold text-orange-600">&quot;{query}&quot;</span>
           </p>
         </div>
 
         {/* Stepper */}
-        <div className="bg-white rounded-lg p-6 mb-8 shadow-sm border border-blue-200">
+        <div className="bg-white rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 shadow-sm border border-orange-200">
           <Stepper steps={stepperSteps} currentStep={currentStep} />
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8">
           {/* Results */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-sm border border-blue-200">
-              <div className="p-6 border-b border-blue-200">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-200">
+              <div className="p-4 sm:p-6 border-b border-orange-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-blue-600" />
-                    <h2 className="text-xl font-semibold text-gray-900">Research Report</h2>
+                    <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Research Report</h2>
                   </div>
                   <button
                     onClick={() => setIsResultsExpanded(!isResultsExpanded)}
-                    className="text-blue-600 hover:text-blue-700"
+                    className="text-orange-600 hover:text-orange-700 text-sm"
                   >
                     {isResultsExpanded ? 'Collapse' : 'Expand'}
                   </button>
@@ -292,12 +292,12 @@ function DeepResearchContent() {
               </div>
               
               {isResultsExpanded && (
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   {isGeneratingPlan && (
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                        <span className="text-blue-600">Generating research plan...</span>
+                        <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-orange-600"></div>
+                        <span className="text-orange-600 text-sm sm:text-base">Generating research plan...</span>
                       </div>
                     </div>
                   )}
@@ -305,12 +305,12 @@ function DeepResearchContent() {
                   {isExecutingSearches && (
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                        <span className="text-blue-600">
+                        <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-orange-600"></div>
+                        <span className="text-orange-600 text-sm sm:text-base">
                           Executing search {currentStepIndex + 1} of {researchPlan.length}...
                         </span>
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-xs sm:text-sm text-gray-600">
                         Current: {researchPlan[currentStepIndex]?.query}
                       </div>
                     </div>
@@ -319,15 +319,15 @@ function DeepResearchContent() {
                   {isGeneratingReport && (
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                        <span className="text-blue-600">Generating comprehensive report...</span>
+                        <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-orange-600"></div>
+                        <span className="text-orange-600 text-sm sm:text-base">Generating comprehensive report...</span>
                       </div>
                     </div>
                   )}
 
                   {aiError && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                      <p className="text-red-600">Error: {aiError}</p>
+                      <p className="text-red-600 text-sm sm:text-base">Error: {aiError}</p>
                     </div>
                   )}
 
@@ -352,16 +352,16 @@ function DeepResearchContent() {
 
           {/* Sources Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm border border-blue-200">
-              <div className="p-6 border-b border-blue-200">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-200">
+              <div className="p-4 sm:p-6 border-b border-orange-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Search className="h-5 w-5 text-blue-600" />
-                    <h2 className="text-xl font-semibold text-gray-900">Sources</h2>
+                    <Search className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Sources</h2>
                   </div>
                   <button
                     onClick={() => setIsSourcesExpanded(!isSourcesExpanded)}
-                    className="text-blue-600 hover:text-blue-700"
+                    className="text-orange-600 hover:text-orange-700 text-sm"
                   >
                     {isSourcesExpanded ? 'Collapse' : 'Expand'}
                   </button>
@@ -369,21 +369,21 @@ function DeepResearchContent() {
               </div>
               
               {isSourcesExpanded && (
-                <div className="p-6">
-                  <div className="space-y-4">
-                                         {researchPlan.map((step) => (
-                       <div key={step.id} className="border border-gray-200 rounded-lg p-4">
+                <div className="p-4 sm:p-6">
+                  <div className="space-y-3 sm:space-y-4">
+                    {researchPlan.map((step) => (
+                      <div key={step.id} className="border border-gray-200 rounded-lg p-3 sm:p-4">
                         <div className="flex items-center gap-2 mb-2">
-                          <div className={`w-3 h-3 rounded-full ${
+                          <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                             step.status === 'completed' ? 'bg-green-500' :
-                            step.status === 'active' ? 'bg-blue-500' :
+                            step.status === 'active' ? 'bg-orange-500' :
                             step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
                           }`} />
-                                                     <span className="text-sm font-medium text-gray-900">
-                             {step.mode}
-                           </span>
+                          <span className="text-xs sm:text-sm font-medium text-gray-900">
+                            {step.mode}
+                          </span>
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">{step.query}</p>
+                        <p className="text-xs sm:text-sm text-gray-600 mb-2">{step.query}</p>
                         {step.results.length > 0 && (
                           <div className="text-xs text-gray-500">
                             {step.results.length} results found
