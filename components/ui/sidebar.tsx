@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookText, Search, Settings } from "lucide-react";
+import { BookText, Search, Settings, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -49,6 +49,14 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
         >
           <BookText className="h-6 w-6" />
           <span className="text-xs font-medium">Library</span>
+        </Link>
+
+        <Link 
+          href="/image" 
+          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+        >
+          <ImageIcon className="h-6 w-6" />
+          <span className="text-xs font-medium">Images</span>
         </Link>
       </div>
 
