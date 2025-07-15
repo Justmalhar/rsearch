@@ -327,10 +327,10 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="text-lg font-semibold text-orange-800 mb-3">
-                  🤖 AI Reasoning with DeepSeek R1
+                  🤖 Advanced AI Reasoning
                 </h3>
                 <p className="text-orange-700 leading-relaxed">
-                  rSearch leverages the cutting-edge DeepSeek R1 reasoning model to provide intelligent, 
+                  rSearch leverages cutting-edge AI reasoning models to provide intelligent, 
                   well-reasoned responses to complex queries. Unlike traditional search engines, 
                   rSearch thinks through problems step-by-step, delivering insights rather than just results.
                 </p>
@@ -355,17 +355,6 @@ export default function Home() {
                   Get the same advanced AI reasoning capabilities as Perplexity AI, but completely free. 
                   rSearch offers a powerful alternative to expensive AI search engines with no usage limits 
                   or subscription fees.
-                </p>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold text-orange-800 mb-3">
-                  ⚡ Customizable AI Models
-                </h3>
-                <p className="text-orange-700 leading-relaxed">
-                  Choose from OpenAI, OpenRouter, or DeepSeek as your AI provider. rSearch gives you 
-                  the flexibility to use your preferred AI models while maintaining the same powerful 
-                  reasoning and search capabilities.
                 </p>
               </div>
             </div>
