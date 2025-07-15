@@ -441,72 +441,68 @@ This deep research analysis provides a comprehensive overview of "${query}" base
 
         {/* Research Steps with Expandable Sources */}
         {researchPlan.map((step, index) => (
-          <section key={step.id} className="bg-white rounded-lg shadow-sm border border-orange-100 overflow-hidden">
-            {/* Step Header - Always visible with all info */}
-            <div className="p-6 border-b border-orange-50">
-              <div className="flex items-start justify-between">
-                {/* Left side - Step info */}
-                <div className="flex items-start gap-4 flex-1">
-                  {/* Step number */}
-                  <div className="flex items-center justify-center w-10 h-10 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold flex-shrink-0">
+          <section key={step.id} className="bg-white rounded-lg shadow-sm border border-orange-100 overflow-hidden mb-6">
+            <div className="p-6 space-y-3">
+              {/* Row 1: Step number, search type, status */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-9 h-9 bg-orange-100 text-orange-600 rounded-full text-base font-semibold">
                     {index + 1}
                   </div>
-                  
-                  {/* Step details */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-orange-700">{step.mode.toUpperCase()} Search</h3>
-                      <div className="flex items-center gap-2">
-                        <div className={`w-2.5 h-2.5 rounded-full ${
-                          step.status === 'completed' ? 'bg-green-500' :
-                          step.status === 'active' ? 'bg-orange-500' :
-                          step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
-                        }`} />
-                        <span className="text-xs text-gray-500 font-medium">
-                          {step.status === 'completed' ? `${step.results.length} results` :
-                           step.status === 'active' ? 'Searching...' :
-                           step.status === 'error' ? 'Error' : 'Pending'}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    {/* Query */}
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      <span className="font-medium text-gray-700">Query:</span> {step.query}
-                    </p>
-                  </div>
+                  <span className="text-base font-semibold text-orange-700">{step.mode.toUpperCase()} Search</span>
                 </div>
-                
-                {/* Right side - Show Sources button */}
-                <div className="ml-4 flex-shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => toggleSourcesExpansion(step.id)}
-                    disabled={step.status !== 'completed' || step.results.length === 0}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
-                      step.status === 'completed' && step.results.length > 0
-                        ? 'bg-orange-100 hover:bg-orange-200 text-orange-700 border border-orange-200 hover:border-orange-300'
-                        : 'bg-gray-50 text-gray-400 cursor-not-allowed border border-gray-200'
-                    }`}
-                  >
-                    {expandedSources.has(step.id) ? (
-                      <>
-                        <ChevronUp className="w-4 h-4" />
-                        Hide Sources
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown className="w-4 h-4" />
-                        Show Sources
-                      </>
-                    )}
-                    {step.status === 'completed' && step.results.length > 0 && (
-                      <span className="ml-1 px-2 py-0.5 bg-orange-200 text-orange-700 rounded-full text-xs font-semibold">
-                        {step.results.length}
-                      </span>
-                    )}
-                  </button>
+                <div className="flex items-center gap-2">
+                  <div className={`w-2.5 h-2.5 rounded-full ${
+                    step.status === 'completed' ? 'bg-green-500' :
+                    step.status === 'active' ? 'bg-orange-500' :
+                    step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
+                  }`} />
+                  <span className="text-xs text-gray-500 font-medium">
+                    {step.status === 'completed' ? 'Completed' :
+                     step.status === 'active' ? 'Searching...' :
+                     step.status === 'error' ? 'Error' : 'Pending'}
+                  </span>
                 </div>
+              </div>
+
+              {/* Row 2: Query */}
+              <div className="flex items-start">
+                <span className="font-medium text-gray-700 mr-2">Query:</span>
+                <span className="text-sm text-gray-600 break-words">{step.query}</span>
+              </div>
+
+              {/* Row 3: Number of sources and Show Sources button */}
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-xs text-gray-500">
+                  {step.status === 'completed' ? `${step.results.length} sources found` : 'No sources yet'}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => toggleSourcesExpansion(step.id)}
+                  disabled={step.status !== 'completed' || step.results.length === 0}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-xs font-medium shadow-sm border ${
+                    step.status === 'completed' && step.results.length > 0
+                      ? 'bg-orange-100 hover:bg-orange-200 text-orange-700 border-orange-200 hover:border-orange-300'
+                      : 'bg-gray-50 text-gray-400 cursor-not-allowed border-gray-200'
+                  }`}
+                >
+                  {expandedSources.has(step.id) ? (
+                    <>
+                      <ChevronUp className="w-3.5 h-3.5" />
+                      Hide Sources
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3.5 h-3.5" />
+                      Show Sources
+                    </>
+                  )}
+                  {step.status === 'completed' && step.results.length > 0 && (
+                    <span className="ml-1 px-2 py-0.5 bg-orange-200 text-orange-700 rounded-full text-xs font-semibold">
+                      {step.results.length}
+                    </span>
+                  )}
+                </button>
               </div>
             </div>
 
