@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Stepper, type StepperStep } from "@/components/ui/stepper";
@@ -35,6 +35,9 @@ function DeepResearchContent() {
   const [aiResponse, setAiResponse] = useState<string>('');
   const [aiError, setAiError] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
+  
+  // Ref to track if searches have been executed
+  const hasExecutedSearches = useRef(false);
 
   // UI state
   const [isSourcesExpanded, setIsSourcesExpanded] = useState(true);
@@ -88,7 +91,7 @@ function DeepResearchContent() {
             }
           ];
           
-          const formattedPlan = fallbackPlan.map((step: DeepResearchStep) => ({
+          const formattedPlan = fallbackPlan.map((step) => ({
             ...step,
             results: [],
             status: 'pending' as const
@@ -137,7 +140,7 @@ function DeepResearchContent() {
           }
         ];
         
-        const formattedPlan = fallbackPlan.map((step: DeepResearchStep) => ({
+        const formattedPlan = fallbackPlan.map((step) => ({
           ...step,
           results: [],
           status: 'pending' as const
@@ -154,10 +157,11 @@ function DeepResearchContent() {
 
   // Execute searches step by step
   useEffect(() => {
-    if (researchPlan.length === 0 || isGeneratingPlan) return;
+    if (researchPlan.length === 0 || isGeneratingPlan || hasExecutedSearches.current) return;
 
     const executeSearches = async () => {
       console.log('Starting search execution with plan:', researchPlan);
+      hasExecutedSearches.current = true;
       setIsExecutingSearches(true);
       
       // Create a copy of the research plan to work with
