@@ -361,6 +361,84 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Search Modes Highlight Section */}
+        <section className="mt-12 max-w-4xl mx-auto px-4">
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
+            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center">
+              Comprehensive Search Modes Available
+            </h2>
+            <p className="text-orange-700 text-center mb-8 leading-relaxed">
+              Choose from 8 different search modes to find exactly what you&apos;re looking for across the entire internet
+            </p>
+            
+            <div className="grid md:grid-cols-4 gap-4">
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <Globe className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Web Search</h3>
+                <p className="text-xs text-orange-700">
+                  Comprehensive internet search
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <BookText className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Image Search</h3>
+                <p className="text-xs text-orange-700">
+                  Find visual content
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <Video className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Video Search</h3>
+                <p className="text-xs text-orange-700">
+                  Discover videos
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <Newspaper className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">News Search</h3>
+                <p className="text-xs text-orange-700">
+                  Latest news updates
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <MapPin className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Places Search</h3>
+                <p className="text-xs text-orange-700">
+                  Find locations & businesses
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <ShoppingBag className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Shopping Search</h3>
+                <p className="text-xs text-orange-700">
+                  Products & deals
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <GraduationCap className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Scholar Search</h3>
+                <p className="text-xs text-orange-700">
+                  Academic papers
+                </p>
+              </div>
+              
+              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
+                <Lightbulb className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 mb-1">Patent Search</h3>
+                <p className="text-xs text-orange-700">
+                  Patent databases
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Features Section */}
         <section className="mt-12 max-w-4xl mx-auto px-4">
           <h2 className="text-xl font-bold text-orange-900 mb-6 text-center">
@@ -382,9 +460,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Globe className="h-6 w-6 text-orange-600" />
               </div>
-              <h3 className="font-semibold text-orange-800 mb-2">Multi-Source Search</h3>
+              <h3 className="font-semibold text-orange-800 mb-2">8 Search Modes</h3>
               <p className="text-sm text-orange-700">
-                Search web, images, videos, news, scholar, patents & more
+                Web, images, videos, news, scholar, patents, shopping & places
               </p>
             </div>
             

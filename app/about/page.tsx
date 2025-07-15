@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Search, Brain, Zap, Globe, Shield, Users, Code } from "lucide-react";
+import { ArrowLeft, Search, Brain, Zap, Globe, Shield, Users, Code, BookText, Video, Newspaper, GraduationCap, Lightbulb, MapPin, ShoppingBag } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About rSearch - AI-Powered Reasoning Engine | Free Perplexity Alternative",
-  description: "Learn about rSearch, the advanced AI-powered reasoning engine that combines DeepSeek R1 with comprehensive internet search. Free alternative to Perplexity with intelligent reasoning capabilities.",
+  description: "Learn about rSearch, the advanced AI-powered reasoning engine that combines cutting-edge AI models with comprehensive internet search. Free alternative to Perplexity with intelligent reasoning capabilities.",
   keywords: [
-    "about rsearch", "rsearch features", "AI reasoning engine", "DeepSeek R1", 
+    "about rsearch", "rsearch features", "AI reasoning engine", "advanced AI models", 
     "Perplexity alternative", "AI search engine", "free AI search", "reasoning AI",
-    "chain of thought reasoning", "AI research assistant", "intelligent search"
+    "chain of thought reasoning", "AI research assistant", "intelligent search",
+    "web search", "image search", "video search", "news search", "academic search",
+    "patent search", "shopping search", "places search", "multi-source search"
   ],
   openGraph: {
     title: "About rSearch - AI-Powered Reasoning Engine",
-    description: "Learn about rSearch, the advanced AI-powered reasoning engine that combines DeepSeek R1 with comprehensive internet search.",
+    description: "Learn about rSearch, the advanced AI-powered reasoning engine that combines cutting-edge AI models with comprehensive internet search.",
     url: 'https://rsearch.app/about',
   },
 };
@@ -49,8 +51,8 @@ export default function AboutPage() {
             <p className="text-orange-700 leading-relaxed text-lg">
               rSearch was created to democratize access to advanced AI reasoning capabilities. 
               We believe that intelligent search should be available to everyone, not just those 
-              who can afford expensive subscriptions. By combining the power of DeepSeek R1 
-              reasoning with comprehensive internet search, we provide a free alternative to 
+              who can afford expensive subscriptions. By combining the power of advanced AI reasoning 
+              with comprehensive internet search, we provide a free alternative to 
               expensive AI search engines like Perplexity.
             </p>
           </div>
@@ -67,14 +69,13 @@ export default function AboutPage() {
               <div className="flex items-center gap-3 mb-4">
                 <Brain className="h-8 w-8 text-orange-600" />
                 <h3 className="text-xl font-semibold text-orange-800">
-                  DeepSeek R1 Reasoning
+                  Advanced AI Reasoning
                 </h3>
               </div>
               <p className="text-orange-700 leading-relaxed">
-                At the core of rSearch is the DeepSeek R1 model, a state-of-the-art reasoning 
-                engine that can think through complex problems step-by-step. This advanced 
-                AI model enables rSearch to provide intelligent, well-reasoned responses 
-                rather than just listing search results.
+                At the core of rSearch are state-of-the-art AI reasoning models that can think through 
+                complex problems step-by-step. These advanced AI models enable rSearch to provide 
+                intelligent, well-reasoned responses rather than just listing search results.
               </p>
             </div>
             
@@ -89,6 +90,95 @@ export default function AboutPage() {
                 rSearch doesn&apos;t just search the web - it searches across multiple content types 
                 including images, videos, news, academic papers, patents, shopping, and places. 
                 This multi-source approach ensures you get the most comprehensive and relevant results.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Search Modes Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-orange-900 mb-6">
+            Comprehensive Search Modes
+          </h2>
+          
+          <div className="grid md:grid-cols-4 gap-4">
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <Globe className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Web Search</h3>
+              <p className="text-xs text-orange-700">
+                Search across the entire internet for comprehensive results
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <BookText className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Image Search</h3>
+              <p className="text-xs text-orange-700">
+                Find images and visual content from across the web
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <Video className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Video Search</h3>
+              <p className="text-xs text-orange-700">
+                Discover and watch videos from multiple platforms
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <Newspaper className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">News Search</h3>
+              <p className="text-xs text-orange-700">
+                Latest news and updates from reliable sources
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <MapPin className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Places Search</h3>
+              <p className="text-xs text-orange-700">
+                Find locations, businesses, and points of interest
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <ShoppingBag className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Shopping Search</h3>
+              <p className="text-xs text-orange-700">
+                Search for products, deals, and shopping options
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <GraduationCap className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Scholar Search</h3>
+              <p className="text-xs text-orange-700">
+                Search academic papers and research publications
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-xl p-4 shadow-lg border border-orange-200/50">
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                <Lightbulb className="h-5 w-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-orange-800 mb-1 text-sm">Patent Search</h3>
+              <p className="text-xs text-orange-700">
+                Search patent databases and intellectual property
               </p>
             </div>
           </div>
@@ -147,7 +237,7 @@ export default function AboutPage() {
               </div>
               <h3 className="font-semibold text-orange-800 mb-2">Customizable Models</h3>
               <p className="text-sm text-orange-700">
-                Choose from OpenAI, OpenRouter, or DeepSeek as your AI provider
+                Choose from multiple AI providers for your preferred reasoning model
               </p>
             </div>
             
@@ -187,9 +277,8 @@ export default function AboutPage() {
                   🔧 More Customizable
                 </h3>
                 <p className="text-orange-700 leading-relaxed">
-                  rSearch allows you to choose your preferred AI provider - OpenAI, OpenRouter, 
-                  or DeepSeek. This flexibility gives you control over which AI models power 
-                  your searches.
+                  rSearch allows you to choose your preferred AI provider from multiple options. 
+                  This flexibility gives you control over which AI models power your searches.
                 </p>
               </div>
               
@@ -198,7 +287,7 @@ export default function AboutPage() {
                   🚀 Advanced Reasoning
                 </h3>
                 <p className="text-orange-700 leading-relaxed">
-                  Powered by DeepSeek R1, rSearch provides superior reasoning capabilities 
+                  Powered by advanced AI reasoning models, rSearch provides superior reasoning capabilities 
                   that can think through complex problems step-by-step, delivering insights 
                   rather than just results.
                 </p>
