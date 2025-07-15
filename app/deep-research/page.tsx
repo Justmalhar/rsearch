@@ -439,86 +439,98 @@ This deep research analysis provides a comprehensive overview of "${query}" base
             <Brain className="h-8 w-8 text-orange-600" />
             <h1 className="text-2xl md:text-3xl font-bold text-orange-600">Deep Research</h1>
           </div>
-          <p className="text-lg text-orange-800">
-            Comprehensive analysis of: <span className="font-semibold">&quot;{query}&quot;</span>
+          <p className="text-lg text-orange-800 font-medium">
+            &quot;{query}&quot;
           </p>
         </div>
 
         {/* Stepper */}
         <section className="space-y-4">
-          <h2 className="text-xl md:text-2xl font-medium text-orange-600">Research Progress</h2>
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-orange-200">
+          <h2 className="text-xl font-semibold text-orange-700">Research Progress</h2>
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-orange-100">
             <Stepper steps={stepperSteps} currentStep={currentStep} />
           </div>
         </section>
 
         {/* Research Steps with Expandable Sources */}
         {researchPlan.map((step, index) => (
-          <section key={step.id} className="space-y-4">
+          <section key={step.id} className="bg-white rounded-lg shadow-sm border border-orange-100 p-6 space-y-4">
             <button
               type="button"
               onClick={() => toggleStepExpansion(step.id)}
-              className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+              className="flex items-center justify-between w-full text-left hover:bg-orange-50 p-2 rounded-lg transition-colors"
             >
-              <span>Step {index + 1}: {step.mode.toUpperCase()} Search</span>
-              {expandedSteps.has(step.id) ? (
-                <ChevronUp className="w-5 h-5" />
-              ) : (
-                <ChevronDown className="w-5 h-5" />
-              )}
-            </button>
-            
-            <div className="space-y-2">
-              <p className="text-orange-800 font-medium">Query: {step.query}</p>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-8 h-8 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold">
+                  {index + 1}
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-orange-700">{step.mode.toUpperCase()} Search</h3>
+                  <p className="text-sm text-gray-600">{step.query}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
-                  <div className={`w-3 h-3 rounded-full ${
+                  <div className={`w-2.5 h-2.5 rounded-full ${
                     step.status === 'completed' ? 'bg-green-500' :
                     step.status === 'active' ? 'bg-orange-500' :
                     step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
                   }`} />
-                  <span className="text-sm text-gray-600">
-                    {step.status === 'completed' ? `${step.results.length} results found` :
+                  <span className="text-xs text-gray-500">
+                    {step.status === 'completed' ? `${step.results.length} results` :
                      step.status === 'active' ? 'Searching...' :
-                     step.status === 'error' ? 'Error occurred' : 'Pending'}
+                     step.status === 'error' ? 'Error' : 'Pending'}
                   </span>
                 </div>
-                
-                {/* Show Sources Button - Always visible and right-aligned */}
-                <button
-                  type="button"
-                  onClick={() => toggleSourcesExpansion(step.id)}
-                  disabled={step.status !== 'completed' || step.results.length === 0}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-medium ${
-                    step.status === 'completed' && step.results.length > 0
-                      ? 'bg-orange-100 hover:bg-orange-200 text-orange-700'
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {expandedSources.has(step.id) ? (
-                    <>
-                      <ChevronUp className="w-4 h-4" />
-                      Hide Sources ({step.results.length})
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="w-4 h-4" />
-                      Show Sources ({step.results.length})
-                    </>
-                  )}
-                </button>
+                {expandedSteps.has(step.id) ? (
+                  <ChevronUp className="w-4 h-4 text-orange-600" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-orange-600" />
+                )}
               </div>
-            </div>
+            </button>
+            
+            {expandedSteps.has(step.id) && (
+              <div className="space-y-3 pl-11">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-700">Query:</span>
+                    <span className="text-sm text-gray-600">{step.query}</span>
+                  </div>
+                
+                  {/* Show Sources Button - Always visible and right-aligned */}
+                  <button
+                    type="button"
+                    onClick={() => toggleSourcesExpansion(step.id)}
+                    disabled={step.status !== 'completed' || step.results.length === 0}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors text-sm font-medium ${
+                      step.status === 'completed' && step.results.length > 0
+                        ? 'bg-orange-100 hover:bg-orange-200 text-orange-700 border border-orange-200'
+                        : 'bg-gray-50 text-gray-400 cursor-not-allowed border border-gray-200'
+                    }`}
+                  >
+                    {expandedSources.has(step.id) ? (
+                      <>
+                        <ChevronUp className="w-3.5 h-3.5" />
+                        Hide ({step.results.length})
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="w-3.5 h-3.5" />
+                        Show ({step.results.length})
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Sources Display */}
             {expandedSources.has(step.id) && step.results.length > 0 && (
-              <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-4">
-                <div className="mb-4">
-                  <p className="text-sm text-gray-600">
-                    Step {index + 1} Results: {step.results.length} sources found
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Status: {step.status}
+              <div className="bg-gray-50 rounded-lg border border-gray-200 p-4">
+                <div className="mb-3">
+                  <p className="text-sm font-medium text-gray-700">
+                    {step.results.length} sources found
                   </p>
                 </div>
                 <Sources
@@ -536,17 +548,17 @@ This deep research analysis provides a comprehensive overview of "${query}" base
         ))}
 
         {/* Results */}
-        <section>
+        <section className="bg-white rounded-lg shadow-sm border border-orange-100 p-6">
           <button
             type="button"
             onClick={() => setIsResultsExpanded(!isResultsExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center justify-between w-full text-left hover:bg-orange-50 p-2 rounded-lg transition-colors"
           >
-            <span>Research Report</span>
+            <h2 className="text-xl font-semibold text-orange-700">Research Report</h2>
             {isResultsExpanded ? (
-              <ChevronUp className="w-5 h-5" />
+              <ChevronUp className="w-5 h-5 text-orange-600" />
             ) : (
-              <ChevronDown className="w-5 h-5" />
+              <ChevronDown className="w-5 h-5 text-orange-600" />
             )}
           </button>
           
@@ -611,8 +623,8 @@ This deep research analysis provides a comprehensive overview of "${query}" base
         {/* All Sources */}
         {allResults.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl md:text-2xl font-medium text-orange-600">All Sources</h2>
-            <div className="bg-white rounded-lg shadow-sm border border-orange-200 p-6">
+            <h2 className="text-xl font-semibold text-orange-700">All Sources</h2>
+            <div className="bg-white rounded-lg shadow-sm border border-orange-100 p-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-gray-600">
