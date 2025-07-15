@@ -471,13 +471,14 @@ This deep research analysis provides a comprehensive overview of "${query}" base
               </div>
             </div>
 
-            {expandedSteps.has(step.id) && step.results.length > 0 && (
+            {expandedSteps.has(step.id) && (
               <div className="bg-white rounded-lg shadow-sm border border-orange-200">
                 <Sources
                   sources={step.results}
                   mode={step.mode}
                   getWebsiteName={getWebsiteName}
-                  error={null}
+                  error={step.status === 'error' ? 'Error occurred while searching.' : null}
+                  isSearchLoading={step.status === 'active'}
                   setShowSourcesSidebar={() => {}}
                   knowledgeGraph={undefined}
                 />
