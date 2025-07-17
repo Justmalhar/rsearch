@@ -13,7 +13,7 @@ const RefinedSearchSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const { searchTerm, mode } = await req.json();
+    const { searchTerm, mode, contextTerm } = await req.json();
 
     // Create OpenAI client at runtime to avoid build-time evaluation
     const openai = new OpenAI({
@@ -27,11 +27,16 @@ export async function POST(req: Request) {
 
     const model = process.env.NEXT_PUBLIC_AI_REFINER_MODEL;
 
+    // Add context information if this is a follow-up question
+    const userMessage = contextTerm 
+      ? `Original search: "${contextTerm}"\nFollow-up question: ${searchTerm}`
+      : searchTerm;
+
     const response = await openai.chat.completions.create({
       model: model as string,
       messages: [
         { role: 'system', content: prompt },
-        { role: 'user', content: searchTerm }
+        { role: 'user', content: userMessage }
       ],
       response_format: { type: "json_object" },
       temperature: 0.6,

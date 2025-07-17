@@ -14,6 +14,8 @@ import Sources from '@/components/rSearch/sources';
 import { getWebsiteName } from '@/lib/utils';
 import SourcesSidebar from '@/components/rSearch/sources-sidebar';
 import { useSearchParams } from 'next/navigation';
+import FollowUpChat from '@/components/rSearch/follow-up/follow-up-chat';
+import FollowUpFab from '@/components/rSearch/follow-up/follow-up-fab';
 
 function SearchPageContent() {
   // 1. Search params
@@ -62,6 +64,9 @@ function SearchPageContent() {
     peopleAlsoAsk?: { question: string; snippet: string; link: string; }[];
     relatedSearches?: { query: string; }[];
   } | null>(null);
+
+  // Follow-up chat state
+  const [showFollowUpChat, setShowFollowUpChat] = useState(false);
   useEffect(() => {
     let isMounted = true;
 
@@ -443,6 +448,24 @@ function SearchPageContent() {
           getWebsiteName={getWebsiteName}
         />
       )}
+
+      {/* Follow-up Components */}
+      <FollowUpFab
+        onClick={() => setShowFollowUpChat(true)}
+        isVisible={isAiComplete && !showFollowUpChat}
+      />
+      
+      <FollowUpChat
+        isVisible={showFollowUpChat}
+        onClose={() => setShowFollowUpChat(false)}
+        originalSearchTerm={searchTerm}
+        originalSources={sources}
+        originalKnowledgeGraph={knowledgeGraph}
+        originalAiResponse={aiResponse}
+        originalReasoningContent={reasoningContent}
+        mode={mode}
+        originalRefinedQuery={refinedQuery}
+      />
     </div>
   );
 }
