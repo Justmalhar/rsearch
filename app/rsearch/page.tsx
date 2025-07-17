@@ -14,7 +14,34 @@ import Sources from '@/components/rSearch/sources';
 import { getWebsiteName } from '@/lib/utils';
 import SourcesSidebar from '@/components/rSearch/sources-sidebar';
 import { useSearchParams } from 'next/navigation';
-import FollowUpSection from '@/components/rSearch/follow-up-section';
+import FollowUpInput from '@/components/rSearch/follow-up-input';
+
+interface FollowUpQuestion {
+  id: string;
+  question: string;
+  timestamp: Date;
+  isRefining: boolean;
+  refinedQuery?: {
+    query: string;
+    explanation: string;
+  } | null;
+  isLoadingSources: boolean;
+  sources: SearchResult[];
+  knowledgeGraph?: SerperResponse['knowledgeGraph'];
+  rawSources?: {
+    peopleAlsoAsk?: { question: string; snippet: string; link: string; }[];
+    relatedSearches?: { query: string; }[];
+  };
+  isAiLoading: boolean;
+  aiResponse: string;
+  reasoningContent: string;
+  isAiComplete: boolean;
+  aiError?: string;
+  isRefinedQueryExpanded: boolean;
+  isSourcesExpanded: boolean;
+  isThinkingExpanded: boolean;
+  isResultsExpanded: boolean;
+}
 
 function SearchPageContent() {
   // 1. Search params
@@ -64,6 +91,9 @@ function SearchPageContent() {
     relatedSearches?: { query: string; }[];
   } | null>(null);
 
+  // Follow-up questions state
+  const [followUpQuestions, setFollowUpQuestions] = useState<FollowUpQuestion[]>([]);
+  const [isProcessingFollowUp, setIsProcessingFollowUp] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -301,6 +331,226 @@ function SearchPageContent() {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  // Handle follow-up question submission
+  const handleFollowUpQuestion = async (questionText: string) => {
+    const newQuestion = {
+      id: Date.now().toString(),
+      question: questionText,
+      timestamp: new Date(),
+      isRefining: true,
+      isLoadingSources: false,
+      sources: [],
+      isAiLoading: false,
+      aiResponse: '',
+      reasoningContent: '',
+      isAiComplete: false,
+      isRefinedQueryExpanded: true,
+      isSourcesExpanded: true,
+      isThinkingExpanded: true,
+      isResultsExpanded: true
+    };
+
+    setFollowUpQuestions(prev => [...prev, newQuestion]);
+    setIsProcessingFollowUp(true);
+
+    try {
+      // Step 1: Refine Query
+      const refinementRes = await fetch('/api/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          searchTerm: questionText, 
+          mode,
+          contextTerm: searchTerm
+        })
+      });
+
+      let refinedQuery = null;
+      if (refinementRes.ok) {
+        const refinementData = await refinementRes.json();
+        refinedQuery = {
+          query: refinementData.refined_query,
+          explanation: refinementData.explanation
+        };
+      }
+
+      // Update with refined query
+      setFollowUpQuestions(prev => 
+        prev.map(q => 
+          q.id === newQuestion.id 
+            ? { ...q, isRefining: false, refinedQuery, isLoadingSources: true }
+            : q
+        )
+      );
+
+      // Step 2: Search for sources
+      const searchRes = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({ 
+          q: refinedQuery ? refinedQuery.query : questionText,
+          mode 
+        })
+      });
+
+      if (!searchRes.ok) throw new Error('Failed to fetch sources');
+      
+      const searchData = await searchRes.json();
+      let newSources = [];
+      
+      // Handle different response formats
+      if (mode === 'news') {
+        newSources = Array.isArray(searchData) ? searchData : searchData.news || [];
+      } else if (mode === 'web') {
+        newSources = searchData.organic || [];
+      } else if (mode === 'shopping') {
+        newSources = Array.isArray(searchData) ? searchData : searchData.shopping || [];
+      } else if (mode === 'scholar' || mode === 'patents') {
+        if (Array.isArray(searchData)) {
+          newSources = searchData;
+        } else if (searchData.organic) {
+          newSources = searchData.organic;
+        }
+      } else {
+        newSources = searchData[mode] || [];
+      }
+
+      const newRawSources = {
+        peopleAlsoAsk: searchData.peopleAlsoAsk,
+        relatedSearches: searchData.relatedSearches
+      };
+
+      // Update with sources
+      setFollowUpQuestions(prev => 
+        prev.map(q => 
+          q.id === newQuestion.id 
+            ? { 
+                ...q, 
+                isLoadingSources: false, 
+                sources: newSources,
+                knowledgeGraph: searchData.knowledgeGraph,
+                rawSources: newRawSources,
+                isAiLoading: true
+              }
+            : q
+        )
+      );
+
+      // Step 3: Generate AI response
+      const aiRes = await fetch('/api/rsearch/follow-up', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          followUpQuestion: questionText,
+          originalSearchTerm: searchTerm,
+          originalSources: sources,
+          originalAiResponse: aiResponse,
+          originalReasoningContent: reasoningContent,
+          newSources,
+          knowledgeGraph: searchData.knowledgeGraph,
+          refinedQuery,
+          originalRefinedQuery: refinedQuery
+        }),
+      });
+
+      if (!aiRes.ok) throw new Error('Failed to generate AI response');
+      if (!aiRes.body) throw new Error('No response body');
+
+      const reader = aiRes.body.getReader();
+      const decoder = new TextDecoder();
+      let aiContent = '';
+      let newReasoningContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) break;
+
+        const rawChunk = decoder.decode(value, { stream: true });
+        const chunks = rawChunk.split('\n').filter(Boolean);
+        
+        for (const chunk of chunks) {
+          try {
+            const parsed = JSON.parse(chunk);
+            if (parsed.reasoning_content) {
+              newReasoningContent += parsed.reasoning_content;
+            } else if (parsed.content) {
+              aiContent += parsed.content;
+            }
+          } catch (err) {
+            console.error('Error parsing chunk:', err);
+          }
+        }
+
+                  // Update with streaming content
+          setFollowUpQuestions(prev => 
+            prev.map(q => 
+              q.id === newQuestion.id 
+                ? { 
+                    ...q, 
+                    aiResponse: aiContent,
+                    reasoningContent: newReasoningContent
+                  }
+                : q
+            )
+          );
+      }
+
+              // Final update
+        setFollowUpQuestions(prev => 
+          prev.map(q => 
+            q.id === newQuestion.id 
+              ? { 
+                  ...q, 
+                  isAiLoading: false,
+                  isAiComplete: true,
+                  aiResponse: aiContent,
+                  reasoningContent: newReasoningContent
+                }
+              : q
+          )
+        );
+
+    } catch (error) {
+      setFollowUpQuestions(prev => 
+        prev.map(q => 
+          q.id === newQuestion.id 
+            ? { 
+                ...q, 
+                isRefining: false,
+                isLoadingSources: false,
+                isAiLoading: false,
+                aiError: error instanceof Error ? error.message : 'An error occurred' 
+              }
+            : q
+        )
+      );
+    } finally {
+      setIsProcessingFollowUp(false);
+    }
+  };
+
+  const toggleFollowUpSection = (questionId: string, section: 'query' | 'sources' | 'thinking' | 'results') => {
+    setFollowUpQuestions(prev => 
+      prev.map(q => {
+        if (q.id !== questionId) return q;
+        
+        switch (section) {
+          case 'query':
+            return { ...q, isRefinedQueryExpanded: !q.isRefinedQueryExpanded };
+          case 'sources':
+            return { ...q, isSourcesExpanded: !q.isSourcesExpanded };
+          case 'thinking':
+            return { ...q, isThinkingExpanded: !q.isThinkingExpanded };
+          case 'results':
+            return { ...q, isResultsExpanded: !q.isResultsExpanded };
+          default:
+            return q;
+        }
+      })
+    );
+  };
+
   return (
     <div className="flex min-h-screen">
       <div className={`flex-1 p-4 md:p-8 ${!isMobile ? 'pl-32' : ''} max-w-7xl mx-auto space-y-6 md:space-y-8`}>
@@ -438,6 +688,137 @@ function SearchPageContent() {
             />
           )}
         </section>
+
+        {/* Follow-up Questions Results - In main content area */}
+        {followUpQuestions.map((question, index) => (
+          <div key={question.id} className="border-t border-orange-100 pt-6 md:pt-8 space-y-6 md:space-y-8">
+            <div className="text-sm text-orange-600 mb-4">
+              Follow-up #{index + 1}: {question.question}
+            </div>
+
+            {/* 1. Refined Query */}
+            {question.refinedQuery && (
+              <section className="space-y-4">
+                <button
+                  type="button"
+                  onClick={() => toggleFollowUpSection(question.id, 'query')}
+                  className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+                >
+                  <span>Refined Query</span>
+                  <svg
+                    className={`w-5 h-5 transition-transform ${question.isRefinedQueryExpanded ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {question.isRefining ? (
+                  <div className="space-y-4">
+                    <Skeleton className="h-8 w-2/3" />
+                    <Skeleton className="h-20 w-full" />
+                  </div>
+                ) : question.isRefinedQueryExpanded && question.refinedQuery && (
+                  <div className="space-y-2">
+                    <p className="text-orange-800">{question.refinedQuery.query}</p>
+                    <p className="text-sm text-orange-700 mt-2">{question.refinedQuery.explanation}</p>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* 2. Sources */}
+            <section className="space-y-4">
+              <button
+                type="button"
+                onClick={() => toggleFollowUpSection(question.id, 'sources')}
+                className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+              >
+                <span>Sources</span>
+                <svg
+                  className={`w-5 h-5 transition-transform ${question.isSourcesExpanded ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {question.isLoadingSources ? (
+                <div className="space-y-4">
+                  <Skeleton className="h-24 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                  <Skeleton className="h-24 w-full" />
+                </div>
+              ) : question.isSourcesExpanded && (
+                <Sources
+                  sources={question.sources}
+                  mode={mode}
+                  getWebsiteName={getWebsiteName}
+                  error={question.aiError || null}
+                  setShowSourcesSidebar={() => {}} // No sidebar for follow-up
+                  knowledgeGraph={question.knowledgeGraph}
+                />
+              )}
+            </section>
+
+            {/* 3. Thinking */}
+            {question.reasoningContent && (
+              <section className="space-y-4">
+                <button
+                  type="button"
+                  onClick={() => toggleFollowUpSection(question.id, 'thinking')}
+                  className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+                >
+                  <span>Thinking</span>
+                  <svg
+                    className={`w-5 h-5 transition-transform ${question.isThinkingExpanded ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {question.isThinkingExpanded && <Thinking reasoningContent={question.reasoningContent} />}
+              </section>
+            )}
+
+            {/* 4. Results */}
+            <section className="space-y-4">
+              <button
+                type="button"
+                onClick={() => toggleFollowUpSection(question.id, 'results')}
+                className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+              >
+                <span>Results</span>
+                <svg
+                  className={`w-5 h-5 transition-transform ${question.isResultsExpanded ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {question.isResultsExpanded && (
+                <Results
+                  isAiLoading={question.isAiLoading}
+                  aiResponse={question.aiResponse}
+                  aiError={question.aiError || null}
+                  isAiComplete={question.isAiComplete}
+                  searchResults={question.rawSources || null}
+                  mode={mode}
+                  generateSearchId={() => ''}
+                  getWebsiteName={getWebsiteName}
+                  searchTerm={question.question}
+                  sources={question.sources}
+                />
+              )}
+            </section>
+          </div>
+        ))}
       </div>
       {!isMobile && (
         <SourcesSidebar 
@@ -447,16 +828,13 @@ function SearchPageContent() {
         />
       )}
 
-      {/* Follow-up Section - Sticky to bottom */}
-             <FollowUpSection
-         isVisible={isAiComplete}
-         originalSearchTerm={searchTerm}
-         originalSources={sources}
-         originalAiResponse={aiResponse}
-         originalReasoningContent={reasoningContent}
-         mode={mode}
-         originalRefinedQuery={refinedQuery}
-       />
+      {/* Follow-up Input - Sticky to bottom */}
+      <FollowUpInput
+        isVisible={isAiComplete}
+        originalSearchTerm={searchTerm}
+        onSubmitQuestion={handleFollowUpQuestion}
+        isProcessing={isProcessingFollowUp}
+      />
     </div>
   );
 }
