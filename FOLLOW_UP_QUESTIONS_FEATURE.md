@@ -25,24 +25,25 @@ The follow-up questions feature allows users to ask additional questions about t
 
 ## User Interface Components
 
-### 1. Follow-up Section Header
-- **Location**: Appears after the main Results section when AI response is complete
-- **Initial State**: Shows "Follow-up Questions" title with "Ask Follow-up Question" button
-- **Appearance**: Consistent with main rSearch section headers using orange theme
+### 1. Sticky Bottom Interface
+- **Location**: Fixed to the bottom of the screen, appearing after AI response is complete
+- **Initial State**: Shows a banner with "Ask a follow-up question" and "Ask Question" button
+- **Responsive Design**: Respects the left padding on desktop (same as main content) and full-width on mobile
 
 ### 2. Question Input Interface
-- **Activation**: Clicking "Ask Follow-up Question" reveals the input form
-- **Input Field**: Text input with placeholder referencing the original search term
-- **Action Buttons**: Send button and Cancel button
-- **Form State**: Disabled during processing, shows loading states
+- **Activation**: Clicking "Ask Question" reveals the input form in the same sticky bottom area
+- **Input Field**: Text input with placeholder referencing the original search term and auto-focus
+- **Action Buttons**: Send button and Cancel (X) button
+- **Form Behavior**: Hides automatically after question submission, shows during processing
 
 ### 3. Follow-up Question Results
-Each follow-up question creates a complete rSearch-style section with:
+Each follow-up question creates a complete rSearch-style section in the main content area with:
 - **Question Header**: Shows "Follow-up #X" with the question text
 - **Refined Query Section**: Expandable section showing AI-refined query and explanation
 - **Sources Section**: Expandable section with search results and knowledge graph
 - **Thinking Section**: Expandable section with AI reasoning process
 - **Results Section**: Expandable section with the final AI response
+- **Layout**: Follows the same responsive layout as main rSearch (with proper padding and max-width)
 
 ## How It Works
 

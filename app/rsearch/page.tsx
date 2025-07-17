@@ -447,7 +447,7 @@ function SearchPageContent() {
         />
       )}
 
-      {/* Follow-up Section */}
+      {/* Follow-up Section - Sticky to bottom */}
              <FollowUpSection
          isVisible={isAiComplete}
          originalSearchTerm={searchTerm}

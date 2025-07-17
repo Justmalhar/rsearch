@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Send, MessageCirclePlus } from 'lucide-react';
+import { Send, MessageCirclePlus, X } from 'lucide-react';
 import type { SearchResult, SearchSource, SerperResponse } from '@/types/search';
 import Sources from './sources';
 import Thinking from './thinking';
 import Results from './results';
 import { getWebsiteName } from '@/lib/utils';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 interface FollowUpQuestion {
   id: string;
@@ -67,6 +68,8 @@ export default function FollowUpSection({
   const [followUpQuestions, setFollowUpQuestions] = useState<FollowUpQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [showQuestionInput, setShowQuestionInput] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const handleSubmitQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,6 +95,8 @@ export default function FollowUpSection({
     setFollowUpQuestions(prev => [...prev, newQuestion]);
     const currentQuestionText = currentQuestion.trim();
     setCurrentQuestion('');
+    setShowQuestionInput(false); // Hide the input form
+    setIsProcessing(true);
 
     try {
       // Step 1: Refine Query
@@ -155,7 +160,7 @@ export default function FollowUpSection({
         newSources = searchData[mode] || [];
       }
 
-      const rawSources = {
+      const newRawSources = {
         peopleAlsoAsk: searchData.peopleAlsoAsk,
         relatedSearches: searchData.relatedSearches
       };
@@ -169,7 +174,7 @@ export default function FollowUpSection({
                 isLoadingSources: false, 
                 sources: newSources,
                 knowledgeGraph: searchData.knowledgeGraph,
-                rawSources,
+                rawSources: newRawSources,
                 isAiLoading: true
               }
             : q
@@ -265,6 +270,8 @@ export default function FollowUpSection({
             : q
         )
       );
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -292,57 +299,10 @@ export default function FollowUpSection({
   if (!isVisible) return null;
 
   return (
-    <div className="space-y-6 md:space-y-8">
-      {/* Follow-up Question Input */}
-      <section className="space-y-4">
-        {!showQuestionInput ? (
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl md:text-2xl font-medium text-orange-600">Follow-up Questions</h2>
-            <Button
-              onClick={() => setShowQuestionInput(true)}
-              className="bg-orange-600 hover:bg-orange-700 text-white flex items-center gap-2"
-            >
-              <MessageCirclePlus className="w-4 h-4" />
-              Ask Follow-up Question
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <h2 className="text-xl md:text-2xl font-medium text-orange-600">Ask a Follow-up Question</h2>
-            <form onSubmit={handleSubmitQuestion} className="flex gap-2">
-              <Input
-                value={currentQuestion}
-                onChange={(e) => setCurrentQuestion(e.target.value)}
-                placeholder={`Ask a follow-up question about "${originalSearchTerm}"...`}
-                className="flex-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
-                disabled={followUpQuestions.some(q => q.isRefining || q.isLoadingSources || q.isAiLoading)}
-              />
-              <Button
-                type="submit"
-                disabled={!currentQuestion.trim() || followUpQuestions.some(q => q.isRefining || q.isLoadingSources || q.isAiLoading)}
-                className="bg-orange-600 hover:bg-orange-700 text-white"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  setShowQuestionInput(false);
-                  setCurrentQuestion('');
-                }}
-                className="border-orange-200 text-orange-600 hover:bg-orange-50"
-              >
-                Cancel
-              </Button>
-            </form>
-          </div>
-        )}
-      </section>
-
-      {/* Follow-up Questions and Results */}
+    <>
+      {/* Follow-up Questions Results - In main content area */}
       {followUpQuestions.map((question, index) => (
-        <div key={question.id} className="border-t border-orange-100 pt-6 md:pt-8 space-y-6 md:space-y-8">
+        <div key={question.id} className={`${isMobile ? '' : 'pl-32'} max-w-7xl mx-auto space-y-6 md:space-y-8 p-4 md:p-8 border-t border-orange-100`}>
           <div className="text-sm text-orange-600 mb-4">
             Follow-up #{index + 1}: {question.question}
           </div>
@@ -470,6 +430,67 @@ export default function FollowUpSection({
           </section>
         </div>
       ))}
-    </div>
+
+      {/* Sticky Bottom Input - Only show if no processing and no input shown */}
+      {!isProcessing && (
+        <div className={`fixed bottom-0 left-0 right-0 z-50 ${isMobile ? '' : 'pl-32'}`}>
+          {!showQuestionInput ? (
+            // Show follow-up button
+            <div className="bg-white/95 backdrop-blur-sm border-t border-orange-200 p-4">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <MessageCirclePlus className="w-5 h-5 text-orange-600" />
+                    <span className="text-orange-600 font-medium">Ask a follow-up question</span>
+                  </div>
+                  <Button
+                    onClick={() => setShowQuestionInput(true)}
+                    className="bg-orange-600 hover:bg-orange-700 text-white"
+                  >
+                    Ask Question
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            // Show input form
+            <div className="bg-white border-t border-orange-200 p-4 shadow-2xl">
+              <div className="max-w-7xl mx-auto">
+                <form onSubmit={handleSubmitQuestion} className="flex gap-2">
+                  <Input
+                    value={currentQuestion}
+                    onChange={(e) => setCurrentQuestion(e.target.value)}
+                    placeholder={`Ask a follow-up question about "${originalSearchTerm}"...`}
+                    className="flex-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                    autoFocus
+                  />
+                  <Button
+                    type="submit"
+                    disabled={!currentQuestion.trim()}
+                    className="bg-orange-600 hover:bg-orange-700 text-white"
+                  >
+                    <Send className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setShowQuestionInput(false);
+                      setCurrentQuestion('');
+                    }}
+                    className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Bottom padding to prevent content from being hidden behind sticky input */}
+      <div className={`h-20 ${followUpQuestions.length > 0 ? 'block' : 'hidden'}`}></div>
+    </>
   );
 }
