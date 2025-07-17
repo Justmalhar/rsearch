@@ -436,20 +436,22 @@ function SearchPageContent() {
         )
       );
 
-      // Step 3: Generate AI response
-      const aiRes = await fetch('/api/rsearch/follow-up', {
+      // Step 3: Generate AI response using main rSearch endpoint
+      // Combine original sources with new sources for comprehensive context
+      const combinedSources = [...sources, ...newSources];
+      const combinedSearchResults = {
+        organic: combinedSources,
+        knowledgeGraph: searchData.knowledgeGraph || knowledgeGraph
+      };
+
+      const aiRes = await fetch('/api/rsearch', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          followUpQuestion: questionText,
-          originalSearchTerm: searchTerm,
-          originalSources: sources,
-          originalAiResponse: aiResponse,
-          originalReasoningContent: reasoningContent,
-          newSources,
-          knowledgeGraph: searchData.knowledgeGraph,
-          refinedQuery,
-          originalRefinedQuery: refinedQuery
+          searchTerm: questionText,
+          searchResults: combinedSearchResults,
+          mode,
+          refinedQuery
         }),
       });
 

@@ -57,40 +57,42 @@ The follow-up feature becomes available when:
 1. **User Input**: User types a follow-up question
 2. **Query Refinement**: The question is refined using the original search context
 3. **New Search**: Fresh search results are fetched based on the refined query
-4. **AI Response**: A new AI response is generated combining:
-   - Original search term and results
-   - Previous AI response (for context)
-   - New search results
-   - Follow-up question
+4. **Source Combination**: Original sources and new sources are combined into a single comprehensive dataset
+5. **AI Response**: Uses the main `/api/rsearch` endpoint with the same prompt and business logic, ensuring:
+   - Consistent citation formatting
+   - Same quality standards as original search
+   - Proper source attribution according to existing business rules
 
 ### 3. Response Integration
-The AI response considers:
-- **Original Context**: The initial search term and findings
-- **Question Context**: The specific follow-up question
-- **Combined Sources**: Both original and new search results
-- **Conversational Flow**: Maintains continuity with previous responses
+The AI response leverages:
+- **Unified Source Pool**: Combined original and new search results (up to 2x the normal source count)
+- **Same Business Logic**: Uses identical prompting and citation logic as main rSearch
+- **Consistent Quality**: Same formatting, tone, and citation standards
+- **Enhanced Context**: Richer source material provides more comprehensive answers
 
 ## API Endpoints
 
-### `/api/rsearch/follow-up`
-Handles follow-up question processing with streaming responses.
+### `/api/rsearch`
+Follow-up questions use the **same main rSearch endpoint** to ensure consistency.
 
-**Request Body:**
+**Request Body for Follow-ups:**
 ```json
 {
-  "followUpQuestion": "string",
-  "originalSearchTerm": "string",
-  "originalSources": "SearchResult[]",
-  "originalAiResponse": "string",
-  "originalReasoningContent": "string",
-  "newSources": "SearchResult[]",
-  "knowledgeGraph": "object",
-  "refinedQuery": "object",
-  "originalRefinedQuery": "object"
+  "searchTerm": "follow-up question text",
+  "searchResults": {
+    "organic": "[...originalSources, ...newSources]",
+    "knowledgeGraph": "combined knowledge graph data"
+  },
+  "mode": "search mode (web, news, etc.)",
+  "refinedQuery": "refined query object"
 }
 ```
 
-**Response:** Streaming JSON with content chunks
+**Key Benefits:**
+- **Same prompt logic** as original rSearch
+- **Consistent citation formatting** 
+- **Identical business rules** for source attribution
+- **Enhanced source pool** with combined original + new sources
 
 ### Updated `/api/query`
 Enhanced to handle follow-up context.
@@ -102,10 +104,9 @@ Enhanced to handle follow-up context.
 
 ```
 components/rSearch/
-└── follow-up-section.tsx       # Main integrated follow-up section component
+└── follow-up-input.tsx         # Sticky bottom input component for follow-up questions
 
-app/api/rsearch/follow-up/
-└── route.ts                    # Follow-up API endpoint
+app/rsearch/page.tsx            # Main page with integrated follow-up logic and rendering
 
 components/ui/
 └── scroll-area.tsx             # UI component for scrollable areas (if needed)
