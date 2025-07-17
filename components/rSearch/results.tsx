@@ -352,7 +352,7 @@ export default function Results({
                       {searchResults.peopleAlsoAsk.map((item) => (
                         <div 
                           key={`paa-${item.question}`}
-                          className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+                          className="bg-card rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow border border-border"
                         >
                           <button
                             type="button"
@@ -361,13 +361,13 @@ export default function Results({
                             }}
                             className="w-full text-left"
                           >
-                            <h3 className="text-base font-medium text-gray-900 mb-2">
+                            <h3 className="text-base font-medium text-foreground mb-2">
                               {item.question}
                             </h3>
-                            <p className="text-sm text-gray-600 line-clamp-2">
+                            <p className="text-sm text-muted-foreground line-clamp-2">
                               {item.snippet}
                             </p>
-                            <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                            <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                               <div className="relative flex-none">
                                 <div className="relative overflow-hidden rounded-full">
                                   <img

@@ -199,7 +199,7 @@ export default function Sources({ sources = [], mode, isSearchLoading = false, e
                   {sourceArray.slice(displayCount, sourceArray.length).map((source) => (
                     <div key={source.link || (isPlaceResult(source) ? source.cid : undefined) || `source-${Date.now()}-${Math.random()}`} className="flex items-center gap-2 pb-1">
                       <div className="relative overflow-hidden rounded-full">
-                        <div className="absolute inset-0 rounded-full bg-white" />
+                        <div className="absolute inset-0 rounded-full bg-background" />
                         <img
                           src={isPlaceResult(source) ? 
                             (source.website ? `https://www.google.com/s2/favicons?sz=128&domain=${new URL(source.website).hostname}` : '/globe.svg') :

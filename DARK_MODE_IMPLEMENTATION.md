@@ -73,24 +73,25 @@ While the core dark mode functionality is fully implemented and working, these c
 - `components/ui/toaster.tsx` - Toast notifications
 - Various source components in `components/rSearch/sources/`
 
-### 🎨 Suggested Updates
+### 🎨 Key Styling Patterns Used
 
-Replace hardcoded classes like:
+Dark mode styling follows these consistent patterns:
+
 ```tsx
-// Replace this:
-className="bg-white border border-orange-200/50"
+// Text colors
+className="text-orange-600 dark:text-orange-400"        // Primary text
+className="text-orange-800 dark:text-orange-200"        // Headings
+className="text-orange-700 dark:text-orange-300"        // Secondary text
 
-// With this:
-className="bg-background border border-border"
-```
+// Backgrounds
+className="bg-card"                                       // Card backgrounds
+className="bg-background"                                 // Page backgrounds  
+className="bg-muted"                                      // Subtle backgrounds
+className="bg-orange-50/50 dark:bg-orange-950/20"       // Tinted backgrounds
 
-Or for cards:
-```tsx
-// Replace this:
-className="bg-white rounded-xl shadow-lg"
-
-// With this:
-className="bg-card rounded-xl shadow-lg border border-border"
+// Borders and interactions
+className="border-border"                                 // All borders
+className="hover:bg-orange-50 dark:hover:bg-orange-950/20" // Hover states
 ```
 
 ## Implementation Status
@@ -104,11 +105,19 @@ className="bg-card rounded-xl shadow-lg border border-border"
 - CSS variable system
 - System preference detection
 - Local storage persistence
+- **Homepage dark mode styling** - All text, backgrounds, and interactive elements
+- **Search interface dark mode** - Search input, dropdowns, modals
+- **Search results dark mode** - Results cards, sources, thinking component
+- **Component library dark mode** - Query, sources sidebar, toaster
+- **Typography dark mode** - All headings, body text, links properly themed
 
-🔄 **Optional Enhancements**:
-- Update remaining hardcoded `bg-white` classes
-- Enhanced dark mode styling for specific components
-- Image handling for dark mode (if needed)
+✅ **Recently Added**:
+- Updated all homepage components with proper dark mode text colors
+- Enhanced search input and dropdown styling for dark theme
+- Improved sources and results components with theme-aware backgrounds
+- Updated thinking component with proper dark mode table styling
+- Fixed toaster notifications to use theme variables
+- Enhanced footer with dark mode gradient and text colors
 
 ## Usage
 
