@@ -118,6 +118,10 @@ className="hover:bg-orange-50 dark:hover:bg-orange-950/20" // Hover states
 - Updated thinking component with proper dark mode table styling
 - Fixed toaster notifications to use theme variables
 - Enhanced footer with dark mode gradient and text colors
+- **FIXED: Results content text now properly white in dark mode**
+- Updated all markdown components (paragraphs, headings, lists, links, code)
+- Enhanced table styling in both inline and component tables
+- Fixed action buttons (copy, PDF, share) with proper dark mode colors
 
 ## Usage
 

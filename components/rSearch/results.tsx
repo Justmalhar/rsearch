@@ -72,19 +72,19 @@ export default function Results({
       <div className="prose prose-orange max-w-none space-y-8 overflow-x-hidden w-full max-w-[95vw] md:max-w-full">
         {/* AI Response Section */}
         {isAiLoading && !aiResponse && (
-          <div className="bg-orange-50/50 rounded-lg p-6">
+          <div className="bg-orange-50/50 dark:bg-orange-950/20 rounded-lg p-6">
             <div className="space-y-3">
-              <div className="h-4 bg-orange-100/50 rounded w-3/4 animate-pulse" />
-              <div className="h-4 bg-orange-100/50 rounded w-1/2 animate-pulse" />
-              <div className="h-4 bg-orange-100/50 rounded w-2/3 animate-pulse" />
+              <div className="h-4 bg-orange-100/50 dark:bg-orange-900/30 rounded w-3/4 animate-pulse" />
+              <div className="h-4 bg-orange-100/50 dark:bg-orange-900/30 rounded w-1/2 animate-pulse" />
+              <div className="h-4 bg-orange-100/50 dark:bg-orange-900/30 rounded w-2/3 animate-pulse" />
             </div>
           </div>
         )}
         
         {aiError && (
-          <div className="bg-orange-50/50 rounded-lg p-6 text-center">
-            <p className="text-orange-600">Sorry, we could not generate an AI response.</p>
-            <p className="text-sm text-orange-500 mt-2">{aiError}</p>
+          <div className="bg-orange-50/50 dark:bg-orange-950/20 rounded-lg p-6 text-center">
+            <p className="text-orange-600 dark:text-orange-400">Sorry, we could not generate an AI response.</p>
+            <p className="text-sm text-orange-500 dark:text-orange-400 mt-2">{aiError}</p>
           </div>
         )}
         
@@ -96,42 +96,42 @@ export default function Results({
                 <Markdown
                   components={{
                     h1: ({...props}) => (
-                      <h1 {...props} className="text-2xl font-bold text-orange-600  mb-4" />
+                      <h1 {...props} className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-4" />
                     ),
                     h2: ({...props}) => (
-                      <h2 {...props} className="text-xl font-bold text-orange-600  mt-6 mb-3" />
+                      <h2 {...props} className="text-xl font-bold text-orange-600 dark:text-orange-400 mt-6 mb-3" />
                     ),
                     h3: ({...props}) => (
-                      <h3 {...props} className="text-lg font-bold text-orange-600  mt-4 mb-2" />
+                      <h3 {...props} className="text-lg font-bold text-orange-600 dark:text-orange-400 mt-4 mb-2" />
                     ),
                     h4: ({...props}) => (
-                      <h4 {...props} className="text-base font-bold text-orange-600  mt-4 mb-2" />
+                      <h4 {...props} className="text-base font-bold text-orange-600 dark:text-orange-400 mt-4 mb-2" />
                     ),
                     h5: ({...props}) => (
-                      <h5 {...props} className="text-base font-bold text-orange-600  mt-4 mb-2" />
+                      <h5 {...props} className="text-base font-bold text-orange-600 dark:text-orange-400 mt-4 mb-2" />
                     ),
                     h6: ({...props}) => (
-                      <h6 {...props} className="text-base font-bold text-orange-600  mt-4 mb-2" />
+                      <h6 {...props} className="text-base font-bold text-orange-600 dark:text-orange-400 mt-4 mb-2" />
                     ),
                     table: ({...props}) => (
                       <div className="overflow-x-auto">
-                        <table {...props} className="min-w-full divide-y divide-gray-200 border border-gray-200" />
+                        <table {...props} className="min-w-full divide-y divide-border border border-border" />
                       </div>
                     ),
                     thead: ({...props}) => (
-                      <thead {...props} className="bg-orange-50" />
+                      <thead {...props} className="bg-orange-50 dark:bg-orange-950/20" />
                     ),
                     tbody: ({...props}) => (
-                      <tbody {...props} className="bg-white divide-y divide-gray-200" />
+                      <tbody {...props} className="bg-background divide-y divide-border" />
                     ),
                     tr: ({...props}) => (
-                      <tr {...props} className="hover:bg-orange-50/50 transition-colors" />
+                      <tr {...props} className="hover:bg-orange-50/50 dark:hover:bg-orange-950/20 transition-colors" />
                     ),
                     th: ({...props}) => (
-                      <th {...props} className="px-6 py-3 text-left text-sm font-semibold text-orange-600" />
+                      <th {...props} className="px-6 py-3 text-left text-sm font-semibold text-orange-600 dark:text-orange-400" />
                     ),
                     td: ({...props}) => (
-                      <td {...props} className="px-6 py-4 text-sm text-gray-700 whitespace-normal" />
+                      <td {...props} className="px-6 py-4 text-sm text-foreground whitespace-normal" />
                     ),
                     img: ImageWithFallback,
                     p: ({children, ...props}) => {
@@ -171,21 +171,21 @@ export default function Results({
                           if (tableRows.length > 0) {
                             return (
                               <div className="overflow-x-auto my-4">
-                                <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                                  <thead className="bg-orange-50">
+                                <table className="min-w-full divide-y divide-border border border-border">
+                                  <thead className="bg-orange-50 dark:bg-orange-950/20">
                                     <tr>
                                       {tableRows[0].map((header) => (
-                                        <th key={`header-${header}`} className="px-6 py-3 text-left text-sm font-semibold text-orange-600">
+                                        <th key={`header-${header}`} className="px-6 py-3 text-left text-sm font-semibold text-orange-600 dark:text-orange-400">
                                           {header}
                                         </th>
                                       ))}
                                     </tr>
                                   </thead>
-                                  <tbody className="bg-white divide-y divide-gray-200">
+                                  <tbody className="bg-background divide-y divide-border">
                                     {tableRows.slice(1).map((row) => (
-                                      <tr key={`row-${row.join('-')}`} className="hover:bg-orange-50/50 transition-colors">
+                                      <tr key={`row-${row.join('-')}`} className="hover:bg-orange-50/50 dark:hover:bg-orange-950/20 transition-colors">
                                         {row.map((cell) => (
-                                          <td key={`cell-${cell}`} className="px-6 py-4 text-sm text-gray-700 whitespace-normal">
+                                          <td key={`cell-${cell}`} className="px-6 py-4 text-sm text-foreground whitespace-normal">
                                             {cell}
                                           </td>
                                         ))}
@@ -200,52 +200,52 @@ export default function Results({
                       }
                       
                       // Regular paragraph
-                      return <p {...props} className="text-gray-700 mb-4 leading-relaxed">{children}</p>;
+                      return <p {...props} className="text-foreground mb-4 leading-relaxed">{children}</p>;
                     },
                     ul: ({...props}) => (
-                      <ul {...props} className="list-disc pl-6 mb-4 space-y-2 marker:text-orange-500" />
+                      <ul {...props} className="list-disc pl-6 mb-4 space-y-2 marker:text-orange-500 dark:marker:text-orange-400" />
                     ),
                     ol: ({...props}) => (
-                      <ol {...props} className="list-decimal pl-6 mb-4 space-y-2 marker:text-orange-500" />
+                      <ol {...props} className="list-decimal pl-6 mb-4 space-y-2 marker:text-orange-500 dark:marker:text-orange-400" />
                     ),
                     li: ({...props}) => (
-                      <li {...props} className="text-gray-700" />
+                      <li {...props} className="text-foreground" />
                     ),
                     a: ({...props}) => (
                       <a 
                         {...props} 
-                        className="text-orange-600 hover:text-orange-700 font-medium underline decoration-orange-200 hover:decoration-orange-500 transition-colors"
+                        className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-medium underline decoration-orange-200 dark:decoration-orange-600 hover:decoration-orange-500 dark:hover:decoration-orange-400 transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       />
                     ),
                     blockquote: ({...props}) => (
-                      <blockquote {...props} className="border-l-4 border-orange-200 pl-4 italic my-4 text-gray-600" />
+                      <blockquote {...props} className="border-l-4 border-orange-200 dark:border-orange-600 pl-4 italic my-4 text-muted-foreground" />
                     ),
                     strong: ({...props}) => (
-                      <strong {...props} className="font-bold text-orange-600" />
+                      <strong {...props} className="font-bold text-orange-600 dark:text-orange-400" />
                     ),
                     em: ({...props}) => (
-                      <em {...props} className="italic text-orange-600/90 font-semibold" />
+                      <em {...props} className="italic text-orange-600/90 dark:text-orange-400/90 font-semibold" />
                     ),
                     pre: ({...props}) => (
-                      <pre {...props} className="bg-orange-50 text-orange-600 rounded px-1.5 py-0.5 text-sm font-mono" />
+                      <pre {...props} className="bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 rounded px-1.5 py-0.5 text-sm font-mono" />
                     ),
                     code: ({...props}) => (
-                      <code {...props} className="bg-orange-50 text-orange-600 rounded px-1.5 py-0.5 text-sm font-mono" />
+                      <code {...props} className="bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 rounded px-1.5 py-0.5 text-sm font-mono" />
                     ),
                   }}
                 >
                   {aiResponse.replace(/content:/g, '')}
                 </Markdown>
               </div>
-              <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-orange-100">
+              <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-border">
                 <button
                   type="button"
                   onClick={() => {
                     navigator.clipboard.writeText(aiResponse.replace(/content:/g, ''));
                   }}
-                  className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                  className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
                 >
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -283,7 +283,7 @@ export default function Results({
                       });
                     }
                   }}
-                  className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                  className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
                 >
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -313,7 +313,7 @@ export default function Results({
                       duration: 2000,
                     });
                   }}
-                  className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                  className="p-2 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
                   aria-label="Share article"
                 >
                   <svg
