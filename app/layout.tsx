@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/ui/sidebar";
 import { MobileHeader } from "@/components/ui/mobile-header";
 import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/hooks/use-theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -195,17 +196,19 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className="min-h-screen bg-white flex">
-          <Sidebar />
-          <div className="flex-1 lg:ml-24 flex flex-col">
-            <MobileHeader />
-            <div className="mt-16 lg:mt-0 flex-1">
-              {children}
+        <ThemeProvider defaultTheme="system" storageKey="rsearch-ui-theme">
+          <div className="min-h-screen bg-background flex">
+            <Sidebar />
+            <div className="flex-1 lg:ml-24 flex flex-col">
+              <MobileHeader />
+              <div className="mt-16 lg:mt-0 flex-1">
+                {children}
+              </div>
             </div>
           </div>
-        </div>
-        <Analytics />
-        <Toaster />
+          <Analytics />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

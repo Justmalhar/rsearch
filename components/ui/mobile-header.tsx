@@ -9,10 +9,11 @@ import {
   SheetDescription,
 } from "./sheet";
 import { Sidebar } from "./sidebar";
+import { ThemeToggle } from "./theme-toggle";
 
 export function MobileHeader() {
   return (
-    <div className="lg:hidden fixed top-0 left-0 right-0 h-16 px-4 flex items-center z-20">
+    <div className="lg:hidden fixed top-0 left-0 right-0 h-16 px-4 flex items-center justify-between z-20 bg-background/80 backdrop-blur-sm border-b border-border/50">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="text-orange-500">
@@ -34,6 +35,9 @@ export function MobileHeader() {
           </div>
         </SheetContent>
       </Sheet>
+      
+      {/* Theme Toggle - Top Right Corner */}
+      <ThemeToggle />
     </div>
   );
 }
