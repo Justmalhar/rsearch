@@ -2,20 +2,20 @@
 
 ## Overview
 
-The follow-up questions feature allows users to engage in a chat-style conversation about their original search results on the rSearch page. This feature appears after the initial article is generated and provides a seamless way to explore related topics and get additional insights.
+The follow-up questions feature allows users to ask additional questions about their original search results directly within the rSearch page UI. This feature appears after the initial article is generated and integrates seamlessly with the existing rSearch interface, creating additional sections that follow the same UI patterns as the main search results.
 
 ## Features
 
 ### 🎯 Core Functionality
-- **Sticky Chat Interface**: A floating chat box appears at the bottom of the screen after the initial search results are generated
+- **Integrated UI**: Follow-up questions appear as additional sections within the main rSearch interface
 - **Context-Aware Responses**: Follow-up questions understand the original search context and combine it with new search results
 - **Real-time Streaming**: Responses are streamed in real-time just like the main rSearch feature
-- **Chat History**: Users can ask multiple follow-up questions in a conversational manner
+- **Consistent Structure**: Each follow-up question creates its own set of expandable sections (Refined Query, Sources, Thinking, Results)
 
 ### 📱 Mobile Responsive Design
-- **Adaptive Layout**: The chat interface adapts to mobile screens, taking full width on smaller devices
+- **Responsive Layout**: The follow-up interface adapts to all screen sizes following rSearch responsive patterns
 - **Touch-Friendly**: All interaction elements are optimized for touch interfaces
-- **Collapsible Interface**: Users can expand/collapse the chat to save screen space
+- **Expandable Sections**: Users can expand/collapse each section (Refined Query, Sources, Thinking, Results) independently
 
 ### 🔧 Technical Features
 - **Query Refinement**: Follow-up questions are refined using AI to improve search accuracy
@@ -25,23 +25,24 @@ The follow-up questions feature allows users to engage in a chat-style conversat
 
 ## User Interface Components
 
-### 1. Floating Action Button (FAB)
-- **Location**: Bottom-right corner of the screen
-- **Appearance**: Orange circular button with chat icon
-- **Visibility**: Only appears after the initial AI response is complete
-- **Behavior**: Clicking opens the follow-up chat interface
+### 1. Follow-up Section Header
+- **Location**: Appears after the main Results section when AI response is complete
+- **Initial State**: Shows "Follow-up Questions" title with "Ask Follow-up Question" button
+- **Appearance**: Consistent with main rSearch section headers using orange theme
 
-### 2. Chat Interface
-- **Header**: Shows "Follow-up Questions" title with expand/collapse and close buttons
-- **Message Area**: Scrollable area showing conversation history
-- **Input Area**: Text input with send button for new questions
+### 2. Question Input Interface
+- **Activation**: Clicking "Ask Follow-up Question" reveals the input form
+- **Input Field**: Text input with placeholder referencing the original search term
+- **Action Buttons**: Send button and Cancel button
+- **Form State**: Disabled during processing, shows loading states
 
-### 3. Message Display
-- **User Messages**: Displayed with user icon and orange theme
-- **AI Responses**: Displayed with bot icon and gray theme
-- **Expandable Sections**: 
-  - Thinking process (reasoning content)
-  - Sources (with links and snippets)
+### 3. Follow-up Question Results
+Each follow-up question creates a complete rSearch-style section with:
+- **Question Header**: Shows "Follow-up #X" with the question text
+- **Refined Query Section**: Expandable section showing AI-refined query and explanation
+- **Sources Section**: Expandable section with search results and knowledge graph
+- **Thinking Section**: Expandable section with AI reasoning process
+- **Results Section**: Expandable section with the final AI response
 
 ## How It Works
 
@@ -49,7 +50,7 @@ The follow-up questions feature allows users to engage in a chat-style conversat
 The follow-up feature becomes available when:
 - The user has performed a search on the rSearch page
 - The initial AI response has been completed (`isAiComplete = true`)
-- The chat interface is not already open
+- The follow-up section appears automatically below the main results
 
 ### 2. Question Processing Flow
 1. **User Input**: User types a follow-up question
@@ -99,17 +100,14 @@ Enhanced to handle follow-up context.
 ## File Structure
 
 ```
-components/rSearch/follow-up/
-├── follow-up-chat.tsx          # Main chat interface component
-├── follow-up-message.tsx       # Individual message display
-├── follow-up-results.tsx       # AI response and sources display
-└── follow-up-fab.tsx          # Floating action button
+components/rSearch/
+└── follow-up-section.tsx       # Main integrated follow-up section component
 
 app/api/rsearch/follow-up/
 └── route.ts                    # Follow-up API endpoint
 
 components/ui/
-└── scroll-area.tsx             # New UI component for scrollable areas
+└── scroll-area.tsx             # UI component for scrollable areas (if needed)
 ```
 
 ## Styling & Theme
@@ -124,10 +122,10 @@ The follow-up feature maintains consistency with the existing rSearch design:
 
 ## Mobile Optimizations
 
-- **Full Width**: Chat takes full screen width on mobile
-- **Touch Targets**: Minimum 44px touch targets for buttons
-- **Keyboard Handling**: Proper keyboard navigation support
-- **Viewport Considerations**: Maximum height constraints to avoid viewport issues
+- **Responsive Design**: Follow-up sections adapt to all screen sizes using the same responsive patterns as main rSearch
+- **Touch Targets**: Minimum 44px touch targets for buttons and interactive elements
+- **Keyboard Handling**: Proper keyboard navigation support for input fields
+- **Section Expansion**: Optimized expand/collapse behavior for mobile viewing
 
 ## Error Handling
 
