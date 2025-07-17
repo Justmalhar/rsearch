@@ -135,7 +135,7 @@ export default function Home() {
         {/* Logo Section */}
         <div className="flex flex-col items-center space-y-4 mb-8">
           <Logo className="transform hover:scale-105 transition-transform duration-300" />
-            <p className="text-orange-600 text-[12px] sm:text-sm font-small bg-orange-100/50 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-sm text-center max-w-[90vw] mx-auto whitespace-nowrap">
+            <p className="text-orange-600 dark:text-orange-400 text-[12px] sm:text-sm font-small bg-orange-100/50 dark:bg-orange-900/20 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-sm text-center max-w-[90vw] mx-auto whitespace-nowrap">
               {process.env.NEXT_PUBLIC_LANDING_PAGE_COPY_TEXT}
             </p>
         </div>
@@ -144,7 +144,7 @@ export default function Home() {
         <div className="mt-4 w-full max-w-2xl">
           <div className="relative group">
             <Meteors number={30} />
-            <div className="relative flex flex-col gap-4 bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-orange-200/50 hover:border-orange-300/70 transition-all duration-300">
+            <div className="relative flex flex-col gap-4 bg-card/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-border hover:border-orange-300/70 dark:hover:border-orange-600/70 transition-all duration-300">
               {/* Search Input Area */}
               <div className="relative">
                 <div 
@@ -171,11 +171,11 @@ export default function Home() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="What are you looking for?" 
                   className="pl-12 text-md h-[120px] resize-none bg-transparent
-                  border border-orange-200/60 hover:border-orange-300/80 
-                  focus:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-500/50
+                  border border-orange-200/60 dark:border-orange-700/60 hover:border-orange-300/80 dark:hover:border-orange-600/80
+                  focus:border-orange-400 dark:focus:border-orange-500 focus-visible:ring-2 focus-visible:ring-orange-500/50
                   rounded-2xl transition-all duration-300 shadow-inner
-                  placeholder:text-orange-600/70 text-orange-800
-                  hover:shadow-lg hover:shadow-orange-100"
+                  placeholder:text-orange-600/70 dark:placeholder:text-orange-400/70 text-orange-800 dark:text-orange-100
+                  hover:shadow-lg hover:shadow-orange-100 dark:hover:shadow-orange-900/20"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
@@ -218,7 +218,7 @@ export default function Home() {
                           }
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-white border-orange-200" sideOffset={8}>
+                      <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-card border-border" sideOffset={8}>
                         <div className="grid grid-cols-4 grid-rows-2">
                           {searchModes.map((mode) => (
                             <DropdownMenuItem
@@ -252,9 +252,9 @@ export default function Home() {
                           }
                         </Button>
                       </DrawerTrigger>
-                      <DrawerContent className="bg-white border-t border-orange-200">
+                      <DrawerContent className="bg-card border-t border-border">
                         <DrawerHeader>
-                          <DrawerTitle className="text-lg font-medium text-orange-700">
+                                                      <DrawerTitle className="text-lg font-medium text-orange-700 dark:text-orange-300">
                             Select Search Mode
                           </DrawerTitle>
                         </DrawerHeader>
@@ -388,75 +388,75 @@ export default function Home() {
 
         {/* Search Modes Highlight Section */}
         <section className="mt-12 max-w-4xl mx-auto px-4">
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center">
+          <div className="bg-card rounded-2xl p-8 shadow-lg border border-border">
+            <h2 className="text-2xl font-bold text-orange-900 dark:text-orange-100 mb-6 text-center">
               Comprehensive Search Modes Available
             </h2>
-            <p className="text-orange-700 text-center mb-8 leading-relaxed">
+            <p className="text-orange-700 dark:text-orange-300 text-center mb-8 leading-relaxed">
               Choose from 8 different search modes to find exactly what you&apos;re looking for across the entire internet
             </p>
             
             <div className="grid md:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <Globe className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Web Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <Globe className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Web Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Comprehensive internet search
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <BookText className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Image Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <BookText className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Image Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Find visual content
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <Video className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Video Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <Video className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Video Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Discover videos
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <Newspaper className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">News Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <Newspaper className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">News Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Latest news updates
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <MapPin className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Places Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <MapPin className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Places Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Find locations & businesses
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <ShoppingBag className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Shopping Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <ShoppingBag className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Shopping Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Products & deals
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <GraduationCap className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Scholar Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <GraduationCap className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Scholar Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Academic papers
                 </p>
               </div>
               
-              <div className="text-center p-4 bg-orange-50/50 rounded-xl">
-                <Lightbulb className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800 mb-1">Patent Search</h3>
-                <p className="text-xs text-orange-700">
+              <div className="text-center p-4 bg-orange-50/50 dark:bg-orange-950/20 rounded-xl">
+                <Lightbulb className="h-8 w-8 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-1">Patent Search</h3>
+                <p className="text-xs text-orange-700 dark:text-orange-300">
                   Patent databases
                 </p>
               </div>
@@ -466,37 +466,37 @@ export default function Home() {
 
         {/* Features Section */}
         <section className="mt-12 max-w-4xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-orange-900 mb-6 text-center">
+          <h2 className="text-xl font-bold text-orange-900 dark:text-orange-100 mb-6 text-center">
             Why Choose rSearch Over Other AI Search Engines?
           </h2>
           
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center p-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Search className="h-6 w-6 text-orange-600" />
+              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Search className="h-6 w-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <h3 className="font-semibold text-orange-800 mb-2">Advanced Reasoning</h3>
-              <p className="text-sm text-orange-700">
+              <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-2">Advanced Reasoning</h3>
+              <p className="text-sm text-orange-700 dark:text-orange-300">
                 Chain-of-thought reasoning for complex problem solving
               </p>
             </div>
             
             <div className="text-center p-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Globe className="h-6 w-6 text-orange-600" />
+              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Globe className="h-6 w-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <h3 className="font-semibold text-orange-800 mb-2">8 Search Modes</h3>
-              <p className="text-sm text-orange-700">
+              <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-2">8 Search Modes</h3>
+              <p className="text-sm text-orange-700 dark:text-orange-300">
                 Web, images, videos, news, scholar, patents, shopping & places
               </p>
             </div>
             
             <div className="text-center p-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Zap className="h-6 w-6 text-orange-600" />
+              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Zap className="h-6 w-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <h3 className="font-semibold text-orange-800 mb-2">Free & Open</h3>
-              <p className="text-sm text-orange-700">
+              <h3 className="font-semibold text-orange-800 dark:text-orange-200 mb-2">Free & Open</h3>
+              <p className="text-sm text-orange-700 dark:text-orange-300">
                 No usage limits, no subscription fees, completely free
               </p>
             </div>
@@ -506,28 +506,28 @@ export default function Home() {
 
       {/* Footer - Now at the bottom */}
       <footer className="mt-auto relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-orange-300/40 via-orange-200/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-orange-300/40 via-orange-200/30 to-transparent dark:from-orange-900/40 dark:via-orange-800/30 dark:to-transparent pointer-events-none" />
         <div className="relative max-w-4xl mx-auto px-4 py-8 md:py-12">
           <div className="flex flex-col items-center gap-4">
             {/* Links Section */}
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium pb-4 border-b border-orange-200/30">
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium pb-4 border-b border-orange-200/30 dark:border-orange-700/30">
               <Link 
                 href="/terms" 
-                className="text-orange-800/90 hover:text-orange-900 transition-colors  hover:scale-105 transform duration-200"
+                className="text-orange-800/90 dark:text-orange-200/90 hover:text-orange-900 dark:hover:text-orange-100 transition-colors  hover:scale-105 transform duration-200"
               >
                 Terms
               </Link>
-              <span className="hidden md:inline text-orange-400">•</span>
+              <span className="hidden md:inline text-orange-400 dark:text-orange-500">•</span>
               <Link 
                 href="/privacy" 
-                className="text-orange-800/90 hover:text-orange-900 transition-colors  hover:scale-105 transform duration-200"
+                className="text-orange-800/90 dark:text-orange-200/90 hover:text-orange-900 dark:hover:text-orange-100 transition-colors  hover:scale-105 transform duration-200"
               >
                 Privacy
               </Link>
-              <span className="hidden md:inline text-orange-400">•</span>
+              <span className="hidden md:inline text-orange-400 dark:text-orange-500">•</span>
               <Link 
                 href="/about" 
-                className="text-orange-800/90 hover:text-orange-900 transition-colors  hover:scale-105 transform duration-200"
+                className="text-orange-800/90 dark:text-orange-200/90 hover:text-orange-900 dark:hover:text-orange-100 transition-colors  hover:scale-105 transform duration-200"
               >
                 About
               </Link>
@@ -537,14 +537,14 @@ export default function Home() {
             <div className="flex flex-row items-center gap-4 text-sm pt-2">
               <a 
                 href="https://www.x.com/justmalhar/" 
-                className="text-orange-700/90 hover:text-orange-800 transition-colors  hover:scale-105 transform duration-200 whitespace-nowrap hover:bg-orange-100/50 px-3 py-1 rounded-full"
+                className="text-orange-700/90 dark:text-orange-300/90 hover:text-orange-800 dark:hover:text-orange-200 transition-colors  hover:scale-105 transform duration-200 whitespace-nowrap hover:bg-orange-100/50 dark:hover:bg-orange-900/50 px-3 py-1 rounded-full"
               >
                 Made with ❤️ and AI by @justmalhar
               </a>
-              <span className="hidden md:inline text-orange-400">•</span>
+              <span className="hidden md:inline text-orange-400 dark:text-orange-500">•</span>
               <a 
                 href="https://github.com/Justmalhar/rsearch.git" 
-                className="hidden md:flex text-orange-700/90 hover:text-orange-800 transition-colors  hover:scale-105 transform duration-200 items-center gap-2 hover:bg-orange-100/50 px-3 py-1 rounded-full"
+                className="hidden md:flex text-orange-700/90 dark:text-orange-300/90 hover:text-orange-800 dark:hover:text-orange-200 transition-colors  hover:scale-105 transform duration-200 items-center gap-2 hover:bg-orange-100/50 dark:hover:bg-orange-900/50 px-3 py-1 rounded-full"
               >
                 <svg 
                   className="w-4 h-4" 

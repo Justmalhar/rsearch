@@ -18,13 +18,13 @@ export default function SourcesSidebar({ showSidebar, sources, getWebsiteName }:
   };
   return (
     <div className={`w-1/4 mr-4 shrink-0 transition-opacity duration-300 ${showSidebar ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-      <div className="sticky top-4 rounded-lg border border-gray-100 bg-white">
-        <div className="flex items-center p-4 border-b border-gray-100">
+      <div className="sticky top-4 rounded-lg border border-border bg-card">
+        <div className="flex items-center p-4 border-b border-border">
           <div className="flex items-center gap-2">
-            <h2 className="text-base font-medium text-gray-900">
+            <h2 className="text-base font-medium text-foreground">
               Sources
             </h2>
-            <span className="text-xs text-gray-500 px-2 py-0.5 rounded-full bg-gray-50">
+            <span className="text-xs text-muted-foreground px-2 py-0.5 rounded-full bg-muted">
               {sources.length}
             </span>
           </div>
@@ -34,7 +34,7 @@ export default function SourcesSidebar({ showSidebar, sources, getWebsiteName }:
           className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:theme(colors.orange.300)_transparent] hover:[scrollbar-color:theme(colors.orange.500)_transparent]"
           style={{ maxHeight: 'calc(100vh - 8rem)' }}
         >
-          <div className="divide-y divide-gray-50">
+          <div className="divide-y divide-border">
             {sources.map((source, index) => (
               <a
                 key={`${getSourceUrl(source)}-${index}`}
@@ -58,7 +58,7 @@ export default function SourcesSidebar({ showSidebar, sources, getWebsiteName }:
                         <div className="flex items-center gap-2">
                           <div className="relative flex-none">
                             <div className="relative overflow-hidden rounded-full">
-                              <div className="absolute inset-0 rounded-full bg-white" />
+                              <div className="absolute inset-0 rounded-full bg-background" />
                               {getSourceUrl(source) ? (
                                 <img
                                   src={`https://www.google.com/s2/favicons?sz=128&domain=${new URL(getSourceUrl(source)).hostname}`}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookText, Search, Settings, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 interface SidebarProps {
   className?: string;
@@ -10,7 +11,7 @@ interface SidebarProps {
 export function Sidebar({ className, isMobile }: SidebarProps) {
   return (
     <div className={cn(
-      "h-screen bg-white border-r border-orange-100 flex flex-col items-center py-6 z-10",
+      "h-screen bg-background border-r border-border flex flex-col items-center py-6 z-10",
       isMobile ? "w-full" : "fixed left-0 top-0 w-24 hidden lg:flex",
       className
     )}>
@@ -37,7 +38,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
         {/* Main Navigation */}
         <Link 
           href="/" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
         >
           <Search className="h-6 w-6" />
           <span className="text-xs font-medium">Search</span>
@@ -45,7 +46,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
 
         <Link 
           href="/library" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
         >
           <BookText className="h-6 w-6" />
           <span className="text-xs font-medium">Library</span>
@@ -53,7 +54,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
 
         <Link 
           href="/image" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
         >
           <ImageIcon className="h-6 w-6" />
           <div className="text-xs font-medium text-center leading-tight">
@@ -63,11 +64,12 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
         </Link>
       </div>
 
-      {/* Bottom Section - Settings */}
-      <div className="mt-auto">
+      {/* Bottom Section - Settings and Theme Toggle */}
+      <div className="mt-auto flex flex-col items-center gap-4">
+        {!isMobile && <ThemeToggle />}
         <Link 
           href="/settings" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-950/20 rounded-lg transition-colors"
         >
           <Settings className="h-6 w-6" />
           <span className="text-xs font-medium">Settings</span>

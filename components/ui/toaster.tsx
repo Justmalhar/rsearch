@@ -19,7 +19,7 @@ export function Toaster() {
         <Toast 
           key={id} 
           {...props}
-          className="bg-white border border-orange-200 shadow-lg shadow-orange-500/20"
+                          className="bg-card border border-border shadow-lg shadow-orange-500/20"
         >
           <div className="flex items-center gap-3 text-orange-600">
             <svg 
