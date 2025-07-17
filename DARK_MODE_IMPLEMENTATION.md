@@ -122,6 +122,11 @@ className="hover:bg-orange-50 dark:hover:bg-orange-950/20" // Hover states
 - Updated all markdown components (paragraphs, headings, lists, links, code)
 - Enhanced table styling in both inline and component tables
 - Fixed action buttons (copy, PDF, share) with proper dark mode colors
+- **COMPLETED: All additional pages now support dark mode**
+- About page: Updated gradients, cards, icons, headings, and body text
+- Terms & Privacy pages: Enhanced dynamic page styling with theme-aware colors
+- Image generation page: Updated forms, loading states, and result displays
+- All icons, borders, and interactive elements properly themed
 
 ## Usage
 
