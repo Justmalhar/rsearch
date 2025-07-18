@@ -311,7 +311,7 @@ export default function Home() {
               </div>
 
               {/* Deep Research Toggle Row */}
-              <div className="flex items-center justify-center px-2">
+              <div className="flex items-center justify-start px-2">
                 <div className="flex items-center gap-2">
                   <Brain className="h-4 w-4 text-orange-600" />
                   <span className="text-sm font-medium text-orange-700">Deep Research</span>
