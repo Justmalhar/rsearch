@@ -147,8 +147,9 @@ export default function Home() {
             <div className="relative flex flex-col gap-4 bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-orange-200/50 hover:border-orange-300/70 transition-all duration-300">
               {/* Search Input Area */}
               <div className="relative">
+                {/* Logo Icon */}
                 <div 
-                  className="absolute left-4 top-4 mt-4 text-orange-600"
+                  className="absolute left-4 top-4 mt-4 text-orange-600 z-10"
                 >
                   <svg 
                     width="18" 
@@ -166,11 +167,111 @@ export default function Home() {
                     />
                   </svg>
                 </div>
+
+                {/* Control Buttons */}
+                <div className="absolute right-3 bottom-3 flex items-center gap-2 z-10">
+                  {/* Mode Selection Button */}
+                  {isDesktop ? (
+                    <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
+                      <DropdownMenuTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-8 px-3 rounded-full border border-orange-200/60 bg-white/90 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 text-xs"
+                        >
+                          <Zap className="h-3 w-3 mr-1" />
+                          {!isDropdownOpen && searchMode 
+                            ? searchModes.find(mode => mode.id === searchMode)?.label 
+                            : 'Mode'
+                          }
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-white border-orange-200" sideOffset={8}>
+                        <div className="grid grid-cols-4 grid-rows-2">
+                          {searchModes.map((mode) => (
+                            <DropdownMenuItem
+                              key={mode.id}
+                              onClick={() => {
+                                setSearchMode(mode.id);
+                                setIsDropdownOpen(false);
+                              }}
+                              className="flex flex-col items-start p-3 cursor-pointer hover:bg-orange-100/80 focus:bg-orange-100/80"
+                            >
+                              <div className="flex items-center gap-3">
+                                <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
+                                <span className="font-medium text-orange-900">{mode.label}</span>
+                              </div>
+                              <p className="text-xs text-orange-600 leading-relaxed w-full">
+                                {mode.description}
+                              </p>
+                            </DropdownMenuItem>
+                          ))}
+                        </div>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+                      <DrawerTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-8 px-3 rounded-full border border-orange-200/60 bg-white/90 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 text-xs"
+                        >
+                          <Zap className="h-3 w-3 mr-1" />
+                          {searchMode 
+                            ? searchModes.find(mode => mode.id === searchMode)?.label 
+                            : 'Mode'
+                          }
+                        </Button>
+                      </DrawerTrigger>
+                      <DrawerContent className="bg-white border-t border-orange-200">
+                        <DrawerHeader>
+                          <DrawerTitle className="text-lg font-medium text-orange-700">
+                            Select Search Mode
+                          </DrawerTitle>
+                        </DrawerHeader>
+                        <div className="p-4 space-y-4">
+                          {searchModes.map((mode) => (
+                            <button
+                              key={mode.id}
+                              type="button"
+                              className="flex items-center gap-3 w-full p-3 hover:bg-orange-100/80 rounded-lg transition-colors"
+                              onClick={() => {
+                                setSearchMode(mode.id);
+                                setIsDrawerOpen(false);
+                              }}
+                            >
+                              <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
+                              <div className="text-left">
+                                <div className="font-medium text-orange-900">{mode.label}</div>
+                                <div className="text-sm text-orange-600">{mode.description}</div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </DrawerContent>
+                    </Drawer>
+                  )}
+
+                  {/* Deep Research Toggle Button */}
+                  <button
+                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
+                    className={`h-8 px-3 rounded-full border transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-1 text-xs ${
+                      enableDeepResearch 
+                        ? 'bg-orange-500 border-orange-500 text-white hover:bg-orange-600 hover:border-orange-600' 
+                        : 'border-orange-200/60 bg-white/90 backdrop-blur-sm text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                    }`}
+                  >
+                    <Brain className="h-3 w-3" />
+                    <span className="font-medium">Deep</span>
+                  </button>
+                </div>
+
                 <Textarea 
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="What are you looking for?" 
-                  className="pl-12 text-md h-[120px] resize-none bg-transparent
+                  className="pl-12 pr-32 text-md h-[120px] resize-none bg-transparent
                   border border-orange-200/60 hover:border-orange-300/80 
                   focus:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-500/50
                   rounded-2xl transition-all duration-300 shadow-inner
@@ -185,114 +286,17 @@ export default function Home() {
                 />
               </div>
 
-              {/* Mode and Deep Research Row */}
-              <div className="flex items-center justify-start gap-2 px-2">
-                {/* Mode Selection Button */}
-                {isDesktop ? (
-                  <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
-                    <DropdownMenuTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-10 px-4 rounded-full border border-orange-200/60 bg-white/80 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700"
-                      >
-                        <Zap className="h-4 w-4 mr-2" />
-                        {!isDropdownOpen && searchMode 
-                          ? searchModes.find(mode => mode.id === searchMode)?.label 
-                          : 'Mode'
-                        }
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-white border-orange-200" sideOffset={8}>
-                      <div className="grid grid-cols-4 grid-rows-2">
-                        {searchModes.map((mode) => (
-                          <DropdownMenuItem
-                            key={mode.id}
-                            onClick={() => {
-                              setSearchMode(mode.id);
-                              setIsDropdownOpen(false);
-                            }}
-                            className="flex flex-col items-start p-3 cursor-pointer hover:bg-orange-100/80 focus:bg-orange-100/80"
-                          >
-                            <div className="flex items-center gap-3">
-                              <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
-                              <span className="font-medium text-orange-900">{mode.label}</span>
-                            </div>
-                            <p className="text-xs text-orange-600 leading-relaxed w-full">
-                              {mode.description}
-                            </p>
-                          </DropdownMenuItem>
-                        ))}
-                      </div>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-                    <DrawerTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-10 px-4 rounded-full border border-orange-200/60 bg-white/80 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700"
-                      >
-                        <Zap className="h-4 w-4 mr-2" />
-                        {searchMode 
-                          ? searchModes.find(mode => mode.id === searchMode)?.label 
-                          : 'Mode'
-                        }
-                      </Button>
-                    </DrawerTrigger>
-                    <DrawerContent className="bg-white border-t border-orange-200">
-                      <DrawerHeader>
-                        <DrawerTitle className="text-lg font-medium text-orange-700">
-                          Select Search Mode
-                        </DrawerTitle>
-                      </DrawerHeader>
-                      <div className="p-4 space-y-4">
-                        {searchModes.map((mode) => (
-                          <button
-                            key={mode.id}
-                            type="button"
-                            className="flex items-center gap-3 w-full p-3 hover:bg-orange-100/80 rounded-lg transition-colors"
-                            onClick={() => {
-                              setSearchMode(mode.id);
-                              setIsDrawerOpen(false);
-                            }}
-                          >
-                            <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
-                            <div className="text-left">
-                              <div className="font-medium text-orange-900">{mode.label}</div>
-                              <div className="text-sm text-orange-600">{mode.description}</div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </DrawerContent>
-                  </Drawer>
-                )}
 
-                {/* Deep Research Toggle Button */}
-                <button
-                  onClick={() => setEnableDeepResearch(!enableDeepResearch)}
-                  className={`h-10 px-4 rounded-full border transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 ${
-                    enableDeepResearch 
-                      ? 'bg-orange-500 border-orange-500 text-white hover:bg-orange-600 hover:border-orange-600' 
-                      : 'border-orange-200/60 bg-white/80 backdrop-blur-sm text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
-                  }`}
-                >
-                  <Brain className="h-4 w-4" />
-                  <span className="text-sm font-medium">Deep Research</span>
-                </button>
-              </div>
 
               {/* Search Button Row */}
               <div className="flex items-center justify-center px-2">
                 <Button 
                   onClick={handleSearch}
-                  className="h-10 px-6 rounded-full bg-orange-500 hover:bg-orange-600 text-white
-                  transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center gap-2"
+                  size="icon"
+                  className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white
+                  transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
                 >
-                  <Search className="h-4 w-4" />
-                  <span className="font-medium">Search</span>
+                  <Search className="h-5 w-5" />
                 </Button>
               </div>
             </div>
