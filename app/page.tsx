@@ -185,33 +185,19 @@ export default function Home() {
                 />
               </div>
 
-              {/* Controls Row */}
-              <div className="flex items-center justify-between px-2">
+              {/* Controls Row - All in One Line */}
+              <div className="flex items-center justify-between gap-3 px-2">
                 <div className="flex gap-2 items-center">
-                  {/* Improve Query button hidden
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleQueryRefinementToggle}
-                    className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 ${
-                      enableQueryRefinement 
-                        ? 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500 hover:text-white' 
-                        : 'text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50'
-                    }`}
-                  >
-                    <Wand2 className={`h-4 w-4 ${enableQueryRefinement ? 'text-white' : ''}`} />
-                    Improve Query
-                  </Button>
-                  */}
+                  {/* Mode Selection Button */}
                   {isDesktop ? (
                     <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
                       <DropdownMenuTrigger asChild>
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50`}
+                          className="h-10 px-4 rounded-full border border-orange-200/60 bg-white/80 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700"
                         >
-                          <Zap className="h-4 w-4" />
+                          <Zap className="h-4 w-4 mr-2" />
                           {!isDropdownOpen && searchMode 
                             ? searchModes.find(mode => mode.id === searchMode)?.label 
                             : 'Mode'
@@ -244,8 +230,12 @@ export default function Home() {
                   ) : (
                     <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                       <DrawerTrigger asChild>
-                        <Button variant="ghost" size="sm" className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50`}>
-                          <Zap className="h-4 w-4" />
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-10 px-4 rounded-full border border-orange-200/60 bg-white/80 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700"
+                        >
+                          <Zap className="h-4 w-4 mr-2" />
                           {searchMode 
                             ? searchModes.find(mode => mode.id === searchMode)?.label 
                             : 'Mode'
@@ -280,53 +270,34 @@ export default function Home() {
                       </DrawerContent>
                     </Drawer>
                   )}
+
+                  {/* Deep Research Toggle Button */}
+                  <button
+                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
+                    className={`h-10 px-4 rounded-full border transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 ${
+                      enableDeepResearch 
+                        ? 'bg-orange-500 border-orange-500 text-white hover:bg-orange-600 hover:border-orange-600' 
+                        : 'border-orange-200/60 bg-white/80 backdrop-blur-sm text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                    }`}
+                  >
+                    <Brain className="h-4 w-4" />
+                    <span className="text-sm font-medium">Deep Research</span>
+                  </button>
                 </div>
 
                 <div className="flex items-center">
                   <Button 
-                    size="icon"
                     onClick={handleSearch}
-                    className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600
-                    transition-all duration-300 overflow-hidden group/btn flex items-center justify-center shadow-lg shadow-orange-500/20
-                    hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
+                    className="h-10 px-6 rounded-full bg-orange-500 hover:bg-orange-600 text-white
+                    transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center gap-2"
                     onMouseEnter={() => setIsSearchHovered(true)}
                     onMouseLeave={() => setIsSearchHovered(false)}
                     onFocus={() => setIsSearchHovered(true)}
                     onBlur={() => setIsSearchHovered(false)}
                   >
-                    <Search className={`h-5 w-5 absolute transition-all duration-200 ${
-                      isSearchHovered 
-                        ? 'opacity-0 translate-y-full' 
-                        : 'opacity-100 translate-y-0'
-                    }`} />
-                    <span className={`text-2xl font-bold absolute transition-all duration-200 text-white mt-2 ${
-                      isSearchHovered 
-                        ? 'opacity-100 scale-125 translate-y-0' 
-                        : 'opacity-0 scale-75 -translate-y-full'
-                    }`}>
-                      *
-                    </span>
+                    <Search className="h-4 w-4" />
+                    <span className="font-medium">Search</span>
                   </Button>
-                </div>
-              </div>
-
-              {/* Deep Research Toggle Row */}
-              <div className="flex items-center justify-start px-2">
-                <div className="flex items-center gap-2">
-                  <Brain className="h-4 w-4 text-orange-600" />
-                  <span className="text-sm font-medium text-orange-700">Deep Research</span>
-                  <button
-                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-                      enableDeepResearch ? 'bg-orange-500' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        enableDeepResearch ? 'translate-x-6' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
                 </div>
               </div>
             </div>
