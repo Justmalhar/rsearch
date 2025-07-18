@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Search, Globe, BookText, Video, 
   Zap, ShoppingBag, MapPin, 
-  Newspaper, GraduationCap, Lightbulb, Sparkles, Brain
+  Newspaper, GraduationCap, Lightbulb, Sparkles, Brain, ChevronDown
 } from "lucide-react";
 import { SearchSource } from "@/types/search";
 import {
@@ -216,6 +216,7 @@ export default function Home() {
                             ? searchModes.find(mode => mode.id === searchMode)?.label 
                             : 'Mode'
                           }
+                          <ChevronDown className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-white border-orange-200" sideOffset={8}>
@@ -250,6 +251,7 @@ export default function Home() {
                             ? searchModes.find(mode => mode.id === searchMode)?.label 
                             : 'Mode'
                           }
+                          <ChevronDown className="h-4 w-4" />
                         </Button>
                       </DrawerTrigger>
                       <DrawerContent className="bg-white border-t border-orange-200">
