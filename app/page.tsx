@@ -209,7 +209,7 @@ export default function Home() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50`}
+                          className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50 rounded-full`}
                         >
                           <Zap className="h-4 w-4" />
                           {!isDropdownOpen && searchMode 
@@ -244,7 +244,7 @@ export default function Home() {
                   ) : (
                     <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                       <DrawerTrigger asChild>
-                        <Button variant="ghost" size="sm" className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50`}>
+                        <Button variant="ghost" size="sm" className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50 rounded-full`}>
                           <Zap className="h-4 w-4" />
                           {searchMode 
                             ? searchModes.find(mode => mode.id === searchMode)?.label 
@@ -280,6 +280,21 @@ export default function Home() {
                       </DrawerContent>
                     </Drawer>
                   )}
+
+                  {/* Deep Research Button */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
+                    className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 rounded-full ${
+                      enableDeepResearch 
+                        ? 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500 hover:text-white' 
+                        : 'text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50'
+                    }`}
+                  >
+                    <Brain className={`h-4 w-4 ${enableDeepResearch ? 'text-white' : ''}`} />
+                    Deep Research
+                  </Button>
                 </div>
 
                 <div className="flex items-center">
@@ -307,26 +322,6 @@ export default function Home() {
                       *
                     </span>
                   </Button>
-                </div>
-              </div>
-
-              {/* Deep Research Toggle Row */}
-              <div className="flex items-center justify-start px-2">
-                <div className="flex items-center gap-2">
-                  <Brain className="h-4 w-4 text-orange-600" />
-                  <span className="text-sm font-medium text-orange-700">Deep Research</span>
-                  <button
-                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-                      enableDeepResearch ? 'bg-orange-500' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        enableDeepResearch ? 'translate-x-6' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
                 </div>
               </div>
             </div>
