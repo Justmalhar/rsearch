@@ -158,6 +158,8 @@ export default function Home() {
                     xmlns="http://www.w3.org/2000/svg"
                     role="img"
                     aria-labelledby="starIconTitle"
+                    className="animate-spin"
+                    style={{ animationDuration: '3s' }}
                   >
                     <title id="starIconTitle">rSearch Logo</title>
                     <path 
