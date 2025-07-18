@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, useRef } from 'react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
 // Force dynamic rendering
@@ -94,6 +94,7 @@ function SearchPageContent() {
   // Follow-up questions state
   const [followUpQuestions, setFollowUpQuestions] = useState<FollowUpQuestion[]>([]);
   const [isProcessingFollowUp, setIsProcessingFollowUp] = useState(false);
+  const followUpRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     let isMounted = true;
@@ -331,6 +332,18 @@ function SearchPageContent() {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
+  // Function to scroll to a specific follow-up section
+  const scrollToFollowUp = (questionId: string) => {
+    const element = followUpRefs.current[questionId];
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',
+        inline: 'nearest'
+      });
+    }
+  };
+
   // Handle follow-up question submission
   const handleFollowUpQuestion = async (questionText: string) => {
     const newQuestion = {
@@ -352,6 +365,11 @@ function SearchPageContent() {
 
     setFollowUpQuestions(prev => [...prev, newQuestion]);
     setIsProcessingFollowUp(true);
+
+    // Scroll to the new question section after a short delay to ensure DOM is updated
+    setTimeout(() => {
+      scrollToFollowUp(newQuestion.id);
+    }, 100);
 
     try {
       // Step 1: Refine Query
@@ -512,6 +530,11 @@ function SearchPageContent() {
               : q
           )
         );
+
+      // Scroll to the question again when content is fully loaded
+      setTimeout(() => {
+        scrollToFollowUp(newQuestion.id);
+      }, 500);
 
     } catch (error) {
       setFollowUpQuestions(prev => 
@@ -693,7 +716,11 @@ function SearchPageContent() {
 
         {/* Follow-up Questions Results - In main content area */}
         {followUpQuestions.map((question, index) => (
-          <div key={question.id} className="border-t border-orange-100 pt-6 md:pt-8 space-y-6 md:space-y-8">
+          <div 
+            key={question.id} 
+            ref={(el) => { followUpRefs.current[question.id] = el; }}
+            className="border-t border-orange-100 pt-6 md:pt-8 space-y-6 md:space-y-8"
+          >
             <div className="text-sm text-orange-600 mb-4">
               Follow-up #{index + 1}: {question.question}
             </div>

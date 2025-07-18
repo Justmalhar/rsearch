@@ -35,6 +35,7 @@ The follow-up questions feature allows users to ask additional questions about t
 - **Input Field**: Text input with placeholder referencing the original search term and auto-focus
 - **Action Buttons**: Send button and Cancel (X) button
 - **Form Behavior**: Hides automatically after question submission, shows during processing
+- **Auto-Scroll**: Automatically scrolls to the new follow-up section when question is submitted
 
 ### 3. Follow-up Question Results
 Each follow-up question creates a complete rSearch-style section in the main content area with:
@@ -136,11 +137,40 @@ The follow-up feature maintains consistency with the existing rSearch design:
 - **Timeout Handling**: Proper handling of long-running requests
 - **Validation**: Input validation and sanitization
 
+## Auto-Scroll Feature
+
+The follow-up questions feature includes intelligent auto-scrolling to enhance user experience:
+
+### **Scroll Behavior:**
+- **Immediate Scroll**: When user submits a follow-up question, page automatically scrolls to the new section being created
+- **Content-Complete Scroll**: After AI response is fully generated, page scrolls again to ensure all content is visible
+- **Smooth Animation**: Uses smooth scrolling for a polished user experience
+- **Responsive Positioning**: Scrolls to the beginning of the new section for optimal readability
+
+### **Technical Implementation:**
+```javascript
+// Scroll function with smooth animation
+const scrollToFollowUp = (questionId: string) => {
+  const element = followUpRefs.current[questionId];
+  if (element) {
+    element.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start',
+      inline: 'nearest'
+    });
+  }
+};
+
+// Scroll triggers
+setTimeout(() => scrollToFollowUp(newQuestion.id), 100);  // Initial scroll
+setTimeout(() => scrollToFollowUp(newQuestion.id), 500); // After content loads
+```
+
 ## Performance Considerations
 
 - **Lazy Loading**: Components are loaded only when needed
 - **Streaming Responses**: Real-time response streaming for better UX
-- **Memory Management**: Proper cleanup of resources
+- **Memory Management**: Proper cleanup of resources and scroll refs
 - **Debouncing**: Input debouncing to prevent excessive API calls
 
 ## Accessibility Features
