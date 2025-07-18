@@ -282,25 +282,7 @@ export default function Home() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-4">
-                  {/* Deep Research Toggle */}
-                  <div className="flex items-center gap-2">
-                    <Brain className="h-4 w-4 text-orange-600" />
-                    <span className="text-sm font-medium text-orange-700">Deep Research</span>
-                    <button
-                      onClick={() => setEnableDeepResearch(!enableDeepResearch)}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-                        enableDeepResearch ? 'bg-orange-500' : 'bg-gray-200'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          enableDeepResearch ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </div>
-
+                <div className="flex items-center">
                   <Button 
                     size="icon"
                     onClick={handleSearch}
@@ -325,6 +307,26 @@ export default function Home() {
                       *
                     </span>
                   </Button>
+                </div>
+              </div>
+
+              {/* Deep Research Toggle Row */}
+              <div className="flex items-center justify-start px-2">
+                <div className="flex items-center gap-2">
+                  <Brain className="h-4 w-4 text-orange-600" />
+                  <span className="text-sm font-medium text-orange-700">Deep Research</span>
+                  <button
+                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
+                      enableDeepResearch ? 'bg-orange-500' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        enableDeepResearch ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
                 </div>
               </div>
             </div>
