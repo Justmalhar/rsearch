@@ -30,7 +30,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
-  const [isSearchHovered, setIsSearchHovered] = useState(false);
+
   const [searchMode, setSearchMode] = useState<SearchSource | null>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -290,10 +290,6 @@ export default function Home() {
                     onClick={handleSearch}
                     className="h-10 px-6 rounded-full bg-orange-500 hover:bg-orange-600 text-white
                     transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 active:scale-95 flex items-center gap-2"
-                    onMouseEnter={() => setIsSearchHovered(true)}
-                    onMouseLeave={() => setIsSearchHovered(false)}
-                    onFocus={() => setIsSearchHovered(true)}
-                    onBlur={() => setIsSearchHovered(false)}
                   >
                     <Search className="h-4 w-4" />
                     <span className="font-medium">Search</span>
