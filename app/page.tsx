@@ -30,7 +30,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const router = useRouter();
-  const [isSearchHovered, setIsSearchHovered] = useState(false);
+
   const [searchMode, setSearchMode] = useState<SearchSource | null>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -142,192 +142,158 @@ export default function Home() {
 
         {/* Search Section */}
         <div className="mt-4 w-full max-w-2xl">
-          <div className="relative group">
-            <Meteors number={30} />
-            <div className="relative flex flex-col gap-4 bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-orange-200/50 hover:border-orange-300/70 transition-all duration-300">
-              {/* Search Input Area */}
-              <div className="relative">
-                <div 
-                  className="absolute left-4 top-4 mt-4 text-orange-600"
-                >
-                  <svg 
-                    width="18" 
-                    height="18" 
-                    viewBox="0 0 52 55" 
-                    fill="none" 
-                    xmlns="http://www.w3.org/2000/svg"
-                    role="img"
-                    aria-labelledby="starIconTitle"
-                  >
-                    <title id="starIconTitle">rSearch Logo</title>
-                    <path 
-                      d="M23.0344 0.5H29.6344C32.1544 0.5 33.1144 1.34 32.8744 3.62L31.5544 17.42C31.4344 18.26 31.9144 18.5 32.5144 17.9L43.5544 9.98C45.8344 8.66 46.7944 8.78 47.9944 11.18L51.2344 16.7C52.5544 18.86 52.1944 20.18 49.9144 21.14L37.1944 27.02C36.7144 27.38 36.7144 27.74 37.1944 27.98L49.9144 33.74C52.1944 34.82 52.5544 36.02 51.1144 38.06L47.9944 43.7C46.7944 45.74 45.5944 46.22 43.5544 44.9L32.5144 36.62C32.0344 36.14 31.4344 36.5 31.5544 37.22L32.6344 51.38C32.8744 53.78 32.0344 54.5 29.6344 54.5H23.0344C20.6344 54.5 19.7944 53.78 19.9144 51.38L21.2344 37.22C21.3544 36.5 20.8744 36.14 20.2744 36.62L8.99436 44.9C7.07436 46.22 5.87436 45.74 4.67436 43.7L1.55436 38.06C0.23436 36.02 0.35436 34.82 2.75436 33.74L15.5944 27.98C16.0744 27.74 16.0744 27.38 15.5944 27.02L2.63436 21.14C0.59436 20.18 0.23436 18.86 1.55436 16.7L4.67436 11.18C5.87436 8.78 7.07436 8.66 8.99436 9.98L20.2744 17.9C20.8744 18.5 21.3544 18.26 21.2344 17.42L19.9144 3.62C19.6744 1.34 20.6344 0.5 23.0344 0.5Z" 
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
-                <Textarea 
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="What are you looking for?" 
-                  className="pl-12 text-md h-[120px] resize-none bg-transparent
-                  border border-orange-200/60 hover:border-orange-300/80 
-                  focus:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-500/50
-                  rounded-2xl transition-all duration-300 shadow-inner
-                  placeholder:text-orange-600/70 text-orange-800
-                  hover:shadow-lg hover:shadow-orange-100"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSearch();
-                    }
-                  }}
-                />
-              </div>
+                      <div className="relative group">
+              <Meteors number={30} />
+              <div className="relative flex flex-col gap-4 bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-orange-200/60 hover:border-orange-300/80 focus-within:border-orange-400 transition-all duration-300">
+                {/* Search Input Row */}
+                <div className="flex items-start gap-3">
+                  {/* Logo Icon */}
+                  <div className="flex-shrink-0 mt-4 text-orange-600">
+                    <svg 
+                      width="18" 
+                      height="18" 
+                      viewBox="0 0 52 55" 
+                      fill="none" 
+                      xmlns="http://www.w3.org/2000/svg"
+                      role="img"
+                      aria-labelledby="starIconTitle"
+                    >
+                      <title id="starIconTitle">rSearch Logo</title>
+                      <path 
+                        d="M23.0344 0.5H29.6344C32.1544 0.5 33.1144 1.34 32.8744 3.62L31.5544 17.42C31.4344 18.26 31.9144 18.5 32.5144 17.9L43.5544 9.98C45.8344 8.66 46.7944 8.78 47.9944 11.18L51.2344 16.7C52.5544 18.86 52.1944 20.18 49.9144 21.14L37.1944 27.02C36.7144 27.38 36.7144 27.74 37.1944 27.98L49.9144 33.74C52.1944 34.82 52.5544 36.02 51.1144 38.06L47.9944 43.7C46.7944 45.74 45.5944 46.22 43.5544 44.9L32.5144 36.62C32.0344 36.14 31.4344 36.5 31.5544 37.22L32.6344 51.38C32.8744 53.78 32.0344 54.5 29.6344 54.5H23.0344C20.6344 54.5 19.7944 53.78 19.9144 51.38L21.2344 37.22C21.3544 36.5 20.8744 36.14 20.2744 36.62L8.99436 44.9C7.07436 46.22 5.87436 45.74 4.67436 43.7L1.55436 38.06C0.23436 36.02 0.35436 34.82 2.75436 33.74L15.5944 27.98C16.0744 27.74 16.0744 27.38 15.5944 27.02L2.63436 21.14C0.59436 20.18 0.23436 18.86 1.55436 16.7L4.67436 11.18C5.87436 8.78 7.07436 8.66 8.99436 9.98L20.2744 17.9C20.8744 18.5 21.3544 18.26 21.2344 17.42L19.9144 3.62C19.6744 1.34 20.6344 0.5 23.0344 0.5Z" 
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
 
-              {/* Controls Row */}
-              <div className="flex items-center justify-between px-2">
-                <div className="flex gap-2 items-center">
-                  {/* Improve Query button hidden
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleQueryRefinementToggle}
-                    className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 ${
-                      enableQueryRefinement 
-                        ? 'bg-orange-500 text-white hover:bg-orange-600 border-orange-500 hover:text-white' 
-                        : 'text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50'
-                    }`}
-                  >
-                    <Wand2 className={`h-4 w-4 ${enableQueryRefinement ? 'text-white' : ''}`} />
-                    Improve Query
-                  </Button>
-                  */}
-                  {isDesktop ? (
-                    <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
-                      <DropdownMenuTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50`}
-                        >
-                          <Zap className="h-4 w-4" />
-                          {!isDropdownOpen && searchMode 
-                            ? searchModes.find(mode => mode.id === searchMode)?.label 
-                            : 'Mode'
-                          }
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-white border-orange-200" sideOffset={8}>
-                        <div className="grid grid-cols-4 grid-rows-2">
-                          {searchModes.map((mode) => (
-                            <DropdownMenuItem
-                              key={mode.id}
-                              onClick={() => {
-                                setSearchMode(mode.id);
-                                setIsDropdownOpen(false);
-                              }}
-                              className="flex flex-col items-start p-3 cursor-pointer hover:bg-orange-100/80 focus:bg-orange-100/80"
-                            >
-                              <div className="flex items-center gap-3">
-                                <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
-                                <span className="font-medium text-orange-900">{mode.label}</span>
-                              </div>
-                              <p className="text-xs text-orange-600 leading-relaxed w-full">
-                                {mode.description}
-                              </p>
-                            </DropdownMenuItem>
-                          ))}
-                        </div>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  ) : (
-                    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-                      <DrawerTrigger asChild>
-                        <Button variant="ghost" size="sm" className={`flex gap-2 border transition-colors shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 text-orange-500 hover:bg-orange-100 hover:text-orange-700 border-orange-200/50`}>
-                          <Zap className="h-4 w-4" />
-                          {searchMode 
-                            ? searchModes.find(mode => mode.id === searchMode)?.label 
-                            : 'Mode'
-                          }
-                        </Button>
-                      </DrawerTrigger>
-                      <DrawerContent className="bg-white border-t border-orange-200">
-                        <DrawerHeader>
-                          <DrawerTitle className="text-lg font-medium text-orange-700">
-                            Select Search Mode
-                          </DrawerTitle>
-                        </DrawerHeader>
-                        <div className="p-4 space-y-4">
-                          {searchModes.map((mode) => (
-                            <button
-                              key={mode.id}
-                              type="button"
-                              className="flex items-center gap-3 w-full p-3 hover:bg-orange-100/80 rounded-lg transition-colors"
-                              onClick={() => {
-                                setSearchMode(mode.id);
-                                setIsDrawerOpen(false);
-                              }}
-                            >
+                  {/* Text Input */}
+                  <Textarea 
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="What are you looking for?" 
+                    className="flex-1 text-md h-[120px] resize-none bg-transparent
+                    border-none focus-visible:ring-0 focus-visible:ring-offset-0
+                    placeholder:text-orange-600/70 text-orange-800 px-4 py-3 outline-none"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSearch();
+                      }
+                    }}
+                  />
+                </div>
+
+              {/* Control Buttons Row */}
+              <div className="flex items-center gap-2 px-2">
+                {/* Mode Selection Button */}
+                {isDesktop ? (
+                  <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-10 px-4 rounded-full border border-orange-200/60 bg-white/80 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700"
+                      >
+                        <Zap className="h-4 w-4 mr-2" />
+                        {!isDropdownOpen && searchMode 
+                          ? searchModes.find(mode => mode.id === searchMode)?.label 
+                          : 'Mode'
+                        }
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-[600px] mt-2 p-4 bg-white border-orange-200" sideOffset={8}>
+                      <div className="grid grid-cols-4 grid-rows-2">
+                        {searchModes.map((mode) => (
+                          <DropdownMenuItem
+                            key={mode.id}
+                            onClick={() => {
+                              setSearchMode(mode.id);
+                              setIsDropdownOpen(false);
+                            }}
+                            className="flex flex-col items-start p-3 cursor-pointer hover:bg-orange-100/80 focus:bg-orange-100/80"
+                          >
+                            <div className="flex items-center gap-3">
                               <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
-                              <div className="text-left">
-                                <div className="font-medium text-orange-900">{mode.label}</div>
-                                <div className="text-sm text-orange-600">{mode.description}</div>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </DrawerContent>
-                    </Drawer>
-                  )}
-                </div>
+                              <span className="font-medium text-orange-900">{mode.label}</span>
+                            </div>
+                            <p className="text-xs text-orange-600 leading-relaxed w-full">
+                              {mode.description}
+                            </p>
+                          </DropdownMenuItem>
+                        ))}
+                      </div>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+                    <DrawerTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-10 px-4 rounded-full border border-orange-200/60 bg-white/80 backdrop-blur-sm transition-all duration-200 shadow-sm hover:shadow-md text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700"
+                      >
+                        <Zap className="h-4 w-4 mr-2" />
+                        {searchMode 
+                          ? searchModes.find(mode => mode.id === searchMode)?.label 
+                          : 'Mode'
+                        }
+                      </Button>
+                    </DrawerTrigger>
+                    <DrawerContent className="bg-white border-t border-orange-200">
+                      <DrawerHeader>
+                        <DrawerTitle className="text-lg font-medium text-orange-700">
+                          Select Search Mode
+                        </DrawerTitle>
+                      </DrawerHeader>
+                      <div className="p-4 space-y-4">
+                        {searchModes.map((mode) => (
+                          <button
+                            key={mode.id}
+                            type="button"
+                            className="flex items-center gap-3 w-full p-3 hover:bg-orange-100/80 rounded-lg transition-colors"
+                            onClick={() => {
+                              setSearchMode(mode.id);
+                              setIsDrawerOpen(false);
+                            }}
+                          >
+                            <mode.icon className="h-5 w-5 text-orange-600 flex-shrink-0" />
+                            <div className="text-left">
+                              <div className="font-medium text-orange-900">{mode.label}</div>
+                              <div className="text-sm text-orange-600">{mode.description}</div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </DrawerContent>
+                  </Drawer>
+                )}
 
-                <div className="flex items-center">
-                  <Button 
-                    size="icon"
-                    onClick={handleSearch}
-                    className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600
-                    transition-all duration-300 overflow-hidden group/btn flex items-center justify-center shadow-lg shadow-orange-500/20
-                    hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
-                    onMouseEnter={() => setIsSearchHovered(true)}
-                    onMouseLeave={() => setIsSearchHovered(false)}
-                    onFocus={() => setIsSearchHovered(true)}
-                    onBlur={() => setIsSearchHovered(false)}
-                  >
-                    <Search className={`h-5 w-5 absolute transition-all duration-200 ${
-                      isSearchHovered 
-                        ? 'opacity-0 translate-y-full' 
-                        : 'opacity-100 translate-y-0'
-                    }`} />
-                    <span className={`text-2xl font-bold absolute transition-all duration-200 text-white mt-2 ${
-                      isSearchHovered 
-                        ? 'opacity-100 scale-125 translate-y-0' 
-                        : 'opacity-0 scale-75 -translate-y-full'
-                    }`}>
-                      *
-                    </span>
-                  </Button>
-                </div>
+                {/* Deep Research Toggle Button */}
+                <button
+                  onClick={() => setEnableDeepResearch(!enableDeepResearch)}
+                  className={`h-10 px-4 rounded-full border transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 ${
+                    enableDeepResearch 
+                      ? 'bg-orange-500 border-orange-500 text-white hover:bg-orange-600 hover:border-orange-600' 
+                      : 'border-orange-200/60 bg-white/80 backdrop-blur-sm text-orange-600 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                  }`}
+                >
+                  <Brain className="h-4 w-4" />
+                  <span className="text-sm font-medium">Deep Research</span>
+                </button>
               </div>
 
-              {/* Deep Research Toggle Row */}
-              <div className="flex items-center justify-start px-2">
-                <div className="flex items-center gap-2">
-                  <Brain className="h-4 w-4 text-orange-600" />
-                  <span className="text-sm font-medium text-orange-700">Deep Research</span>
-                  <button
-                    onClick={() => setEnableDeepResearch(!enableDeepResearch)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
-                      enableDeepResearch ? 'bg-orange-500' : 'bg-gray-200'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        enableDeepResearch ? 'translate-x-6' : 'translate-x-1'
-                      }`}
-                    />
-                  </button>
-                </div>
+
+
+              {/* Search Button Row */}
+              <div className="flex items-center justify-center px-2">
+                <Button 
+                  onClick={handleSearch}
+                  size="icon"
+                  className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white
+                  transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-105 active:scale-95"
+                >
+                  <Search className="h-5 w-5" />
+                </Button>
               </div>
             </div>
           </div>
