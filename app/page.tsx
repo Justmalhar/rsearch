@@ -168,8 +168,26 @@ export default function Home() {
                   </svg>
                 </div>
 
+                <Textarea 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="What are you looking for?" 
+                  className="pl-12 text-md h-[120px] resize-none bg-transparent
+                  border border-orange-200/60 hover:border-orange-300/80 
+                  focus:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-500/50
+                  rounded-2xl transition-all duration-300 shadow-inner
+                  placeholder:text-orange-600/70 text-orange-800
+                  hover:shadow-lg hover:shadow-orange-100 pb-12"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSearch();
+                    }
+                  }}
+                />
+
                 {/* Control Buttons */}
-                <div className="absolute right-3 bottom-3 flex items-center gap-2 z-10">
+                <div className="absolute left-4 bottom-3 flex items-center gap-2 z-10">
                   {/* Mode Selection Button */}
                   {isDesktop ? (
                     <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen} >
@@ -266,24 +284,6 @@ export default function Home() {
                     <span className="font-medium">Deep</span>
                   </button>
                 </div>
-
-                <Textarea 
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="What are you looking for?" 
-                  className="pl-12 pr-32 text-md h-[120px] resize-none bg-transparent
-                  border border-orange-200/60 hover:border-orange-300/80 
-                  focus:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-500/50
-                  rounded-2xl transition-all duration-300 shadow-inner
-                  placeholder:text-orange-600/70 text-orange-800
-                  hover:shadow-lg hover:shadow-orange-100"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSearch();
-                    }
-                  }}
-                />
               </div>
 
 
