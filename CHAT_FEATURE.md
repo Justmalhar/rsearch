@@ -10,9 +10,9 @@ The rSearch Chat feature allows users to have conversational interactions with a
 - **Modern Chat Design**: Clean, responsive interface with chat bubbles for user messages
 - **Full-Width Assistant Responses**: Assistant messages use the full screen width with proper padding
 - **Markdown Rendering**: Assistant responses are rendered with rich markdown formatting
-- **Loading States**: Animated loading indicators while waiting for responses
 - **Auto-scroll**: Messages automatically scroll to the bottom for better UX
-- **Rounded Buttons**: Modern rounded full buttons for the send functionality
+- **Rounded Send Button**: Matches input field size with rounded design
+- **Copy Functionality**: Copy button under each assistant message with visual feedback
 
 ### Styling
 - **Consistent with rSearch**: Uses the same orange color scheme and styling as the main rSearch results

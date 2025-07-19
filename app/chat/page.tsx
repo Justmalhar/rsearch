@@ -4,8 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Button } from '@/components/ui/button';
-import { Send, Bot, User } from 'lucide-react';
+import { Send, Bot, User, Copy, Check } from 'lucide-react';
 import remarkGfm from 'remark-gfm';
 
 interface Message {
@@ -31,10 +30,21 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedMessageId, setCopiedMessageId] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const copyMessage = async (content: string, messageIndex: number) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopiedMessageId(messageIndex);
+      setTimeout(() => setCopiedMessageId(null), 2000);
+    } catch (error) {
+      console.error('Failed to copy message:', error);
+    }
   };
 
   useEffect(() => {
@@ -299,9 +309,27 @@ export default function ChatPage() {
                         {cleanMarkdownTables(message.content)}
                       </Markdown>
                     </div>
-                    <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100">
-                      <Bot className="h-4 w-4 text-orange-600" />
-                      <span className="text-xs text-gray-500">rSearch Assistant</span>
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                      <div className="flex items-center gap-2">
+                        <Bot className="h-4 w-4 text-orange-600" />
+                        <span className="text-xs text-gray-500">rSearch Assistant</span>
+                      </div>
+                      <button
+                        onClick={() => copyMessage(message.content, index)}
+                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                      >
+                        {copiedMessageId === index ? (
+                          <>
+                            <Check className="h-3 w-3" />
+                            Copied!
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-3 w-3" />
+                            Copy
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -327,13 +355,13 @@ export default function ChatPage() {
               className="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               disabled={isLoading}
             />
-            <Button
+            <button
               type="submit"
               disabled={!inputValue.trim() || isLoading}
-              className="rounded-full px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white"
+              className="px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               <Send className="h-4 w-4" />
-            </Button>
+            </button>
           </form>
         </div>
       </div>
