@@ -719,10 +719,11 @@ function SearchPageContent() {
           <div 
             key={question.id} 
             ref={(el) => { followUpRefs.current[question.id] = el; }}
-            className="border-t border-orange-100 pt-6 md:pt-8 space-y-6 md:space-y-8"
+            className="border-t-2 border-orange-200 pt-8 md:pt-10 space-y-6 md:space-y-8 bg-gradient-to-r from-orange-50/30 to-transparent p-6 rounded-lg mt-6"
           >
-            <div className="text-sm text-orange-600 mb-4">
-              Follow-up #{index + 1}: {question.question}
+            <div className="mb-4">
+              <span className="text-sm text-orange-600">Follow-up #{index + 1}:</span>
+              <h2 className="text-xl font-serif font-semibold text-orange-700 mt-1">{question.question}</h2>
             </div>
 
             {/* 1. Refined Query */}

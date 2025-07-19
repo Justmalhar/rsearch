@@ -115,12 +115,16 @@ components/ui/
 
 ## Styling & Theme
 
-The follow-up feature maintains consistency with the existing rSearch design:
+The follow-up feature maintains consistency with the existing rSearch design while adding enhanced visual elements:
 
 - **Primary Color**: Orange (#ea580c, #f97316)
-- **Gray Accents**: For AI responses and neutral elements
-- **Border Radius**: Consistent with existing components
-- **Typography**: Matches existing text styles
+- **Typography**: Uses `font-serif` class matching main rSearch query styling
+- **Button Design**: Pill-shaped buttons with `rounded-full` for modern appearance
+- **Input Styling**: Rounded input field with serif font for consistency
+- **Visual Enhancements**: 
+  - Gradient backgrounds for follow-up sections
+  - Enhanced shadows and borders
+  - Icon backgrounds with rounded containers
 - **Responsive Breakpoints**: Uses the same mobile breakpoint (768px)
 
 ## Mobile Optimizations
