@@ -181,6 +181,7 @@ export async function POST(req: Request) {
         { role: "user", content: prompt }
       ],
       stream: true,
+      max_output_tokens: 65000
     });
 
     // Create a streaming response
