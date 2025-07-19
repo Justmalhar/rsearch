@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+export const runtime = 'edge';
+
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || '',
 });
@@ -61,16 +63,40 @@ Remember to be conversational and helpful while maintaining the quality and stru
     // Add the system message to the beginning of the messages array
     const messagesWithSystem = [systemMessage, ...messages];
 
-    const completion = await client.chat.completions.create({
+    const stream = await client.chat.completions.create({
       model: "gpt-4.1",
       messages: messagesWithSystem,
       temperature: 0.7,
       max_tokens: 2000,
+      stream: true,
     });
 
-    const response = completion.choices[0].message;
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content || '';
+            if (content) {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content })}\n\n`));
+            }
+          }
+          controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
+          controller.close();
+        } catch (error) {
+          console.error('Streaming error:', error);
+          controller.error(error);
+        }
+      },
+    });
 
-    return NextResponse.json({ response });
+    return new Response(readable, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    });
   } catch (error) {
     console.error('Chat API error:', error);
     return NextResponse.json(

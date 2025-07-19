@@ -21,7 +21,8 @@ The rSearch Chat feature allows users to have conversational interactions with a
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
 
 ### API Integration
-- **OpenAI GPT-4**: Powered by OpenAI's GPT-4 model for high-quality responses
+- **OpenAI GPT-4.1**: Powered by OpenAI's GPT-4.1 model for high-quality responses
+- **Real-time Streaming**: Responses are streamed in real-time for better user experience
 - **Improved System Prompt**: Enhanced system message based on rSearch's prompt engineering
 - **Error Handling**: Graceful error handling for API failures and missing configuration
 
@@ -62,11 +63,13 @@ The chat feature is accessible via:
 ### API Route (`/api/chat`)
 - **Method**: POST
 - **Input**: JSON with `messages` array
-- **Output**: JSON with `response` object
+- **Output**: Server-Sent Events (SSE) stream with real-time response chunks
+- **Runtime**: Edge runtime for optimal streaming performance
 - **Error Handling**: Returns appropriate error messages for missing API keys or invalid requests
 
 ### Chat Page Component
 - **State Management**: Uses React hooks for message state and loading states
+- **Real-time Streaming**: Handles streaming responses with progressive content updates
 - **Markdown Rendering**: Uses react-markdown with custom styling components
 - **Auto-scroll**: Implements smooth scrolling to the latest message
 - **Responsive Design**: Adapts to different screen sizes
@@ -99,6 +102,21 @@ The implementation includes comprehensive error handling:
 - API rate limiting
 - General error states
 
+## Technical Details
+
+### Streaming Implementation
+The chat feature uses Server-Sent Events (SSE) for real-time streaming:
+- **Backend**: Uses OpenAI's streaming API with ReadableStream
+- **Frontend**: Uses ReadableStream API to consume the stream
+- **Progressive Updates**: Content appears word-by-word as it's generated
+- **Error Recovery**: Graceful handling of stream interruptions
+
+### Performance Benefits
+- **Faster Perceived Response Time**: Users see content immediately
+- **Better User Engagement**: Real-time feedback keeps users engaged
+- **Reduced Timeout Issues**: No long waits for complete responses
+- **Edge Runtime**: Optimized for streaming performance
+
 ## Future Enhancements
 
 Potential improvements for the chat feature:
@@ -110,6 +128,8 @@ Potential improvements for the chat feature:
 - Custom chat models
 - Conversation export
 - Chat templates
+- Typing indicators
+- Message reactions
 
 ## Dependencies
 

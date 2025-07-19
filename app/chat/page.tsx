@@ -38,6 +38,14 @@ export default function ChatPage() {
     setInputValue('');
     setIsLoading(true);
 
+    // Add an empty assistant message that we'll update as we receive chunks
+    const assistantMessage: Message = {
+      role: 'assistant',
+      content: ''
+    };
+    
+    setMessages(prev => [...prev, assistantMessage]);
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -53,21 +61,57 @@ export default function ChatPage() {
         throw new Error('Failed to get response');
       }
 
-      const data = await response.json();
-      
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.response.content
-      };
+      if (!response.body) {
+        throw new Error('No response body');
+      }
 
-      setMessages(prev => [...prev, assistantMessage]);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) break;
+        
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            
+            if (data === '[DONE]') {
+              break;
+            }
+            
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.content) {
+                setMessages(prev => {
+                  const newMessages = [...prev];
+                  const lastMessage = newMessages[newMessages.length - 1];
+                  if (lastMessage && lastMessage.role === 'assistant') {
+                    lastMessage.content += parsed.content;
+                  }
+                  return newMessages;
+                });
+              }
+            } catch {
+              // Ignore parsing errors for incomplete JSON
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Error:', error);
-      const errorMessage: Message = {
-        role: 'assistant',
-        content: 'Sorry, I encountered an error while processing your request. Please try again.'
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages(prev => {
+        const newMessages = [...prev];
+        const lastMessage = newMessages[newMessages.length - 1];
+        if (lastMessage && lastMessage.role === 'assistant') {
+          lastMessage.content = 'Sorry, I encountered an error while processing your request. Please try again.';
+        }
+        return newMessages;
+      });
     } finally {
       setIsLoading(false);
     }
