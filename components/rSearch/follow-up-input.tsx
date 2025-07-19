@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, MessageCirclePlus, X } from 'lucide-react';
+import { Send, MessageCirclePlus } from 'lucide-react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
 interface FollowUpInputProps {
@@ -41,6 +41,9 @@ export default function FollowUpInput({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       submitQuestion();
+    } else if (e.key === 'Escape') {
+      setShowQuestionInput(false);
+      setCurrentQuestion('');
     }
   };
 
@@ -72,36 +75,30 @@ export default function FollowUpInput({
           </div>
         ) : (
           // Show input form
-                      <div className="bg-white border-t border-orange-200 p-6 shadow-2xl">
+          <div className="bg-white border-t border-orange-200 p-6 shadow-2xl">
             <div className="max-w-7xl mx-auto">
-              <form onSubmit={handleSubmitQuestion} className="flex gap-3 items-end">
-                <Textarea
-                  value={currentQuestion}
-                  onChange={(e) => setCurrentQuestion(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={`Ask a follow-up question about "${originalSearchTerm}"... (Press Enter to submit, Shift+Enter for new line)`}
-                  className="flex-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400 font-serif text-lg rounded-2xl px-4 py-3 resize-none"
-                  rows={2}
-                  autoFocus
-                />
-                <Button
-                  type="submit"
-                  disabled={!currentQuestion.trim()}
-                  className="bg-orange-600 hover:bg-orange-700 text-white rounded-full px-4"
-                >
-                  <Send className="w-4 h-4" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setShowQuestionInput(false);
-                    setCurrentQuestion('');
-                  }}
-                  className="border-orange-200 text-orange-600 hover:bg-orange-50 rounded-full px-4"
-                >
-                  <X className="w-4 h-4" />
-                </Button>
+              <form onSubmit={handleSubmitQuestion}>
+                <div className="flex border border-orange-200 rounded-2xl overflow-hidden focus-within:border-orange-400 focus-within:ring-1 focus-within:ring-orange-400">
+                  <Textarea
+                    value={currentQuestion}
+                    onChange={(e) => setCurrentQuestion(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={`Ask a follow-up question about "${originalSearchTerm}"... (Enter to submit, Shift+Enter for new line, Esc to cancel)`}
+                    className="flex-1 border-0 focus:ring-0 font-serif text-lg px-4 py-3 resize-none bg-transparent"
+                    rows={2}
+                    autoFocus
+                  />
+                  <div className="flex items-center pr-2">
+                    <Button
+                      type="submit"
+                      disabled={!currentQuestion.trim()}
+                      size="sm"
+                      className="bg-orange-600 hover:bg-orange-700 text-white rounded-full p-2 h-8 w-8"
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
