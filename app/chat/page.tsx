@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Markdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Button } from '@/components/ui/button';
 import { Send, Bot, User } from 'lucide-react';
 
@@ -188,21 +190,21 @@ export default function ChatPage() {
                             <h6 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
                           ),
                           table: ({...props}) => (
-                            <div className="overflow-x-auto">
-                              <table {...props} className="min-w-full divide-y divide-gray-200 border border-gray-200" />
+                            <div className="overflow-x-auto my-6 rounded-lg border border-gray-200 shadow-sm">
+                              <table {...props} className="min-w-full divide-y divide-gray-200" />
                             </div>
                           ),
                           thead: ({...props}) => (
-                            <thead {...props} className="bg-orange-50" />
+                            <thead {...props} className="bg-gradient-to-r from-orange-50 to-orange-100" />
                           ),
                           tbody: ({...props}) => (
                             <tbody {...props} className="bg-white divide-y divide-gray-200" />
                           ),
                           tr: ({...props}) => (
-                            <tr {...props} className="hover:bg-orange-50/50 transition-colors" />
+                            <tr {...props} className="hover:bg-orange-50/30 transition-colors duration-200" />
                           ),
                           th: ({...props}) => (
-                            <th {...props} className="px-6 py-3 text-left text-sm font-semibold text-orange-600" />
+                            <th {...props} className="px-6 py-4 text-left text-sm font-semibold text-orange-700 uppercase tracking-wider" />
                           ),
                           td: ({...props}) => (
                             <td {...props} className="px-6 py-4 text-sm text-gray-700 whitespace-normal" />
@@ -228,7 +230,7 @@ export default function ChatPage() {
                             />
                           ),
                           blockquote: ({...props}) => (
-                            <blockquote {...props} className="border-l-4 border-orange-200 pl-4 italic my-4 text-gray-600" />
+                            <blockquote {...props} className="border-l-4 border-orange-300 pl-4 italic my-4 text-gray-600 bg-orange-50/30 py-2 rounded-r" />
                           ),
                           strong: ({...props}) => (
                             <strong {...props} className="font-bold text-orange-600" />
@@ -236,12 +238,44 @@ export default function ChatPage() {
                           em: ({...props}) => (
                             <em {...props} className="italic text-orange-600/90 font-semibold" />
                           ),
-                          pre: ({...props}) => (
-                            <pre {...props} className="bg-orange-50 text-orange-600 rounded px-1.5 py-0.5 text-sm font-mono" />
-                          ),
-                          code: ({...props}) => (
-                            <code {...props} className="bg-orange-50 text-orange-600 rounded px-1.5 py-0.5 text-sm font-mono" />
-                          ),
+                          pre: ({children, ...props}) => {
+                            const child = children as React.ReactElement<{ className?: string; children?: React.ReactNode }>;
+                            if (child?.props?.className) {
+                              const language = child.props.className.replace('language-', '');
+                              const codeContent = String(child.props.children || '');
+                              return (
+                                <div className="my-6">
+                                  <SyntaxHighlighter
+                                    style={tomorrow}
+                                    language={language}
+                                    customStyle={{
+                                      margin: 0,
+                                      borderRadius: '8px',
+                                      fontSize: '14px',
+                                      lineHeight: '1.5',
+                                    }}
+                                  >
+                                    {codeContent}
+                                  </SyntaxHighlighter>
+                                </div>
+                              );
+                            }
+                            return (
+                              <pre {...props} className="bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto my-4 text-sm font-mono">
+                                {children}
+                              </pre>
+                            );
+                          },
+                          code: ({children, className, ...props}) => {
+                            if (className && className.startsWith('language-')) {
+                              return null; // Handled by pre component
+                            }
+                            return (
+                              <code {...props} className="bg-orange-100 text-orange-800 rounded px-2 py-1 text-sm font-mono">
+                                {children}
+                              </code>
+                            );
+                          },
                         }}
                       >
                         {message.content}
@@ -257,23 +291,7 @@ export default function ChatPage() {
             </div>
           ))}
 
-          {/* Loading indicator */}
-          {isLoading && (
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-                  <div className="flex items-center gap-3">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-orange-600 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-orange-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-orange-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    </div>
-                    <span className="text-gray-600 text-sm">rSearch is thinking...</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+
 
           <div ref={messagesEndRef} />
         </div>
