@@ -6,10 +6,25 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Button } from '@/components/ui/button';
 import { Send, Bot, User } from 'lucide-react';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+}
+
+// Utility to clean up markdown tables (remove trailing pipes, trim whitespace)
+function cleanMarkdownTables(markdown: string): string {
+  return markdown
+    .split('\n')
+    .map(line => {
+      // Remove trailing pipe if present and not just a single pipe
+      if (line.trim().startsWith('|') && line.trim().endsWith('|') && line.trim() !== '|') {
+        return line.replace(/\|\s*$/, '');
+      }
+      return line;
+    })
+    .join('\n');
 }
 
 export default function ChatPage() {
@@ -170,6 +185,7 @@ export default function ChatPage() {
                   <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
                     <div className="prose prose-orange max-w-none">
                       <Markdown
+                        remarkPlugins={[remarkGfm]}
                         components={{
                           h1: ({...props}) => (
                             <h1 {...props} className="text-2xl font-bold text-orange-600 mb-4" />
@@ -278,7 +294,7 @@ export default function ChatPage() {
                           },
                         }}
                       >
-                        {message.content}
+                        {cleanMarkdownTables(message.content)}
                       </Markdown>
                     </div>
                     <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100">
