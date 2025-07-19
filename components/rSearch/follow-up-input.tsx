@@ -78,13 +78,13 @@ export default function FollowUpInput({
           <div className="bg-white border-t border-orange-200 p-6 shadow-2xl">
             <div className="max-w-7xl mx-auto">
               <form onSubmit={handleSubmitQuestion}>
-                <div className="flex border border-orange-200 rounded-2xl overflow-hidden focus-within:border-orange-400 focus-within:ring-1 focus-within:ring-orange-400">
+                <div className="flex rounded-2xl overflow-hidden bg-gray-50">
                   <Textarea
                     value={currentQuestion}
                     onChange={(e) => setCurrentQuestion(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={`Ask a follow-up question about "${originalSearchTerm}"... (Enter to submit, Shift+Enter for new line, Esc to cancel)`}
-                    className="flex-1 border-0 focus:ring-0 font-serif text-lg px-4 py-3 resize-none bg-transparent"
+                    className="flex-1 border-0 focus:ring-0 focus:outline-0 font-serif text-lg px-4 py-3 resize-none bg-transparent"
                     rows={2}
                     autoFocus
                   />

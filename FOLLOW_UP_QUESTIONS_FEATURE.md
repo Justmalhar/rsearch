@@ -32,8 +32,8 @@ The follow-up questions feature allows users to ask additional questions about t
 
 ### 2. Question Input Interface
 - **Activation**: Clicking "Ask Question" reveals the input form in the same sticky bottom area
-- **Unified Design**: Single bordered container with textarea on left and send icon button on right
-- **Input Field**: Two-line textarea with serif font, borderless within the container
+- **Borderless Design**: Clean container with light gray background and no borders
+- **Input Field**: Two-line textarea with serif font, completely borderless design
 - **Send Button**: Icon-only circular button that appears integrated within the textarea
 - **Smart Input**: Enter to submit, Shift+Enter for new line, Esc to cancel
 - **Form Behavior**: Hides automatically after question submission, shows during processing
@@ -122,7 +122,7 @@ The follow-up feature maintains consistency with the existing rSearch design whi
 - **Primary Color**: Orange (#ea580c, #f97316)
 - **Typography**: Uses `font-serif` class matching main rSearch query styling
 - **Button Design**: Pill-shaped buttons with `rounded-full` for modern appearance
-- **Input Styling**: Unified container with rounded corners, borderless textarea, and integrated send button
+- **Input Styling**: Borderless container with light gray background, rounded corners, and integrated send button
 - **Visual Enhancements**: 
   - Gradient backgrounds for follow-up sections
   - Enhanced shadows and borders
