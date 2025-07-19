@@ -119,7 +119,7 @@ export async function POST(req: Request) {
     }
 
     const prompt = deepResearchReportPrompt(query, researchPlan, allResults);
-    const model = process.env.NEXT_PUBLIC_AI_REASONING_MODEL;
+    const model = "o4-mini";
 
     const response = await openai.chat.completions.create({
       model: model as string,
