@@ -77,12 +77,13 @@ The chat feature is accessible via:
 ### Styling Components
 The chat page uses the same markdown styling components as the rSearch results:
 - Headings (h1-h6) with orange color scheme
-- Tables with horizontal scrolling and proper width constraints
+- Tables with horizontal scrolling and width-constrained containers (max 90vw)
 - Lists with orange markers
 - Links with orange hover effects
 - Code blocks with syntax highlighting
 - Blockquotes with orange border
 - GitHub Flavored Markdown (GFM) support
+- Responsive width constraints to prevent UI overflow
 
 ## System Prompt
 

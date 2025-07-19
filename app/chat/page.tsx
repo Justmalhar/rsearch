@@ -151,7 +151,7 @@ export default function ChatPage() {
 
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="max-w-4xl mx-auto space-y-6 w-full">
+        <div className="max-w-4xl mx-auto space-y-6 w-full max-w-[95vw]">
           {messages.length === 0 && (
             <div className="text-center py-12">
               <Bot className="h-12 w-12 text-orange-600 mx-auto mb-4" />
@@ -182,7 +182,7 @@ export default function ChatPage() {
               ) : (
                 // Assistant message - full width with markdown styling
                 <div className="flex-1">
-                  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 w-full">
+                  <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 w-full max-w-[90vw]">
                     <div className="prose prose-orange max-w-none w-full overflow-hidden">
                       <Markdown
                         remarkPlugins={[remarkGfm]}
@@ -206,8 +206,8 @@ export default function ChatPage() {
                             <h6 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
                           ),
                           table: ({...props}) => (
-                            <div className="w-full overflow-x-auto my-6 rounded-lg border border-gray-200 shadow-sm">
-                              <div className="min-w-max">
+                            <div className="w-full overflow-x-auto my-6 rounded-lg border border-gray-200 shadow-sm max-w-full">
+                              <div className="min-w-max max-w-full">
                                 <table {...props} className="w-full divide-y divide-gray-200" />
                               </div>
                             </div>
