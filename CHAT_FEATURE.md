@@ -77,11 +77,12 @@ The chat feature is accessible via:
 ### Styling Components
 The chat page uses the same markdown styling components as the rSearch results:
 - Headings (h1-h6) with orange color scheme
-- Tables with proper styling and hover effects
+- Tables with horizontal scrolling and proper width constraints
 - Lists with orange markers
 - Links with orange hover effects
-- Code blocks with orange background
+- Code blocks with syntax highlighting
 - Blockquotes with orange border
+- GitHub Flavored Markdown (GFM) support
 
 ## System Prompt
 
@@ -133,8 +134,10 @@ Potential improvements for the chat feature:
 
 ## Dependencies
 
-The chat feature uses the following dependencies (already included in the project):
+The chat feature uses the following dependencies:
 - `openai` - For OpenAI API integration
 - `react-markdown` - For markdown rendering
+- `remark-gfm` - For GitHub Flavored Markdown support
+- `react-syntax-highlighter` - For code syntax highlighting
 - `lucide-react` - For icons
 - `@/components/ui/button` - For UI components
