@@ -33,7 +33,7 @@ The follow-up questions feature allows users to ask additional questions about t
 ### 2. Question Input Interface
 - **Activation**: Clicking "Ask Question" reveals the input form in the same sticky bottom area
 - **Borderless Design**: Clean container with light gray background and no borders
-- **Input Field**: Two-line textarea with serif font, completely borderless design
+- **Input Field**: Two-line textarea with serif font, completely borderless design and centered placeholder
 - **Send Button**: Icon-only circular button that appears integrated within the textarea
 - **Smart Input**: Enter to submit, Shift+Enter for new line, Esc to cancel
 - **Form Behavior**: Hides automatically after question submission, shows during processing

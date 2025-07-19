@@ -15,7 +15,7 @@ interface FollowUpInputProps {
 
 export default function FollowUpInput({
   isVisible,
-  originalSearchTerm,
+  originalSearchTerm: _originalSearchTerm, // eslint-disable-line @typescript-eslint/no-unused-vars
   onSubmitQuestion,
   isProcessing
 }: FollowUpInputProps) {
@@ -83,9 +83,16 @@ export default function FollowUpInput({
                     value={currentQuestion}
                     onChange={(e) => setCurrentQuestion(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={`Ask a follow-up question about "${originalSearchTerm}"... (Enter to submit, Shift+Enter for new line, Esc to cancel)`}
-                    className="flex-1 border-0 focus:ring-0 focus:outline-none focus:border-0 outline-none font-serif text-lg px-4 py-3 resize-none bg-transparent"
-                    style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
+                    placeholder="Ask a follow up question"
+                    className="flex-1 border-0 focus:ring-0 focus:outline-none focus:border-0 outline-none font-serif text-lg px-6 py-4 resize-none bg-transparent"
+                    style={{ 
+                      border: 'none', 
+                      outline: 'none', 
+                      boxShadow: 'none',
+                      lineHeight: '1.5',
+                      paddingTop: '20px',
+                      paddingBottom: '20px'
+                    }}
                     rows={2}
                     autoFocus
                   />
