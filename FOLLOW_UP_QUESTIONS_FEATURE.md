@@ -32,8 +32,9 @@ The follow-up questions feature allows users to ask additional questions about t
 
 ### 2. Question Input Interface
 - **Activation**: Clicking "Ask Question" reveals the input form in the same sticky bottom area
-- **Input Field**: Text input with placeholder referencing the original search term and auto-focus
-- **Action Buttons**: Send button and Cancel (X) button
+- **Input Field**: Two-line textarea with serif font matching main rSearch styling
+- **Smart Input**: Enter to submit, Shift+Enter for new line (standard textarea UX)
+- **Action Buttons**: Send button and Cancel (X) button with pill-shaped design
 - **Form Behavior**: Hides automatically after question submission, shows during processing
 - **Auto-Scroll**: Automatically scrolls to the new follow-up section when question is submitted
 
@@ -120,7 +121,7 @@ The follow-up feature maintains consistency with the existing rSearch design whi
 - **Primary Color**: Orange (#ea580c, #f97316)
 - **Typography**: Uses `font-serif` class matching main rSearch query styling
 - **Button Design**: Pill-shaped buttons with `rounded-full` for modern appearance
-- **Input Styling**: Rounded input field with serif font for consistency
+- **Input Styling**: Two-line textarea with rounded corners and serif font for consistency
 - **Visual Enhancements**: 
   - Gradient backgrounds for follow-up sections
   - Enhanced shadows and borders

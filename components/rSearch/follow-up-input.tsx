@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Send, MessageCirclePlus, X } from 'lucide-react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
@@ -23,14 +23,25 @@ export default function FollowUpInput({
   const [showQuestionInput, setShowQuestionInput] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const handleSubmitQuestion = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitQuestion = () => {
     if (!currentQuestion.trim()) return;
 
     const questionText = currentQuestion.trim();
     setCurrentQuestion('');
     setShowQuestionInput(false); // Hide the input form
     onSubmitQuestion(questionText);
+  };
+
+  const handleSubmitQuestion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    submitQuestion();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submitQuestion();
+    }
   };
 
   if (!isVisible || isProcessing) return null;
@@ -63,12 +74,14 @@ export default function FollowUpInput({
           // Show input form
           <div className="bg-gradient-to-r from-orange-50/50 to-white border-t border-orange-200 p-6 shadow-2xl">
             <div className="max-w-7xl mx-auto">
-              <form onSubmit={handleSubmitQuestion} className="flex gap-3">
-                <Input
+              <form onSubmit={handleSubmitQuestion} className="flex gap-3 items-end">
+                <Textarea
                   value={currentQuestion}
                   onChange={(e) => setCurrentQuestion(e.target.value)}
-                  placeholder={`Ask a follow-up question about "${originalSearchTerm}"...`}
-                  className="flex-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400 font-serif text-lg rounded-full px-4"
+                  onKeyDown={handleKeyDown}
+                  placeholder={`Ask a follow-up question about "${originalSearchTerm}"... (Press Enter to submit, Shift+Enter for new line)`}
+                  className="flex-1 border-orange-200 focus:border-orange-400 focus:ring-orange-400 font-serif text-lg rounded-2xl px-4 py-3 resize-none"
+                  rows={2}
                   autoFocus
                 />
                 <Button
