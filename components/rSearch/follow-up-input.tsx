@@ -84,7 +84,8 @@ export default function FollowUpInput({
                     onChange={(e) => setCurrentQuestion(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={`Ask a follow-up question about "${originalSearchTerm}"... (Enter to submit, Shift+Enter for new line, Esc to cancel)`}
-                    className="flex-1 border-0 focus:ring-0 focus:outline-0 font-serif text-lg px-4 py-3 resize-none bg-transparent"
+                    className="flex-1 border-0 focus:ring-0 focus:outline-none focus:border-0 outline-none font-serif text-lg px-4 py-3 resize-none bg-transparent"
+                    style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                     rows={2}
                     autoFocus
                   />
