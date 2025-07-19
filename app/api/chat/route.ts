@@ -62,7 +62,7 @@ Remember to be conversational and helpful while maintaining the quality and stru
     const messagesWithSystem = [systemMessage, ...messages];
 
     const completion = await client.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4.1",
       messages: messagesWithSystem,
       temperature: 0.7,
       max_tokens: 2000,
