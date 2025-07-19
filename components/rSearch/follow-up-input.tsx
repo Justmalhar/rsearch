@@ -72,7 +72,7 @@ export default function FollowUpInput({
           </div>
         ) : (
           // Show input form
-          <div className="bg-gradient-to-r from-orange-50/50 to-white border-t border-orange-200 p-6 shadow-2xl">
+                      <div className="bg-white border-t border-orange-200 p-6 shadow-2xl">
             <div className="max-w-7xl mx-auto">
               <form onSubmit={handleSubmitQuestion} className="flex gap-3 items-end">
                 <Textarea
