@@ -5,6 +5,7 @@ interface UseAudioRecorderReturn {
   isTranscribing: boolean;
   startRecording: () => Promise<void>;
   stopRecording: () => void;
+  clearTranscript: () => void;
   transcript: string;
   error: string | null;
 }
@@ -79,11 +80,16 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
     }
   }, [isRecording]);
 
+  const clearTranscript = useCallback(() => {
+    setTranscript('');
+  }, []);
+
   return {
     isRecording,
     isTranscribing,
     startRecording,
     stopRecording,
+    clearTranscript,
     transcript,
     error,
   };

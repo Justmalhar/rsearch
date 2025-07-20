@@ -9,14 +9,15 @@ interface MicrophoneButtonProps {
 }
 
 export function MicrophoneButton({ onTranscriptReceived, className = '' }: MicrophoneButtonProps) {
-  const { isRecording, isTranscribing, startRecording, stopRecording, transcript, error } = useAudioRecorder();
+  const { isRecording, isTranscribing, startRecording, stopRecording, clearTranscript, transcript, error } = useAudioRecorder();
   const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     if (transcript) {
       onTranscriptReceived(transcript);
+      clearTranscript(); // Clear the transcript after using it
     }
-  }, [transcript, onTranscriptReceived]);
+  }, [transcript, onTranscriptReceived, clearTranscript]);
 
   useEffect(() => {
     if (error) {
