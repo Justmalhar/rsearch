@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Mic, MicOff, Loader2 } from 'lucide-react';
+import { Mic, Square, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAudioRecorder } from '@/hooks/useAudioRecorder';
 
@@ -41,16 +41,16 @@ export function MicrophoneButton({ onTranscriptReceived, className = '' }: Micro
         size="icon"
         onClick={handleClick}
         disabled={isTranscribing}
-        className={`h-8 w-8 rounded-full transition-all duration-200 ${
+        className={`h-8 w-8 rounded-full transition-colors duration-200 ${
           isRecording 
-            ? 'bg-red-500 hover:bg-red-600 text-white animate-pulse' 
+            ? 'bg-red-500 hover:bg-red-600 text-white' 
             : 'bg-orange-100 hover:bg-orange-200 text-orange-600 hover:text-orange-700'
         } ${className}`}
       >
         {isTranscribing ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : isRecording ? (
-          <MicOff className="h-4 w-4" />
+          <Square className="h-4 w-4" />
         ) : (
           <Mic className="h-4 w-4" />
         )}
@@ -62,11 +62,6 @@ export function MicrophoneButton({ onTranscriptReceived, className = '' }: Micro
           {error}
           <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-red-500"></div>
         </div>
-      )}
-      
-      {/* Recording indicator */}
-      {isRecording && (
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
       )}
     </div>
   );
