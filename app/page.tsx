@@ -7,6 +7,7 @@ import {
   Zap, ShoppingBag, MapPin, 
   Newspaper, GraduationCap, Lightbulb, Sparkles, Brain, ChevronDown
 } from "lucide-react";
+import { MicrophoneButton } from "@/components/ui/microphone-button";
 import { SearchSource } from "@/types/search";
 import {
   DropdownMenu,
@@ -129,6 +130,10 @@ export default function Home() {
     }
   };
 
+  const handleTranscriptReceived = (transcript: string) => {
+    setSearchTerm(prev => prev + (prev ? ' ' : '') + transcript);
+  };
+
   return (
     <div className="flex-1 flex flex-col min-h-full">
       <main className="flex-1 flex flex-col items-center justify-center px-4">
@@ -172,7 +177,7 @@ export default function Home() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="What are you looking for?" 
-                  className="pl-12 text-md h-[120px] resize-none bg-transparent
+                  className="pl-12 pr-12 text-md h-[120px] resize-none bg-transparent
                   border border-orange-200/60 hover:border-orange-300/80 
                   focus:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-500/50
                   rounded-2xl transition-all duration-300 shadow-inner
@@ -185,6 +190,10 @@ export default function Home() {
                     }
                   }}
                 />
+                {/* Microphone Button */}
+                <div className="absolute bottom-3 right-3">
+                  <MicrophoneButton onTranscriptReceived={handleTranscriptReceived} />
+                </div>
               </div>
 
               {/* Controls Row */}
