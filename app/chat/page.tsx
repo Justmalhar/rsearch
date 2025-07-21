@@ -5,6 +5,7 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Send, Bot, User, Copy, Check } from 'lucide-react';
+import { MicrophoneButton } from '@/components/ui/microphone-button';
 import remarkGfm from 'remark-gfm';
 
 interface Message {
@@ -45,6 +46,10 @@ export default function ChatPage() {
     } catch (error) {
       console.error('Failed to copy message:', error);
     }
+  };
+
+  const handleTranscriptReceived = (transcript: string) => {
+    setInputValue(prev => prev + (prev ? ' ' : '') + transcript);
   };
 
   useEffect(() => {
@@ -347,14 +352,20 @@ export default function ChatPage() {
       <div className="bg-white border-t border-gray-200 px-4 py-4">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-3">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask me anything..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              disabled={isLoading}
-            />
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask me anything..."
+                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                disabled={isLoading}
+              />
+              {/* Microphone Button */}
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <MicrophoneButton onTranscriptReceived={handleTranscriptReceived} />
+              </div>
+            </div>
             <button
               type="submit"
               disabled={!inputValue.trim() || isLoading}
