@@ -152,7 +152,7 @@ export default function ChatPage() {
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 min-h-0">
+      <div className="flex-1 overflow-y-auto px-4 pb-6 min-h-0">
         <div className="max-w-4xl mx-auto space-y-6 w-full">
           {messages.length === 0 && (
             <div className="text-center py-12">
