@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileHeader } from "@/components/ui/mobile-header";
+import { Footer } from "@/components/ui/footer";
 import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from "@/components/ui/toaster";
 
@@ -195,14 +196,17 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <div className="min-h-screen bg-white flex">
-          <Sidebar />
-          <div className="flex-1 lg:ml-24 flex flex-col">
-            <MobileHeader />
-            <div className="mt-16 lg:mt-0 flex-1">
-              {children}
+        <div className="min-h-screen bg-white flex flex-col">
+          <div className="flex flex-1">
+            <Sidebar />
+            <div className="flex-1 lg:ml-24 flex flex-col">
+              <MobileHeader />
+              <div className="mt-16 lg:mt-0 flex-1">
+                {children}
+              </div>
             </div>
           </div>
+          <Footer />
         </div>
         <Analytics />
         <Toaster />
