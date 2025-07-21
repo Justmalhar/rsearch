@@ -5,6 +5,7 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Send, Bot, User, Copy, Check } from 'lucide-react';
+import { MicrophoneButton } from '@/components/ui/microphone-button';
 import remarkGfm from 'remark-gfm';
 
 interface Message {
@@ -45,6 +46,10 @@ export default function ChatPage() {
     } catch (error) {
       console.error('Failed to copy message:', error);
     }
+  };
+
+  const handleTranscriptReceived = (transcript: string) => {
+    setInputValue(prev => prev + (prev ? ' ' : '') + transcript);
   };
 
   useEffect(() => {
@@ -145,23 +150,10 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Bot className="h-6 w-6 text-orange-600" />
-            rSearch Chat
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Chat with our AI assistant powered by rSearch
-          </p>
-        </div>
-      </div>
-
+    <div className="h-screen bg-gray-50 flex flex-col">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="max-w-4xl mx-auto space-y-6 w-full max-w-[95vw]">
+      <div className="flex-1 overflow-y-auto px-4 pb-6 min-h-0">
+        <div className="max-w-4xl mx-auto space-y-6 w-full">
           {messages.length === 0 && (
             <div className="text-center py-12">
               <Bot className="h-12 w-12 text-orange-600 mx-auto mb-4" />
@@ -344,17 +336,23 @@ export default function ChatPage() {
       </div>
 
       {/* Input Form */}
-      <div className="bg-white border-t border-gray-200 px-4 py-4">
+      <div className="bg-white border-t border-gray-200 px-4 py-4 flex-shrink-0">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-3">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask me anything..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              disabled={isLoading}
-            />
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask me anything..."
+                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                disabled={isLoading}
+              />
+              {/* Microphone Button */}
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <MicrophoneButton onTranscriptReceived={handleTranscriptReceived} />
+              </div>
+            </div>
             <button
               type="submit"
               disabled={!inputValue.trim() || isLoading}
