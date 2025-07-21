@@ -150,9 +150,9 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="h-screen bg-gray-50 flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-4">
+      <div className="bg-white border-b border-gray-200 px-4 py-4 flex-shrink-0">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Bot className="h-6 w-6 text-orange-600" />
@@ -165,8 +165,8 @@ export default function ChatPage() {
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="max-w-4xl mx-auto space-y-6 w-full max-w-[95vw]">
+      <div className="flex-1 overflow-y-auto px-4 py-6 min-h-0">
+        <div className="max-w-4xl mx-auto space-y-6 w-full">
           {messages.length === 0 && (
             <div className="text-center py-12">
               <Bot className="h-12 w-12 text-orange-600 mx-auto mb-4" />
@@ -349,7 +349,7 @@ export default function ChatPage() {
       </div>
 
       {/* Input Form */}
-      <div className="bg-white border-t border-gray-200 px-4 py-4">
+      <div className="bg-white border-t border-gray-200 px-4 py-4 flex-shrink-0">
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex gap-3">
             <div className="relative flex-1">
