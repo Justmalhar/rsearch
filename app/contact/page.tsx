@@ -19,7 +19,7 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-xl text-orange-700 max-w-2xl mx-auto">
-            Have questions, feedback, or want to collaborate? We'd love to hear from you.
+            Have questions, feedback, or want to collaborate? We&apos;d love to hear from you.
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export default function ContactPage() {
               </div>
             </div>
             <p className="text-orange-700 mb-4">
-              Interested in joining our team? We're always looking for talented individuals passionate about AI and search technology.
+              Interested in joining our team? We&apos;re always looking for talented individuals passionate about AI and search technology.
             </p>
             <div className="flex flex-col gap-2">
               <a 
@@ -115,7 +115,7 @@ export default function ContactPage() {
               </div>
             </div>
             <p className="text-orange-700 mb-4">
-              Interested in partnering with rSearch? We're open to collaborations, integrations, and business opportunities.
+              Interested in partnering with rSearch? We&apos;re open to collaborations, integrations, and business opportunities.
             </p>
             <a 
               href="mailto:partnerships@rsearch.app" 
@@ -230,7 +230,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-orange-900 mb-4">Response Time</h2>
             <p className="text-orange-700 mb-6 max-w-2xl mx-auto">
               We typically respond to inquiries within 24-48 hours during business days. 
-              For urgent technical issues, please include "URGENT" in your subject line.
+              For urgent technical issues, please include &quot;URGENT&quot; in your subject line.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm text-orange-600">
               <span className="flex items-center gap-1">

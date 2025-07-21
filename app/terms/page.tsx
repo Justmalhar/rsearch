@@ -28,7 +28,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-bold text-orange-900 mb-4">1. Acceptance of Terms</h2>
             <p className="text-orange-700 leading-relaxed">
-              By accessing and using rSearch ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. 
+              By accessing and using rSearch (&quot;the Service&quot;), you accept and agree to be bound by the terms and provision of this agreement. 
               If you do not agree to abide by the above, please do not use this service.
             </p>
           </section>
@@ -41,7 +41,7 @@ export default function TermsPage() {
               news, scholar, patents, shopping, and places.
             </p>
             <p className="text-orange-700 leading-relaxed">
-              The Service is provided "as is" and we reserve the right to modify, suspend, or discontinue the Service at any time without notice.
+              The Service is provided &quot;as is&quot; and we reserve the right to modify, suspend, or discontinue the Service at any time without notice.
             </p>
           </section>
 
@@ -85,7 +85,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-bold text-orange-900 mb-4">6. Disclaimers</h2>
             <p className="text-orange-700 leading-relaxed mb-4">
-              THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. WE MAKE NO WARRANTIES, EXPRESS OR IMPLIED, 
+              THE SERVICE IS PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; BASIS. WE MAKE NO WARRANTIES, EXPRESS OR IMPLIED, 
               AND HEREBY DISCLAIM ALL WARRANTIES, INCLUDING WITHOUT LIMITATION WARRANTIES OF MERCHANTABILITY, 
               FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
             </p>
@@ -108,7 +108,7 @@ export default function TermsPage() {
             <h2 className="text-2xl font-bold text-orange-900 mb-4">8. Modifications to Terms</h2>
             <p className="text-orange-700 leading-relaxed">
               We reserve the right to modify these Terms at any time. We will notify users of any material changes by posting 
-              the new Terms on this page and updating the "Last updated" date. Your continued use of the Service after such 
+              the new Terms on this page and updating the &quot;Last updated&quot; date. Your continued use of the Service after such 
               modifications constitutes your acceptance of the new Terms.
             </p>
           </section>

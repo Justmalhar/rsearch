@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, Users, Zap, Globe, Heart, Briefcase } from 'lucide-react';
+import { ArrowLeft, Zap, Globe, Heart, Briefcase } from 'lucide-react';
 
 export default function CareersPage() {
   return (
@@ -28,7 +28,7 @@ export default function CareersPage() {
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
             <h2 className="text-2xl font-bold text-orange-900 mb-4">Our Mission</h2>
             <p className="text-orange-700 leading-relaxed mb-6">
-              At rSearch, we're on a mission to democratize AI-powered reasoning and search capabilities. 
+              At rSearch, we&apos;re on a mission to democratize AI-powered reasoning and search capabilities. 
               We believe that intelligent, well-reasoned responses to complex queries should be accessible to everyone, 
               not just those who can afford premium AI services.
             </p>
@@ -85,7 +85,7 @@ export default function CareersPage() {
             <div className="bg-white rounded-xl p-6 shadow-md border border-orange-100">
               <h3 className="text-xl font-semibold text-orange-800 mb-3">Continuous Learning</h3>
               <p className="text-orange-700">
-                We're constantly learning and adapting. The AI landscape evolves rapidly, 
+                We&apos;re constantly learning and adapting. The AI landscape evolves rapidly, 
                 and we stay at the forefront of new developments.
               </p>
             </div>
@@ -114,8 +114,8 @@ export default function CareersPage() {
                 </span>
               </div>
               <p className="text-orange-700 mb-4">
-                We're looking for an experienced full-stack developer to help us scale rSearch 
-                and build new features. You'll work with modern technologies like Next.js, 
+                We&apos;re looking for an experienced full-stack developer to help us scale rSearch 
+                and build new features. You&apos;ll work with modern technologies like Next.js, 
                 TypeScript, and AI APIs.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -138,7 +138,7 @@ export default function CareersPage() {
               </div>
               <p className="text-orange-700 mb-4">
                 Join our AI team to improve our reasoning capabilities and integrate new 
-                language models. You'll work on cutting-edge AI technologies and help 
+                language models. You&apos;ll work on cutting-edge AI technologies and help 
                 shape the future of intelligent search.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -160,7 +160,7 @@ export default function CareersPage() {
                 </span>
               </div>
               <p className="text-orange-700 mb-4">
-                Help us create intuitive and beautiful user experiences. You'll work on 
+                Help us create intuitive and beautiful user experiences. You&apos;ll work on 
                 designing interfaces that make complex AI capabilities accessible and 
                 enjoyable to use.
               </p>
@@ -179,9 +179,9 @@ export default function CareersPage() {
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
             <h2 className="text-2xl font-bold text-orange-900 mb-4">Don't See a Perfect Fit?</h2>
             <p className="text-orange-700 mb-6 max-w-2xl mx-auto">
-              We're always looking for talented individuals who are passionate about AI, 
-              search technology, and making a positive impact. Even if you don't see a 
-              specific role that matches your skills, we'd love to hear from you.
+              We&apos;re always looking for talented individuals who are passionate about AI, 
+              search technology, and making a positive impact. Even if you don&apos;t see a 
+              specific role that matches your skills, we&apos;d love to hear from you.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
