@@ -177,7 +177,7 @@ export default function CareersPage() {
         {/* Contact Section */}
         <section className="text-center">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100">
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">Don't See a Perfect Fit?</h2>
+            <h2 className="text-2xl font-bold text-orange-900 mb-4">Don&apos;t See a Perfect Fit?</h2>
             <p className="text-orange-700 mb-6 max-w-2xl mx-auto">
               We&apos;re always looking for talented individuals who are passionate about AI, 
               search technology, and making a positive impact. Even if you don&apos;t see a 
