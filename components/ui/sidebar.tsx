@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookText, Search, Settings, Image as ImageIcon, MessageCircle } from "lucide-react";
+import { Search, Settings, Image as ImageIcon, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -43,13 +43,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
           <span className="text-xs font-medium">Search</span>
         </Link>
 
-        <Link 
-          href="/library" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
-        >
-          <BookText className="h-6 w-6" />
-          <span className="text-xs font-medium">Library</span>
-        </Link>
+
 
         <Link 
           href="/image" 
