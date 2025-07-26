@@ -10,7 +10,7 @@ interface SidebarProps {
 export function Sidebar({ className, isMobile }: SidebarProps) {
   return (
     <div className={cn(
-      "h-screen bg-white border-r border-orange-100 flex flex-col items-center py-6 z-10",
+      "h-screen bg-white border-r border-blue-100 flex flex-col items-center py-6 z-10",
       isMobile ? "w-full" : "fixed left-0 top-0 w-24 hidden lg:flex",
       className
     )}>
@@ -24,7 +24,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
             viewBox="0 0 52 55" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
-            className="text-orange-600"
+            className="text-blue-600"
             aria-hidden="true"
           >
             <path 
@@ -37,7 +37,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
         {/* Main Navigation */}
         <Link 
           href="/" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
         >
           <Search className="h-6 w-6" />
           <span className="text-xs font-medium">Search</span>
@@ -47,7 +47,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
 
         <Link 
           href="/image" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
         >
           <ImageIcon className="h-6 w-6" />
           <div className="text-xs font-medium text-center leading-tight">
@@ -58,7 +58,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
 
         <Link 
           href="/chat" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
         >
           <MessageCircle className="h-6 w-6" />
           <span className="text-xs font-medium">Chat</span>
@@ -69,7 +69,7 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
       <div className="mt-auto">
         <Link 
           href="/settings" 
-          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+          className="flex flex-col items-center gap-2 p-3 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
         >
           <Settings className="h-6 w-6" />
           <span className="text-xs font-medium">Settings</span>

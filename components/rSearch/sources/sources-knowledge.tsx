@@ -28,10 +28,10 @@ export default function KnowledgeGraph({ data }: KnowledgeGraphProps) {
               <div className="flex-grow space-y-4">
                 {/* Header */}
                 <div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-orange-500 leading-tight">
+                  <h3 className="text-xl md:text-2xl font-semibold text-blue-500 leading-tight">
                     {data.title}
                   </h3>
-                  <p className="text-sm md:text-base text-orange-400 mt-1">
+                  <p className="text-sm md:text-base text-blue-400 mt-1">
                     {data.type}
                   </p>
                 </div>
@@ -44,7 +44,7 @@ export default function KnowledgeGraph({ data }: KnowledgeGraphProps) {
                         key={key} 
                         className="flex flex-col p-2 rounded-md bg-white/50"
                       >
-                        <span className="text-xs font-medium text-orange-400 mb-1">
+                        <span className="text-xs font-medium text-blue-400 mb-1">
                           {key}
                         </span>
                         <span className="text-sm text-gray-700">

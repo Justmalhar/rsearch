@@ -44,12 +44,12 @@ export function Logo({ className = "" }: LogoProps) {
   return (
     <div className={`flex flex-col items-center w-full text-center ${className}`}>
       <Link href="/" className="inline-flex items-center hover:opacity-90 transition-opacity mb-4">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-orange-600 tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-blue-600 tracking-tight">
           rSearch
         </h1>
       </Link>
       {isProSubscriber && (
-        <div className="flex items-center gap-1 text-sm font-medium text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
+        <div className="flex items-center gap-1 text-sm font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
           <Sparkles className="h-3 w-3" />
           <span>Pro</span>
         </div>

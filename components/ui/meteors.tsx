@@ -27,13 +27,13 @@ export const Meteors = ({ number = 20, ...props }: MeteorsProps) => {
         <span
           key={`meteor-${idx}`}
           className={cn(
-            "absolute size-0.5 rotate-[215deg] animate-meteor rounded-full bg-orange-400/80 shadow-[0_0_0_1px_#fdba7440]"
+            "absolute size-0.5 rotate-[215deg] animate-meteor rounded-full bg-blue-400/80 shadow-[0_0_0_1px_#3b82f640]"
           )}
           style={style}
           {...props}
         >
           {/* Meteor Tail */}
-          <div className="absolute top-1/2 -z-10 h-px w-[50px] -translate-y-1/2 bg-gradient-to-r from-orange-300 to-transparent" />
+          <div className="absolute top-1/2 -z-10 h-px w-[50px] -translate-y-1/2 bg-gradient-to-r from-blue-300 to-transparent" />
         </span>
       ))}
     </div>

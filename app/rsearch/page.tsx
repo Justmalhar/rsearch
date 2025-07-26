@@ -588,7 +588,7 @@ function SearchPageContent() {
             <button
               type="button"
               onClick={() => setIsRefinedQueryExpanded(!isRefinedQueryExpanded)}
-              className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+              className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Refined Query</span>
             <svg
@@ -610,8 +610,8 @@ function SearchPageContent() {
             </div>
           ) : refinedQuery && isRefinedQueryExpanded && (
             <div className="space-y-2">
-              <p className="text-orange-800">{refinedQuery.query}</p>
-              <p className="text-sm text-orange-700 mt-2">{refinedQuery.explanation}</p>
+              <p className="text-blue-800">{refinedQuery.query}</p>
+              <p className="text-sm text-blue-700 mt-2">{refinedQuery.explanation}</p>
             </div>
             )}
           </section>
@@ -622,7 +622,7 @@ function SearchPageContent() {
           <button
             type="button"
             onClick={() => setIsSourcesExpanded(!isSourcesExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Sources</span>
             <svg
@@ -660,7 +660,7 @@ function SearchPageContent() {
           <button
             type="button"
             onClick={() => setIsThinkingExpanded(!isThinkingExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Thinking</span>
             <svg
@@ -683,7 +683,7 @@ function SearchPageContent() {
           <button
             type="button"
             onClick={() => setIsResultsExpanded(!isResultsExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Results</span>
             <svg
@@ -719,11 +719,11 @@ function SearchPageContent() {
           <div 
             key={question.id} 
             ref={(el) => { followUpRefs.current[question.id] = el; }}
-            className="border-t-2 border-orange-200 pt-8 md:pt-10 space-y-6 md:space-y-8 bg-gradient-to-r from-orange-50/30 to-transparent p-6 rounded-lg mt-6"
+            className="border-t-2 border-blue-200 pt-8 md:pt-10 space-y-6 md:space-y-8 bg-gradient-to-r from-blue-50/30 to-transparent p-6 rounded-lg mt-6"
           >
             <div className="mb-4">
-              <span className="text-sm text-orange-600">Follow-up #{index + 1}:</span>
-              <h2 className="text-xl font-serif font-semibold text-orange-700 mt-1">{question.question}</h2>
+              <span className="text-sm text-blue-600">Follow-up #{index + 1}:</span>
+              <h2 className="text-xl font-serif font-semibold text-blue-700 mt-1">{question.question}</h2>
             </div>
 
             {/* 1. Refined Query */}
@@ -732,7 +732,7 @@ function SearchPageContent() {
                 <button
                   type="button"
                   onClick={() => toggleFollowUpSection(question.id, 'query')}
-                  className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+                  className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
                 >
                   <span>Refined Query</span>
                   <svg
@@ -751,8 +751,8 @@ function SearchPageContent() {
                   </div>
                 ) : question.isRefinedQueryExpanded && question.refinedQuery && (
                   <div className="space-y-2">
-                    <p className="text-orange-800">{question.refinedQuery.query}</p>
-                    <p className="text-sm text-orange-700 mt-2">{question.refinedQuery.explanation}</p>
+                    <p className="text-blue-800">{question.refinedQuery.query}</p>
+                    <p className="text-sm text-blue-700 mt-2">{question.refinedQuery.explanation}</p>
                   </div>
                 )}
               </section>
@@ -763,7 +763,7 @@ function SearchPageContent() {
               <button
                 type="button"
                 onClick={() => toggleFollowUpSection(question.id, 'sources')}
-                className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+                className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
               >
                 <span>Sources</span>
                 <svg
@@ -799,7 +799,7 @@ function SearchPageContent() {
                 <button
                   type="button"
                   onClick={() => toggleFollowUpSection(question.id, 'thinking')}
-                  className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+                  className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
                 >
                   <span>Thinking</span>
                   <svg
@@ -820,7 +820,7 @@ function SearchPageContent() {
               <button
                 type="button"
                 onClick={() => toggleFollowUpSection(question.id, 'results')}
-                className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+                className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
               >
                 <span>Results</span>
                 <svg

@@ -31,7 +31,7 @@ export default function SourcesSidebar({ showSidebar, sources, getWebsiteName }:
         </div>
         
         <div 
-          className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:theme(colors.orange.300)_transparent] hover:[scrollbar-color:theme(colors.orange.500)_transparent]"
+          className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:theme(colors.blue.300)_transparent] hover:[scrollbar-color:theme(colors.blue.500)_transparent]"
           style={{ maxHeight: 'calc(100vh - 8rem)' }}
         >
           <div className="divide-y divide-gray-50">

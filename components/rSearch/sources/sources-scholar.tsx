@@ -50,14 +50,14 @@ export default function ScholarSources({ sources, displayCount = 10 }: ScholarSo
                     <>
                       {source.authors && source.authors.length > 0 && (
                         <>
-                          <span className="text-orange-500">Authors:</span>
+                          <span className="text-blue-500">Authors:</span>
                           <span>{source.authors.join(', ')}</span>
                         </>
                       )}
                       {source.publisher && (
                         <>
                           <span className="text-gray-400">•</span>
-                          <span className="text-orange-500">Publisher:</span>
+                          <span className="text-blue-500">Publisher:</span>
                           <span>{source.publisher}</span>
                         </>
                       )}
@@ -66,14 +66,14 @@ export default function ScholarSources({ sources, displayCount = 10 }: ScholarSo
                   {source.year && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <span className="text-orange-500">Year:</span>
+                      <span className="text-blue-500">Year:</span>
                       <span>{source.year}</span>
                     </>
                   )}
                   {source.citations && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <span className="text-orange-500">Citations:</span>
+                      <span className="text-blue-500">Citations:</span>
                       <span>{source.citations}</span>
                     </>
                   )}

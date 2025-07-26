@@ -540,7 +540,7 @@ class PDFMarkdownRenderer {
       
       // Row background
       if (isHeader) {
-        this.pdf.setFillColor(254, 215, 170); // Orange-200
+        this.pdf.setFillColor(191, 219, 254); // Blue-200
         this.pdf.rect(LAYOUT.margin, rowY - 3, this.contentWidth, cellHeight, 'F');
       }
       

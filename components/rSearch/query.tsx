@@ -27,8 +27,8 @@ export default function Query({ searchTerm, mode = 'web' }: QueryProps) {
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-3">
-        <Icon className="h-8 w-8 text-orange-500" />
-        <h1 className="text-3xl font-serif font-bold text-orange-600">
+        <Icon className="h-8 w-8 text-blue-500" />
+        <h1 className="text-3xl font-serif font-bold text-blue-600">
           {searchTerm}
         </h1>
       </div>

@@ -156,7 +156,7 @@ export default function ChatPage() {
         <div className="max-w-4xl mx-auto space-y-6 w-full">
           {messages.length === 0 && (
             <div className="text-center py-12">
-              <Bot className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+              <Bot className="h-12 w-12 text-blue-600 mx-auto mb-4" />
               <h2 className="text-xl font-semibold text-gray-900 mb-2">
                 Welcome to rSearch Chat
               </h2>
@@ -172,7 +172,7 @@ export default function ChatPage() {
                 // User message - chat bubble style
                 <div className="flex-1 flex justify-end">
                   <div className="max-w-[80%] lg:max-w-[70%]">
-                    <div className="bg-orange-600 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-sm">
+                    <div className="bg-blue-600 text-white rounded-2xl rounded-br-md px-4 py-3 shadow-sm">
                       <p className="text-sm leading-relaxed">{message.content}</p>
                     </div>
                     <div className="flex items-center justify-end gap-2 mt-2">
@@ -185,27 +185,27 @@ export default function ChatPage() {
                 // Assistant message - full width with markdown styling
                 <div className="flex-1">
                   <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 w-full max-w-[90vw]">
-                    <div className="prose prose-orange max-w-none w-full overflow-hidden">
+                    <div className="prose prose-blue max-w-none w-full overflow-hidden">
                       <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
                           h1: ({...props}) => (
-                            <h1 {...props} className="text-2xl font-bold text-orange-600 mb-4" />
+                            <h1 {...props} className="text-2xl font-bold text-blue-600 mb-4" />
                           ),
                           h2: ({...props}) => (
-                            <h2 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3" />
+                            <h2 {...props} className="text-xl font-bold text-blue-600 mt-6 mb-3" />
                           ),
                           h3: ({...props}) => (
-                            <h3 {...props} className="text-lg font-bold text-orange-600 mt-4 mb-2" />
+                            <h3 {...props} className="text-lg font-bold text-blue-600 mt-4 mb-2" />
                           ),
                           h4: ({...props}) => (
-                            <h4 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
+                            <h4 {...props} className="text-base font-bold text-blue-600 mt-4 mb-2" />
                           ),
                           h5: ({...props}) => (
-                            <h5 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
+                            <h5 {...props} className="text-base font-bold text-blue-600 mt-4 mb-2" />
                           ),
                           h6: ({...props}) => (
-                            <h6 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
+                            <h6 {...props} className="text-base font-bold text-blue-600 mt-4 mb-2" />
                           ),
                           table: ({...props}) => (
                             <div className="w-full overflow-x-auto my-6 rounded-lg border border-gray-200 shadow-sm max-w-full">
@@ -215,16 +215,16 @@ export default function ChatPage() {
                             </div>
                           ),
                           thead: ({...props}) => (
-                            <thead {...props} className="bg-gradient-to-r from-orange-50 to-orange-100" />
+                            <thead {...props} className="bg-gradient-to-r from-blue-50 to-blue-100" />
                           ),
                           tbody: ({...props}) => (
                             <tbody {...props} className="bg-white divide-y divide-gray-200" />
                           ),
                           tr: ({...props}) => (
-                            <tr {...props} className="hover:bg-orange-50/30 transition-colors duration-200" />
+                            <tr {...props} className="hover:bg-blue-50/30 transition-colors duration-200" />
                           ),
                           th: ({...props}) => (
-                            <th {...props} className="px-6 py-4 text-left text-sm font-semibold text-orange-700 uppercase tracking-wider" />
+                            <th {...props} className="px-6 py-4 text-left text-sm font-semibold text-blue-700 uppercase tracking-wider" />
                           ),
                           td: ({...props}) => (
                             <td {...props} className="px-6 py-4 text-sm text-gray-700 whitespace-normal" />
@@ -233,10 +233,10 @@ export default function ChatPage() {
                             <p {...props} className="text-gray-700 mb-4 leading-relaxed">{children}</p>
                           ),
                           ul: ({...props}) => (
-                            <ul {...props} className="list-disc pl-6 mb-4 space-y-2 marker:text-orange-500" />
+                            <ul {...props} className="list-disc pl-6 mb-4 space-y-2 marker:text-blue-500" />
                           ),
                           ol: ({...props}) => (
-                            <ol {...props} className="list-decimal pl-6 mb-4 space-y-2 marker:text-orange-500" />
+                            <ol {...props} className="list-decimal pl-6 mb-4 space-y-2 marker:text-blue-500" />
                           ),
                           li: ({...props}) => (
                             <li {...props} className="text-gray-700" />
@@ -244,19 +244,19 @@ export default function ChatPage() {
                           a: ({...props}) => (
                             <a 
                               {...props} 
-                              className="text-orange-600 hover:text-orange-700 font-medium underline decoration-orange-200 hover:decoration-orange-500 transition-colors"
+                              className="text-blue-600 hover:text-blue-700 font-medium underline decoration-blue-200 hover:decoration-blue-500 transition-colors"
                               target="_blank"
                               rel="noopener noreferrer"
                             />
                           ),
                           blockquote: ({...props}) => (
-                            <blockquote {...props} className="border-l-4 border-orange-300 pl-4 italic my-4 text-gray-600 bg-orange-50/30 py-2 rounded-r" />
+                            <blockquote {...props} className="border-l-4 border-blue-300 pl-4 italic my-4 text-gray-600 bg-blue-50/30 py-2 rounded-r" />
                           ),
                           strong: ({...props}) => (
-                            <strong {...props} className="font-bold text-orange-600" />
+                            <strong {...props} className="font-bold text-blue-600" />
                           ),
                           em: ({...props}) => (
-                            <em {...props} className="italic text-orange-600/90 font-semibold" />
+                            <em {...props} className="italic text-blue-600/90 font-semibold" />
                           ),
                           pre: ({children, ...props}) => {
                             const child = children as React.ReactElement<{ className?: string; children?: React.ReactNode }>;
@@ -291,7 +291,7 @@ export default function ChatPage() {
                               return null; // Handled by pre component
                             }
                             return (
-                              <code {...props} className="bg-orange-100 text-orange-800 rounded px-2 py-1 text-sm font-mono">
+                              <code {...props} className="bg-blue-100 text-blue-800 rounded px-2 py-1 text-sm font-mono">
                                 {children}
                               </code>
                             );
@@ -303,12 +303,12 @@ export default function ChatPage() {
                     </div>
                     <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
                       <div className="flex items-center gap-2">
-                        <Bot className="h-4 w-4 text-orange-600" />
+                        <Bot className="h-4 w-4 text-blue-600" />
                         <span className="text-xs text-gray-500">rSearch Assistant</span>
                       </div>
                       <button
                         onClick={() => copyMessage(message.content, index)}
-                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                        className="flex items-center gap-2 px-3 py-1.5 text-xs text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                       >
                         {copiedMessageId === index ? (
                           <>
@@ -345,7 +345,7 @@ export default function ChatPage() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask me anything..."
-                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 disabled={isLoading}
               />
               {/* Microphone Button */}
@@ -356,7 +356,7 @@ export default function ChatPage() {
             <button
               type="submit"
               disabled={!inputValue.trim() || isLoading}
-              className="px-4 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               <Send className="h-4 w-4" />
             </button>
