@@ -38,7 +38,6 @@ export default function Home() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [enableQueryRefinement, setEnableQueryRefinement] = useState(true);
   const [enableDeepResearch, setEnableDeepResearch] = useState(false);
   const [showProModal, setShowProModal] = useState(false);
 
@@ -49,13 +48,9 @@ export default function Home() {
       const defaultSettings = {
         aiProvider: "deepseek",
         searchProvider: "serper",
-        autoExpandSections: true,
-        enableQueryRefinement: true
+        autoExpandSections: true
       };
       localStorage.setItem("rSearch_settings", JSON.stringify(defaultSettings));
-    } else {
-      const settings = JSON.parse(savedSettings);
-      setEnableQueryRefinement(settings.enableQueryRefinement ?? true);
     }
   }, []);
 
