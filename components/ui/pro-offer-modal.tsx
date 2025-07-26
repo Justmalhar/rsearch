@@ -48,19 +48,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
     setIsSubmitting(true);
 
     try {
-      const zapierWebhookUrl = process.env.NEXT_PUBLIC_ZAPIER_WEBHOOK_URL;
-      
-      if (!zapierWebhookUrl) {
-        console.error("Zapier webhook URL not configured");
-        toast({
-          title: "Configuration error",
-          description: "Please contact support.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      const response = await fetch(zapierWebhookUrl, {
+      const response = await fetch('/api/pro-subscription', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +61,9 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         // Mark user as pro subscriber in localStorage
         localStorage.setItem("rSearch_pro_subscriber", "true");
         
@@ -91,13 +81,28 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
         
         onClose();
       } else {
-        throw new Error("Failed to submit");
+        // Handle specific error types
+        let errorMessage = "Something went wrong. Please try again.";
+        
+        if (response.status === 400) {
+          errorMessage = data.error || "Please check your information and try again.";
+        } else if (response.status === 502) {
+          errorMessage = "Service temporarily unavailable. Please try again later.";
+        } else if (response.status >= 500) {
+          errorMessage = "Server error. Please try again later or contact support.";
+        }
+        
+        toast({
+          title: "Submission failed",
+          description: errorMessage,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       console.error("Error submitting form:", error);
       toast({
-        title: "Something went wrong",
-        description: "Please try again or contact support.",
+        title: "Network error",
+        description: "Please check your connection and try again.",
         variant: "destructive",
       });
     } finally {

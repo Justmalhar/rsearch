@@ -11,8 +11,9 @@ The Pro offer modal is a popup that appears when users first visit rSearch, offe
 - **Automatic Display**: Shows 2 seconds after page load for new users
 - **Local Storage Management**: Remembers if user has subscribed or dismissed the offer
 - **Form Validation**: Validates name and email before submission
+- **Server-Side Processing**: Secure API endpoint with comprehensive error logging
 - **Zapier Integration**: Sends user data to Zapier webhook
-- **Toast Notifications**: Shows success/error messages
+- **Toast Notifications**: Shows success/error messages with specific error types
 - **Responsive Design**: Works on mobile and desktop
 - **rSearch Branding**: Uses orange/red gradient theme matching the app
 - **Pro Badge**: Shows "Pro" badge under the rSearch logo for subscribers
@@ -33,7 +34,7 @@ The Pro offer modal is a popup that appears when users first visit rSearch, offe
 2. Add your Zapier webhook URL:
 
 ```env
-NEXT_PUBLIC_ZAPIER_WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/your-zapier-webhook-url-here
+ZAPIER_WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/your-zapier-webhook-url-here
 ```
 
 3. Replace `your-zapier-webhook-url-here` with your actual Zapier webhook URL
@@ -119,9 +120,9 @@ const timer = setTimeout(() => {
 
 ### Webhook Not Working
 
-1. Verify the `NEXT_PUBLIC_ZAPIER_WEBHOOK_URL` environment variable is set correctly
+1. Verify the `ZAPIER_WEBHOOK_URL` environment variable is set correctly
 2. Check that the Zapier webhook is active and properly configured
-3. Look for network errors in the browser's developer tools
+3. Check server logs for detailed error information
 4. Verify the webhook URL is accessible and returns a 200 status code
 
 ### Build Errors
@@ -130,11 +131,37 @@ const timer = setTimeout(() => {
 2. Make sure all dependencies are installed: `npm install`
 3. Check that the modal component is properly imported in `app/page.tsx`
 
+## Server-Side Logging
+
+The API endpoint (`/api/pro-subscription`) provides comprehensive logging for debugging:
+
+### Logged Information:
+- **Subscription attempts** with user data and IP address
+- **Validation errors** (missing fields, invalid email)
+- **Zapier webhook failures** with specific HTTP status codes
+- **Network errors** and unexpected exceptions
+- **Successful subscriptions** with confirmation
+
+### Error Types Logged:
+- **400**: Missing required fields or invalid email format
+- **404**: Zapier webhook not found
+- **401/403**: Zapier authentication errors
+- **4xx**: Other Zapier client errors
+- **5xx**: Zapier server errors
+- **502**: Webhook delivery failed
+- **500**: Internal server errors
+
+### Viewing Logs:
+- **Development**: Check your terminal/console where you run `npm run dev`
+- **Production**: Check your hosting platform's log viewer (Vercel, Netlify, etc.)
+
 ## Security Considerations
 
-- The webhook URL is exposed in the client-side code (NEXT_PUBLIC_ prefix)
-- Consider implementing rate limiting on your Zapier webhook
-- Validate email addresses on the server side as well
+- Webhook URL is now server-side only (not exposed to client)
+- Server-side validation prevents client-side manipulation
+- IP address logging helps with spam detection
+- Consider implementing rate limiting on the API endpoint
+- Validate email addresses on the server side
 - Consider adding CAPTCHA for additional spam protection
 
 ## Future Enhancements
