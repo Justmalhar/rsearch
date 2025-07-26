@@ -55,18 +55,18 @@ export default function FollowUpInput({
       <div className={`fixed bottom-0 left-0 right-0 z-50 ${isMobile ? '' : 'pl-32'}`}>
         {!showQuestionInput ? (
           // Show follow-up button
-          <div className="bg-white/95 backdrop-blur-sm border-t border-orange-200 p-4 shadow-lg">
+          <div className="bg-white/95 backdrop-blur-sm border-t border-blue-200 p-4 shadow-lg">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-100 rounded-full">
-                    <MessageCirclePlus className="w-5 h-5 text-orange-600" />
+                  <div className="p-2 bg-blue-100 rounded-full">
+                    <MessageCirclePlus className="w-5 h-5 text-blue-600" />
                   </div>
-                  <span className="text-orange-600 font-medium font-serif text-lg">Ask a follow-up question</span>
+                  <span className="text-blue-600 font-medium font-serif text-lg">Ask a follow-up question</span>
                 </div>
                 <Button
                   onClick={() => setShowQuestionInput(true)}
-                  className="bg-orange-600 hover:bg-orange-700 text-white rounded-full px-6"
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6"
                 >
                   Ask Question
                 </Button>
@@ -75,7 +75,7 @@ export default function FollowUpInput({
           </div>
         ) : (
           // Show input form
-          <div className="bg-white border-t border-orange-200 p-6 shadow-2xl">
+          <div className="bg-white border-t border-blue-200 p-6 shadow-2xl">
             <div className="max-w-7xl mx-auto">
               <form onSubmit={handleSubmitQuestion}>
                 <div className="flex rounded-2xl overflow-hidden bg-gray-50">
@@ -101,7 +101,7 @@ export default function FollowUpInput({
                       type="submit"
                       disabled={!currentQuestion.trim()}
                       size="sm"
-                      className="bg-orange-600 hover:bg-orange-700 text-white rounded-full p-2 h-8 w-8"
+                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 h-8 w-8"
                     >
                       <Send className="h-4 w-4" />
                     </Button>

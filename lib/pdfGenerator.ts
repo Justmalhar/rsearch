@@ -1,16 +1,16 @@
 import jsPDF from 'jspdf';
 import type { SearchResult } from '@/types/search';
 
-// Color scheme - using orange theme consistently
+// Color scheme - using blue theme consistently
 const COLORS = {
-  primary: '#ea580c', // Orange-600
+  primary: '#2563eb', // Blue-600
   secondary: '#000000', // Black
   text: '#1f2937', // Gray-800
-  accent: '#fb923c', // Orange-400
+  accent: '#3b82f6', // Blue-500
   muted: '#6b7280', // Gray-500
-  background: '#fff7ed', // Orange-50
-  border: '#fed7aa', // Orange-200
-  orange: '#ea580c', // Orange for titles, bold, italics, links
+  background: '#eff6ff', // Blue-50
+  border: '#bfdbfe', // Blue-200
+  blue: '#2563eb', // Blue for titles, bold, italics, links
 };
 
 // Font configurations
@@ -355,7 +355,7 @@ class PDFMarkdownRenderer {
       // Fallback text header
       this.pdf.setFontSize(20);
       this.pdf.setFont(FONTS.heading.family, FONTS.heading.style);
-      this.pdf.setTextColor(COLORS.orange);
+      this.pdf.setTextColor(COLORS.blue);
       const title = 'rSearch Report';
       const titleWidth = this.pdf.getTextWidth(title);
       this.pdf.text(title, (this.pageWidth - titleWidth) / 2, this.currentY);
@@ -365,44 +365,44 @@ class PDFMarkdownRenderer {
     // Search term title
     this.pdf.setFontSize(16);
     this.pdf.setFont(FONTS.heading.family, FONTS.heading.style);
-    this.pdf.setTextColor(COLORS.orange);
+    this.pdf.setTextColor(COLORS.blue);
     const searchText = `Search Query: ${searchTerm}`;
     this.pdf.text(searchText, LAYOUT.margin, this.currentY);
     this.currentY += LAYOUT.headerSpacing;
 
     // Separator line
-    this.pdf.setDrawColor(COLORS.orange);
+    this.pdf.setDrawColor(COLORS.blue);
     this.pdf.setLineWidth(1);
     this.pdf.line(LAYOUT.margin, this.currentY, this.pageWidth - LAYOUT.margin, this.currentY);
     this.currentY += LAYOUT.sectionSpacing;
   }
 
-  // Render formatted text tokens with consistent orange coloring
+  // Render formatted text tokens with consistent blue coloring
   private renderTokens(tokens: TextToken[], x: number, maxWidth: number): number {
     let currentX = x;
     let maxY = this.currentY;
 
     for (const token of tokens) {
-      // Set font based on token type with consistent orange coloring
+      // Set font based on token type with consistent blue coloring
       switch (token.type) {
         case 'bold':
           this.pdf.setFont(FONTS.heading.family, FONTS.heading.style);
-          this.pdf.setTextColor(COLORS.orange);
+          this.pdf.setTextColor(COLORS.blue);
           this.pdf.setFontSize(11);
           break;
         case 'italic':
           this.pdf.setFont(FONTS.italic.family, FONTS.italic.style);
-          this.pdf.setTextColor(COLORS.orange);
+          this.pdf.setTextColor(COLORS.blue);
           this.pdf.setFontSize(11);
           break;
         case 'code':
           this.pdf.setFont(FONTS.code.family, FONTS.code.style);
-          this.pdf.setTextColor(COLORS.orange);
+          this.pdf.setTextColor(COLORS.blue);
           this.pdf.setFontSize(10);
           break;
         case 'link':
           this.pdf.setFont(FONTS.body.family, FONTS.body.style);
-          this.pdf.setTextColor(COLORS.orange);
+          this.pdf.setTextColor(COLORS.blue);
           this.pdf.setFontSize(11);
           break;
         default:
@@ -412,9 +412,9 @@ class PDFMarkdownRenderer {
       }
 
       let displayText = token.text;
-      // For links, show just the text in orange, URL will be shown separately if needed
+      // For links, show just the text in blue, URL will be shown separately if needed
       if (token.type === 'link' && token.url) {
-        displayText = token.text; // Just show the link text in orange
+        displayText = token.text; // Just show the link text in blue
       }
 
       const words = displayText.split(' ');
@@ -439,7 +439,7 @@ class PDFMarkdownRenderer {
     return maxY;
   }
 
-  // Render heading with orange color
+  // Render heading with blue color
   private renderHeading(text: string, level: number): void {
     const sizes = [20, 18, 16, 14, 12, 11];
     const spacing = [15, 12, 10, 8, 6, 5];
@@ -448,7 +448,7 @@ class PDFMarkdownRenderer {
     
     this.pdf.setFontSize(sizes[level - 1]);
     this.pdf.setFont(FONTS.heading.family, FONTS.heading.style);
-    this.pdf.setTextColor(COLORS.orange);
+    this.pdf.setTextColor(COLORS.blue);
     
     const lines = this.pdf.splitTextToSize(text, this.contentWidth);
     this.pdf.text(lines, LAYOUT.margin, this.currentY);
@@ -463,7 +463,7 @@ class PDFMarkdownRenderer {
     this.currentY = endY + LAYOUT.paragraphSpacing;
   }
 
-  // Render list with orange bullets
+  // Render list with blue bullets
   private renderList(items: string[], ordered: boolean = false): void {
     this.checkPageBreak(items.length * LAYOUT.lineHeight);
     
@@ -471,9 +471,9 @@ class PDFMarkdownRenderer {
       const bullet = ordered ? `${index + 1}.` : '•';
       const tokens = this.parseInlineTokens(item);
       
-      // Render bullet/number in orange
+      // Render bullet/number in blue
       this.pdf.setFont(FONTS.body.family, FONTS.body.style);
-      this.pdf.setTextColor(COLORS.orange);
+      this.pdf.setTextColor(COLORS.blue);
       this.pdf.setFontSize(11);
       this.pdf.text(bullet, LAYOUT.margin + 5, this.currentY);
       
@@ -485,12 +485,12 @@ class PDFMarkdownRenderer {
     this.currentY += LAYOUT.paragraphSpacing;
   }
 
-  // Render blockquote with orange border
+  // Render blockquote with blue border
   private renderBlockquote(tokens: TextToken[]): void {
     this.checkPageBreak(LAYOUT.lineHeight * 2);
     
-    // Draw left border in orange
-    this.pdf.setDrawColor(COLORS.orange);
+    // Draw left border in blue
+    this.pdf.setDrawColor(COLORS.blue);
     this.pdf.setLineWidth(2);
     this.pdf.line(LAYOUT.margin + 5, this.currentY - 3, LAYOUT.margin + 5, this.currentY + LAYOUT.lineHeight + 3);
     
@@ -498,7 +498,7 @@ class PDFMarkdownRenderer {
     this.currentY = endY + LAYOUT.paragraphSpacing;
   }
 
-  // Render code block with orange text
+  // Render code block with blue text
   private renderCodeBlock(lines: string[]): void {
     const totalHeight = lines.length * LAYOUT.lineHeight + 10;
     this.checkPageBreak(totalHeight);
@@ -508,13 +508,13 @@ class PDFMarkdownRenderer {
     this.pdf.rect(LAYOUT.margin, this.currentY - 5, this.contentWidth, totalHeight, 'F');
     
     // Border
-    this.pdf.setDrawColor(COLORS.orange);
+    this.pdf.setDrawColor(COLORS.blue);
     this.pdf.setLineWidth(0.5);
     this.pdf.rect(LAYOUT.margin, this.currentY - 5, this.contentWidth, totalHeight);
     
-    // Code content in orange
+    // Code content in blue
     this.pdf.setFont(FONTS.code.family, FONTS.code.style);
-    this.pdf.setTextColor(COLORS.orange);
+    this.pdf.setTextColor(COLORS.blue);
     this.pdf.setFontSize(10);
     
     lines.forEach((line: string, index: number) => {
@@ -524,7 +524,7 @@ class PDFMarkdownRenderer {
     this.currentY += totalHeight + LAYOUT.paragraphSpacing;
   }
 
-  // Render table with orange headers
+  // Render table with blue headers
   private renderTable(rows: string[][]): void {
     if (rows.length === 0) return;
     
@@ -548,13 +548,13 @@ class PDFMarkdownRenderer {
         const cellX = LAYOUT.margin + (colIndex * colWidth);
         
         // Cell border
-        this.pdf.setDrawColor(COLORS.orange);
+        this.pdf.setDrawColor(COLORS.blue);
         this.pdf.setLineWidth(0.5);
         this.pdf.rect(cellX, rowY - 3, colWidth, cellHeight);
         
         // Cell text
         this.pdf.setFont(FONTS.body.family, isHeader ? FONTS.heading.style : FONTS.body.style);
-        this.pdf.setTextColor(isHeader ? COLORS.orange : COLORS.text);
+        this.pdf.setTextColor(isHeader ? COLORS.blue : COLORS.text);
         this.pdf.setFontSize(10);
         
         const cellText = this.pdf.splitTextToSize(cell, colWidth - 4);
@@ -565,10 +565,10 @@ class PDFMarkdownRenderer {
     this.currentY += tableHeight + LAYOUT.paragraphSpacing;
   }
 
-  // Render horizontal rule in orange
+  // Render horizontal rule in blue
   private renderHR(): void {
     this.checkPageBreak(10);
-    this.pdf.setDrawColor(COLORS.orange);
+    this.pdf.setDrawColor(COLORS.blue);
     this.pdf.setLineWidth(1);
     this.pdf.line(LAYOUT.margin, this.currentY, this.pageWidth - LAYOUT.margin, this.currentY);
     this.currentY += LAYOUT.sectionSpacing;
@@ -581,7 +581,7 @@ class PDFMarkdownRenderer {
     // Add some spacing before sources
     this.currentY += LAYOUT.sectionSpacing;
     
-    // Sources heading in orange
+    // Sources heading in blue
     this.renderHeading('Sources', 2);
     
     // Render each source
@@ -609,9 +609,9 @@ class PDFMarkdownRenderer {
       this.pdf.text(websiteName, LAYOUT.margin + 5, this.currentY);
       this.currentY += LAYOUT.lineHeight;
       
-      // URL in orange
+      // URL in blue
       this.pdf.setFont(FONTS.body.family, FONTS.body.style);
-      this.pdf.setTextColor(COLORS.orange);
+      this.pdf.setTextColor(COLORS.blue);
       this.pdf.setFontSize(9);
       const urlLines = this.pdf.splitTextToSize(source.link, this.contentWidth - 5);
       this.pdf.text(urlLines, LAYOUT.margin + 5, this.currentY);
