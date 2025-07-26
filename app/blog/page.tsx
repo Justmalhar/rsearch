@@ -82,22 +82,22 @@ export default function BlogPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors mb-6"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Search
           </Link>
           
-          <h1 className="text-4xl font-bold text-orange-900 mb-4">
+          <h1 className="text-4xl font-bold text-blue-900 mb-4">
             rSearch Blog
           </h1>
-          <p className="text-xl text-orange-700 leading-relaxed">
+          <p className="text-xl text-blue-700 leading-relaxed">
             Insights, tutorials, and deep dives into AI-powered search engines, 
             reasoning technology, and the future of intelligent search.
           </p>
@@ -105,25 +105,25 @@ export default function BlogPage() {
 
         {/* Featured Post */}
         <section className="mb-12">
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-blue-200/50">
             <div className="flex items-center gap-2 mb-4">
-              <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
+              <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
                 Featured
               </span>
-              <span className="text-orange-600 text-sm">
+              <span className="text-blue-600 text-sm">
                 {blogPosts[0].category}
               </span>
             </div>
             
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+            <h2 className="text-2xl font-bold text-blue-900 mb-4">
               {blogPosts[0].title}
             </h2>
             
-            <p className="text-orange-700 leading-relaxed mb-6">
+            <p className="text-blue-700 leading-relaxed mb-6">
               {blogPosts[0].excerpt}
             </p>
             
-            <div className="flex items-center gap-4 text-sm text-orange-600 mb-6">
+            <div className="flex items-center gap-4 text-sm text-blue-600 mb-6">
               <div className="flex items-center gap-1">
                 <User className="h-4 w-4" />
                 {blogPosts[0].author}
@@ -140,7 +140,7 @@ export default function BlogPage() {
             
             <Link 
               href={`/blog/${blogPosts[0].id}`}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
             >
               Read Full Article
             </Link>
@@ -149,28 +149,28 @@ export default function BlogPage() {
 
         {/* Blog Posts Grid */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-8">
+          <h2 className="text-2xl font-bold text-blue-900 mb-8">
             Latest Articles
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.slice(1).map((post) => (
-              <article key={post.id} className="bg-white rounded-xl p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow">
+              <article key={post.id} className="bg-white rounded-xl p-6 shadow-lg border border-blue-200/50 hover:shadow-xl transition-shadow">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
                     {post.category}
                   </span>
                 </div>
                 
-                <h3 className="text-lg font-semibold text-orange-800 mb-3 line-clamp-2">
+                <h3 className="text-lg font-semibold text-blue-800 mb-3 line-clamp-2">
                   {post.title}
                 </h3>
                 
-                <p className="text-orange-700 text-sm leading-relaxed mb-4 line-clamp-3">
+                <p className="text-blue-700 text-sm leading-relaxed mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
                 
-                <div className="flex items-center gap-4 text-xs text-orange-600 mb-4">
+                <div className="flex items-center gap-4 text-xs text-blue-600 mb-4">
                   <div className="flex items-center gap-1">
                     <User className="h-3 w-3" />
                     {post.author}
@@ -189,7 +189,7 @@ export default function BlogPage() {
                   {post.keywords.slice(0, 3).map((keyword, idx) => (
                     <span 
                       key={idx}
-                      className="text-xs bg-orange-50 text-orange-600 px-2 py-1 rounded-full"
+                      className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded-full"
                     >
                       {keyword}
                     </span>
@@ -198,7 +198,7 @@ export default function BlogPage() {
                 
                 <Link 
                   href={`/blog/${post.id}`}
-                  className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 transition-colors font-medium text-sm"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors font-medium text-sm"
                 >
                   Read More
                   <ArrowLeft className="h-3 w-3 rotate-180" />
@@ -210,7 +210,7 @@ export default function BlogPage() {
 
         {/* Categories Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-6">
+          <h2 className="text-2xl font-bold text-blue-900 mb-6">
             Browse by Category
           </h2>
           
@@ -219,9 +219,9 @@ export default function BlogPage() {
               <Link
                 key={category}
                 href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
-                className="bg-white rounded-xl p-4 shadow-md border border-orange-200/50 hover:shadow-lg transition-shadow text-center"
+                className="bg-white rounded-xl p-4 shadow-md border border-blue-200/50 hover:shadow-lg transition-shadow text-center"
               >
-                <h3 className="font-semibold text-orange-800">{category}</h3>
+                <h3 className="font-semibold text-blue-800">{category}</h3>
               </Link>
             ))}
           </div>
@@ -229,17 +229,17 @@ export default function BlogPage() {
 
         {/* CTA Section */}
         <section className="text-center">
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-8 border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-2xl p-8 border border-blue-200/50">
+            <h2 className="text-2xl font-bold text-blue-900 mb-4">
               Experience AI-Powered Search Today
             </h2>
-            <p className="text-orange-700 mb-6">
+            <p className="text-blue-700 mb-6">
               Ready to try the advanced reasoning capabilities you&apos;ve been reading about? 
               Start using rSearch and discover the power of AI-powered search.
             </p>
             <Link 
               href="/" 
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
             >
               <Search className="h-5 w-5" />
               Start Searching with AI

@@ -409,7 +409,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <Brain className="h-12 w-12 text-orange-500 mx-auto mb-4" />
+          <Brain className="h-12 w-12 text-blue-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Deep Research</h1>
           <p className="text-gray-600">No query provided for deep research.</p>
         </div>
@@ -423,38 +423,38 @@ This deep research analysis provides a comprehensive overview of "${query}" base
         {/* Header */}
         <div className="space-y-4 mt-8 text-center">
           <div className="flex items-center justify-center gap-3">
-            <Brain className="h-8 w-8 text-orange-600" />
-            <h1 className="text-2xl md:text-3xl font-bold text-orange-600">Deep Research</h1>
+            <Brain className="h-8 w-8 text-blue-600" />
+            <h1 className="text-2xl md:text-3xl font-bold text-blue-600">Deep Research</h1>
           </div>
-          <p className="text-lg text-orange-800 font-medium">
+          <p className="text-lg text-blue-800 font-medium">
             &quot;{query}&quot;
           </p>
         </div>
 
         {/* Stepper */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold text-orange-700">Research Progress</h2>
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-orange-100">
+          <h2 className="text-xl font-semibold text-blue-700">Research Progress</h2>
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-blue-100">
             <Stepper steps={stepperSteps} currentStep={currentStep} />
           </div>
         </section>
 
         {/* Research Steps with Expandable Sources */}
         {researchPlan.map((step, index) => (
-          <section key={step.id} className="bg-white rounded-lg shadow-sm border border-orange-100 overflow-hidden mb-6">
+          <section key={step.id} className="bg-white rounded-lg shadow-sm border border-blue-100 overflow-hidden mb-6">
             <div className="p-6 space-y-3">
               {/* Row 1: Step number, search type, status */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-9 h-9 bg-orange-100 text-orange-600 rounded-full text-base font-semibold">
+                  <div className="flex items-center justify-center w-9 h-9 bg-blue-100 text-blue-600 rounded-full text-base font-semibold">
                     {index + 1}
                   </div>
-                  <span className="text-base font-semibold text-orange-700">{step.mode.toUpperCase()} Search</span>
+                  <span className="text-base font-semibold text-blue-700">{step.mode.toUpperCase()} Search</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className={`w-2.5 h-2.5 rounded-full ${
                     step.status === 'completed' ? 'bg-green-500' :
-                    step.status === 'active' ? 'bg-orange-500' :
+                    step.status === 'active' ? 'bg-blue-500' :
                     step.status === 'error' ? 'bg-red-500' : 'bg-gray-300'
                   }`} />
                   <span className="text-xs text-gray-500 font-medium">
@@ -482,7 +482,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
                   disabled={step.status !== 'completed' || step.results.length === 0}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors text-xs font-medium shadow-sm border ${
                     step.status === 'completed' && step.results.length > 0
-                      ? 'bg-orange-100 hover:bg-orange-200 text-orange-700 border-orange-200 hover:border-orange-300'
+                      ? 'bg-blue-100 hover:bg-blue-200 text-blue-700 border-blue-200 hover:border-blue-300'
                       : 'bg-gray-50 text-gray-400 cursor-not-allowed border-gray-200'
                   }`}
                 >
@@ -498,7 +498,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
                     </>
                   )}
                   {step.status === 'completed' && step.results.length > 0 && (
-                    <span className="ml-1 px-2 py-0.5 bg-orange-200 text-orange-700 rounded-full text-xs font-semibold">
+                    <span className="ml-1 px-2 py-0.5 bg-blue-200 text-blue-700 rounded-full text-xs font-semibold">
                       {step.results.length}
                     </span>
                   )}
@@ -534,17 +534,17 @@ This deep research analysis provides a comprehensive overview of "${query}" base
         ))}
 
         {/* Results */}
-        <section className="bg-white rounded-lg shadow-sm border border-orange-100 p-6">
+        <section className="bg-white rounded-lg shadow-sm border border-blue-100 p-6">
           <button
             type="button"
             onClick={() => setIsResultsExpanded(!isResultsExpanded)}
-            className="flex items-center justify-between w-full text-left hover:bg-orange-50 p-2 rounded-lg transition-colors"
+            className="flex items-center justify-between w-full text-left hover:bg-blue-50 p-2 rounded-lg transition-colors"
           >
-            <h2 className="text-xl font-semibold text-orange-700">Research Report</h2>
+            <h2 className="text-xl font-semibold text-blue-700">Research Report</h2>
             {isResultsExpanded ? (
-              <ChevronUp className="w-5 h-5 text-orange-600" />
+              <ChevronUp className="w-5 h-5 text-blue-600" />
             ) : (
-              <ChevronDown className="w-5 h-5 text-orange-600" />
+              <ChevronDown className="w-5 h-5 text-blue-600" />
             )}
           </button>
           
@@ -553,8 +553,8 @@ This deep research analysis provides a comprehensive overview of "${query}" base
               {isGeneratingPlan && (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
-                    <span className="text-orange-600">Generating research plan...</span>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <span className="text-blue-600">Generating research plan...</span>
                   </div>
                 </div>
               )}
@@ -562,8 +562,8 @@ This deep research analysis provides a comprehensive overview of "${query}" base
               {isExecutingSearches && (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
-                    <span className="text-orange-600">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <span className="text-blue-600">
                       Executing search {currentStepIndex + 1} of {researchPlan.length}...
                     </span>
                   </div>
@@ -576,8 +576,8 @@ This deep research analysis provides a comprehensive overview of "${query}" base
               {isGeneratingReport && (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-600"></div>
-                    <span className="text-orange-600">Generating comprehensive report...</span>
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <span className="text-blue-600">Generating comprehensive report...</span>
                   </div>
                 </div>
               )}
@@ -609,8 +609,8 @@ This deep research analysis provides a comprehensive overview of "${query}" base
         {/* All Sources */}
         {allResults.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl font-semibold text-orange-700">All Sources</h2>
-            <div className="bg-white rounded-lg shadow-sm border border-orange-100 p-6">
+            <h2 className="text-xl font-semibold text-blue-700">All Sources</h2>
+            <div className="bg-white rounded-lg shadow-sm border border-blue-100 p-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-gray-600">
@@ -621,7 +621,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
                 <div className="grid gap-4">
                   {allResults.map((result, index) => (
                     <div key={`${result.link}-${index}`} className="flex items-start gap-3 p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-medium">
+                      <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-medium">
                         {index + 1}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -629,7 +629,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
                           href={result.link} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-orange-600 hover:text-orange-700 font-medium line-clamp-2 hover:underline"
+                          className="text-blue-600 hover:text-blue-700 font-medium line-clamp-2 hover:underline"
                         >
                           {result.title}
                         </a>

@@ -33,23 +33,23 @@ export default function SettingsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="py-8">
         <header className="mb-8 text-center">
-          <h1 className="text-3xl  font-bold text-orange-600">Settings</h1>
-          <p className="text-orange-500/60 mt-2 ">Configure your search preferences</p>
+          <h1 className="text-3xl  font-bold text-blue-600">Settings</h1>
+          <p className="text-blue-500/60 mt-2 ">Configure your search preferences</p>
         </header>
 
         <div className="space-y-6">
-          <Card className="hover:shadow-lg transition-shadow border-orange-500 hover:border-orange-600">
+          <Card className="hover:shadow-lg transition-shadow border-blue-500 hover:border-blue-600">
             <CardHeader className="pb-3">
-              <div className="flex items-center gap-2 text-orange-500">
+              <div className="flex items-center gap-2 text-blue-500">
                 <ChevronDown className="h-4 w-4" />
                 <CardTitle className=" text-lg">Display Settings</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label htmlFor="auto-expand" className="text-orange-600">
+                <Label htmlFor="auto-expand" className="text-blue-600">
                   Auto-expand result sections
-                  <p className="text-sm text-orange-500/80">
+                  <p className="text-sm text-blue-500/80">
                     Automatically expand refined query, sources, thinking and results sections
                   </p>
                 </Label>
@@ -57,14 +57,14 @@ export default function SettingsPage() {
                   id="auto-expand"
                   checked={autoExpandSections}
                   onCheckedChange={setAutoExpandSections}
-                  className="data-[state=checked]:bg-orange-500"
+                  className="data-[state=checked]:bg-blue-500"
                 />
               </div>
 
               <div className="flex items-center justify-between">
-                <Label htmlFor="query-refinement" className="text-orange-600">
+                <Label htmlFor="query-refinement" className="text-blue-600">
                   Enable query refinement
-                  <p className="text-sm text-orange-500/80">
+                  <p className="text-sm text-blue-500/80">
                     Allow AI to improve your search queries for better results
                   </p>
                 </Label>
@@ -72,7 +72,7 @@ export default function SettingsPage() {
                   id="query-refinement"
                   checked={enableQueryRefinement}
                   onCheckedChange={setEnableQueryRefinement}
-                  className="data-[state=checked]:bg-orange-500"
+                  className="data-[state=checked]:bg-blue-500"
                 />
               </div>
             </CardContent>

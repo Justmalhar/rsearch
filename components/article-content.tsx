@@ -65,7 +65,7 @@ export default function ArticleContent({ initialData }: ArticleContentProps) {
           <button
             type="button"
             onClick={() => setIsRefinedQueryExpanded(!isRefinedQueryExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Refined Query</span>
             <svg
@@ -87,8 +87,8 @@ export default function ArticleContent({ initialData }: ArticleContentProps) {
             </div>
           ) : isRefinedQueryExpanded && initialData.refinedQuery && (
             <div className="space-y-2">
-              <p className="text-orange-800">{initialData.refinedQuery}</p>
-              <p className="text-sm text-orange-700 mt-2">{initialData.refinedQueryExplanation}</p>
+              <p className="text-blue-800">{initialData.refinedQuery}</p>
+              <p className="text-sm text-blue-700 mt-2">{initialData.refinedQueryExplanation}</p>
             </div>
           )}
         </section>}
@@ -98,7 +98,7 @@ export default function ArticleContent({ initialData }: ArticleContentProps) {
           <button
             type="button"
             onClick={() => setIsSourcesExpanded(!isSourcesExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Sources</span>
             <svg
@@ -136,7 +136,7 @@ export default function ArticleContent({ initialData }: ArticleContentProps) {
           <button
             type="button"
             onClick={() => setIsThinkingExpanded(!isThinkingExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Thinking</span>
             <svg
@@ -159,7 +159,7 @@ export default function ArticleContent({ initialData }: ArticleContentProps) {
           <button
             type="button"
             onClick={() => setIsResultsExpanded(!isResultsExpanded)}
-            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-orange-600"
+            className="flex items-center gap-2 text-xl md:text-2xl font-medium text-blue-600"
           >
             <span>Results</span>
             <svg

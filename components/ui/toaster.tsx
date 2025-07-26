@@ -19,9 +19,9 @@ export function Toaster() {
         <Toast 
           key={id} 
           {...props}
-          className="bg-white border border-orange-200 shadow-lg shadow-orange-500/20"
+          className="bg-white border border-blue-200 shadow-lg shadow-blue-500/20"
         >
-          <div className="flex items-center gap-3 text-orange-600">
+          <div className="flex items-center gap-3 text-blue-600">
             <svg 
               width="24" 
               height="24" 
@@ -37,14 +37,14 @@ export function Toaster() {
               />
             </svg>
             <div className="grid gap-1"> 
-              {title && <ToastTitle className="text-orange-800">{title}</ToastTitle>}
+              {title && <ToastTitle className="text-blue-800">{title}</ToastTitle>}
               {description && (
-                <ToastDescription className="text-orange-600">{description}</ToastDescription>
+                <ToastDescription className="text-blue-600">{description}</ToastDescription>
               )}
             </div>
           </div>
           {action}
-          <ToastClose className="text-orange-500 hover:text-orange-700" />
+          <ToastClose className="text-blue-500 hover:text-blue-700" />
         </Toast>
       ))}
       <ToastViewport />

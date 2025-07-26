@@ -58,13 +58,13 @@ export default function PatentSources({ sources, displayCount = 10 }: PatentSour
                   {source.inventor && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <span><span className="text-orange-500">Inventor:</span> {source.inventor}</span>
+                      <span><span className="text-blue-500">Inventor:</span> {source.inventor}</span>
                     </>
                   )}
                   {source.assignee && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <span><span className="text-orange-500">Assignee:</span> {source.assignee}</span>
+                      <span><span className="text-blue-500">Assignee:</span> {source.assignee}</span>
                     </>
                   )}
                 </div>
@@ -72,18 +72,18 @@ export default function PatentSources({ sources, displayCount = 10 }: PatentSour
                 {/* Dates */}
                 <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-gray-600">
                   {source.priorityDate && (
-                    <span><span className="text-orange-500">Priority:</span> {new Date(source.priorityDate).toLocaleDateString()}</span>
+                    <span><span className="text-blue-500">Priority:</span> {new Date(source.priorityDate).toLocaleDateString()}</span>
                   )}
                   {source.filingDate && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <span><span className="text-orange-500">Filed:</span> {new Date(source.filingDate).toLocaleDateString()}</span>
+                      <span><span className="text-blue-500">Filed:</span> {new Date(source.filingDate).toLocaleDateString()}</span>
                     </>
                   )}
                   {source.grantDate && (
                     <>
                       <span className="text-gray-400">•</span>
-                      <span><span className="text-orange-500">Granted:</span> {new Date(source.grantDate).toLocaleDateString()}</span>
+                      <span><span className="text-blue-500">Granted:</span> {new Date(source.grantDate).toLocaleDateString()}</span>
                     </>
                   )}
                 </div>

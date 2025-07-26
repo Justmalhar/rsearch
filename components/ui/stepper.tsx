@@ -34,7 +34,7 @@ export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
                   className={cn(
                     "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-200 flex-shrink-0",
                     {
-                      "bg-orange-500 border-orange-500 text-white": isActive,
+                      "bg-blue-500 border-blue-500 text-white": isActive,
                       "bg-green-500 border-green-500 text-white": isCompleted,
                       "bg-red-500 border-red-500 text-white": isError,
                       "bg-gray-200 border-gray-300 text-gray-500": isPending,
@@ -58,7 +58,7 @@ export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
                     className={cn(
                       "w-0.5 h-8 mt-2 transition-colors duration-200",
                       {
-                        "bg-orange-500": isCompleted,
+                        "bg-blue-500": isCompleted,
                         "bg-gray-300": !isCompleted,
                       }
                     )}
@@ -72,7 +72,7 @@ export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
                   className={cn(
                     "text-sm font-medium transition-colors duration-200",
                     {
-                      "text-orange-600": isActive,
+                      "text-blue-600": isActive,
                       "text-green-600": isCompleted,
                       "text-red-600": isError,
                       "text-gray-500": isPending,
@@ -86,7 +86,7 @@ export function Stepper({ steps, currentStep = 0, className }: StepperProps) {
                     className={cn(
                       "text-xs mt-1 transition-colors duration-200",
                       {
-                        "text-orange-500": isActive,
+                        "text-blue-500": isActive,
                         "text-green-500": isCompleted,
                         "text-red-500": isError,
                         "text-gray-400": isPending,

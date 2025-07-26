@@ -45,7 +45,7 @@ export function MicrophoneButton({ onTranscriptReceived, className = '' }: Micro
         className={`h-8 w-8 rounded-full transition-colors duration-200 ${
           isRecording 
             ? 'bg-red-500 hover:bg-red-600 text-white' 
-            : 'bg-orange-100 hover:bg-orange-200 text-orange-600 hover:text-orange-700'
+            : 'bg-blue-100 hover:bg-blue-200 text-blue-600 hover:text-blue-700'
         } ${className}`}
       >
         {isTranscribing ? (

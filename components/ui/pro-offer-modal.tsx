@@ -128,13 +128,13 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-full blur-lg opacity-75 animate-pulse"></div>
-              <div className="relative bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur-lg opacity-75 animate-pulse"></div>
+              <div className="relative bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-full">
                 <Sparkles className="h-6 w-6 text-white" />
               </div>
             </div>
           </div>
-          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
             Get rSearch Pro Free for 3 Months!
           </DialogTitle>
           <DialogDescription className="text-base text-gray-600 mt-2">
@@ -170,7 +170,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
                 placeholder="Enter your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -185,7 +185,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
                 placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-gray-300 focus:border-orange-500 focus:ring-orange-500"
+                className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -194,7 +194,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-105"
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 transform hover:scale-105"
               >
                 {isSubmitting ? (
                   <div className="flex items-center space-x-2">

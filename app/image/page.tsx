@@ -159,9 +159,9 @@ export default function ImageGenerator() {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="text-center mb-12"
       >
-        <h1 className="text-5xl font-bold mb-6 text-orange-600 font-serif">Generate Images</h1>
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full">
-          <Sparkles className="h-4 w-4 text-orange-600" />
+        <h1 className="text-5xl font-bold mb-6 text-blue-600 font-serif">Generate Images</h1>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full">
+          <Sparkles className="h-4 w-4 text-blue-600" />
           <p className="text-gray-700 text-sm font-medium">
             Transform your ideas into beautiful artwork
           </p>
@@ -173,7 +173,7 @@ export default function ImageGenerator() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <Card className="mb-8 border-orange-200 shadow-xl rounded-2xl overflow-hidden">
+        <Card className="mb-8 border-blue-200 shadow-xl rounded-2xl overflow-hidden">
           <CardContent className="p-8">
             <div className="space-y-6">
               <motion.div
@@ -181,13 +181,13 @@ export default function ImageGenerator() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                <Label htmlFor="prompt" className="text-orange-700 font-semibold text-lg">Image Prompt</Label>
+                <Label htmlFor="prompt" className="text-blue-700 font-semibold text-lg">Image Prompt</Label>
                 <Textarea
                   id="prompt"
                   placeholder="Describe the image you want to generate... (e.g., 'A majestic dragon flying over a medieval castle at sunset')"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="mt-3 min-h-[100px] resize-none border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl text-base"
+                  className="mt-3 min-h-[100px] resize-none border-blue-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl text-base"
                   disabled={isGenerating}
                   rows={3}
                 />
@@ -198,9 +198,9 @@ export default function ImageGenerator() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
+                <Label htmlFor="aspect-ratio" className="text-blue-700 font-semibold text-lg">Aspect Ratio</Label>
                 <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
-                  <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                  <SelectTrigger className="mt-3 border-blue-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -221,7 +221,7 @@ export default function ImageGenerator() {
                 <Button
                   onClick={generateImages}
                   disabled={isGenerating || !prompt.trim()}
-                  className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   size="lg"
                 >
                   {isGenerating ? (
@@ -258,20 +258,20 @@ export default function ImageGenerator() {
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.5 }}
           >
-            <Card className="mb-8 border-orange-200 shadow-xl rounded-2xl overflow-hidden">
+            <Card className="mb-8 border-blue-200 shadow-xl rounded-2xl overflow-hidden">
               <CardContent className="p-12 text-center">
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                   className="mb-6"
                 >
-                  <Loader2 className="h-16 w-16 mx-auto text-orange-600" />
+                  <Loader2 className="h-16 w-16 mx-auto text-blue-600" />
                 </motion.div>
                 <motion.h3 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-2xl font-bold text-orange-700 mb-3"
+                  className="text-2xl font-bold text-blue-700 mb-3"
                 >
                   Generating your images...
                 </motion.h3>
@@ -287,10 +287,10 @@ export default function ImageGenerator() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full"
+                  className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full"
                 >
-                  <Sparkles className="h-4 w-4 text-orange-600" />
-                  <span className="text-sm text-orange-700 font-medium">AI is creating magic...</span>
+                  <Sparkles className="h-4 w-4 text-blue-600" />
+                  <span className="text-sm text-blue-700 font-medium">AI is creating magic...</span>
                 </motion.div>
               </CardContent>
             </Card>
@@ -309,7 +309,7 @@ export default function ImageGenerator() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl font-bold mb-10 text-orange-600 font-serif text-center"
+              className="text-4xl font-bold mb-10 text-blue-600 font-serif text-center"
             >
               Generated Images
             </motion.h2>
@@ -326,7 +326,7 @@ export default function ImageGenerator() {
                     stiffness: 100
                   }}
                 >
-                  <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group">
+                  <Card className="overflow-hidden border-blue-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group">
                     <CardContent className="p-0">
                       <div className="relative">
                         <motion.img
@@ -348,7 +348,7 @@ export default function ImageGenerator() {
                           >
                             <Button
                               onClick={() => downloadImage(image.url, index)}
-                              className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold px-6 py-3 rounded-xl shadow-lg"
+                              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-xl shadow-lg"
                             >
                               <Download className="mr-2 h-5 w-5" />
                               Download
