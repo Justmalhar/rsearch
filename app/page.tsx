@@ -28,6 +28,7 @@ import {
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { ProOfferModal } from "@/components/ui/pro-offer-modal";
 
 export default function Home() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [enableQueryRefinement, setEnableQueryRefinement] = useState(true);
   const [enableDeepResearch, setEnableDeepResearch] = useState(false);
+  const [showProModal, setShowProModal] = useState(false);
 
   // Initialize default settings if they don't exist
   useEffect(() => {
@@ -54,6 +56,21 @@ export default function Home() {
     } else {
       const settings = JSON.parse(savedSettings);
       setEnableQueryRefinement(settings.enableQueryRefinement ?? true);
+    }
+  }, []);
+
+  // Check if Pro modal should be shown
+  useEffect(() => {
+    const isProSubscriber = localStorage.getItem("rSearch_pro_subscriber");
+    
+    // Show modal if user is not a pro subscriber
+    if (!isProSubscriber) {
+      // Add a small delay to ensure the page is fully loaded
+      const timer = setTimeout(() => {
+        setShowProModal(true);
+      }, 2000); // Show after 2 seconds
+      
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -572,6 +589,12 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      
+      {/* Pro Offer Modal */}
+      <ProOfferModal 
+        isOpen={showProModal} 
+        onClose={() => setShowProModal(false)} 
+      />
     </div>
   );
 }
