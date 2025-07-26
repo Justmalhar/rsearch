@@ -62,10 +62,9 @@ export default function Home() {
   // Check if Pro modal should be shown
   useEffect(() => {
     const isProSubscriber = localStorage.getItem("rSearch_pro_subscriber");
-    const isModalDismissed = localStorage.getItem("rSearch_pro_modal_dismissed");
     
-    // Show modal if user is not a pro subscriber and hasn't dismissed it
-    if (!isProSubscriber && !isModalDismissed) {
+    // Show modal if user is not a pro subscriber
+    if (!isProSubscriber) {
       // Add a small delay to ensure the page is fully loaded
       const timer = setTimeout(() => {
         setShowProModal(true);

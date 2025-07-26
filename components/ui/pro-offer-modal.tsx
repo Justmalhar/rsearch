@@ -99,8 +99,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
   };
 
   const handleClose = () => {
-    // Mark as dismissed to prevent showing again
-    localStorage.setItem("rSearch_pro_modal_dismissed", "true");
+    // Don't mark as permanently dismissed - just close the modal
     onClose();
   };
 

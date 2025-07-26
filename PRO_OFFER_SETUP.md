@@ -72,7 +72,7 @@ The webhook sends the following JSON data:
 The modal uses these localStorage keys:
 
 - `rSearch_pro_subscriber`: Set to "true" when user successfully subscribes
-- `rSearch_pro_modal_dismissed`: Set to "true" when user dismisses the modal
+- The modal will show again on subsequent visits if the user hasn't subscribed (clicking "Maybe later" only dismisses temporarily)
 
 ## Customization
 
@@ -109,7 +109,7 @@ const timer = setTimeout(() => {
 
 ### Modal Not Appearing
 
-1. Check if localStorage has `rSearch_pro_subscriber` or `rSearch_pro_modal_dismissed` set to "true"
+1. Check if localStorage has `rSearch_pro_subscriber` set to "true"
 2. Clear localStorage and refresh the page
 3. Check browser console for any errors
 
