@@ -15,6 +15,8 @@ The Pro offer modal is a popup that appears when users first visit rSearch, offe
 - **Toast Notifications**: Shows success/error messages
 - **Responsive Design**: Works on mobile and desktop
 - **rSearch Branding**: Uses orange/red gradient theme matching the app
+- **Pro Badge**: Shows "Pro" badge under the rSearch logo for subscribers
+- **User Data Storage**: Saves user name and email for future use
 
 ## Setup Instructions
 
@@ -72,6 +74,8 @@ The webhook sends the following JSON data:
 The modal uses these localStorage keys:
 
 - `rSearch_pro_subscriber`: Set to "true" when user successfully subscribes
+- `rSearch_user_name`: User's full name (saved when subscribing)
+- `rSearch_user_email`: User's email address (saved when subscribing)
 - The modal will show again on subsequent visits if the user hasn't subscribed (clicking "Maybe later" only dismisses temporarily)
 
 ## Customization

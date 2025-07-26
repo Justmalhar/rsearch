@@ -77,6 +77,13 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
         // Mark user as pro subscriber in localStorage
         localStorage.setItem("rSearch_pro_subscriber", "true");
         
+        // Save user data for future use
+        localStorage.setItem("rSearch_user_name", name.trim());
+        localStorage.setItem("rSearch_user_email", email.trim());
+        
+        // Dispatch custom event to update Pro badge
+        window.dispatchEvent(new CustomEvent("proSubscription"));
+        
         toast({
           title: "Welcome to rSearch Pro! 🎉",
           description: "You now have 3 months of unlimited access to all features.",
