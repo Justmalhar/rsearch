@@ -108,14 +108,12 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
     "Unlimited search queries",
     "Unlimited image generation",
     "Unlimited deep research queries",
-    "Priority support",
-    "Advanced AI models",
-    "No rate limits"
+    "Advanced AI models"
   ];
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md max-w-[90vw] mx-4">
+      <DialogContent className="sm:max-w-sm max-w-[85vw] mx-4">
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="relative">
@@ -125,7 +123,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
               </div>
             </div>
           </div>
-          <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
             Get rSearch Pro Free for 3 Months!
           </DialogTitle>
           <DialogDescription className="text-base text-gray-600 mt-2">
@@ -133,7 +131,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Features List */}
           <div className="space-y-3">
             <h3 className="font-semibold text-gray-900">What you&apos;ll get:</h3>
@@ -150,7 +148,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-sm font-medium text-gray-700">
                 Full Name
@@ -181,7 +179,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
               />
             </div>
 
-            <div className="flex flex-col space-y-3 pt-4">
+            <div className="flex flex-col space-y-2 pt-3">
               <Button
                 type="submit"
                 disabled={isSubmitting}
