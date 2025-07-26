@@ -124,7 +124,7 @@ export function ProOfferModal({ isOpen, onClose }: ProOfferModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-sm max-w-[85vw]">
+      <DialogContent className="sm:max-w-sm max-w-[85vw] rounded-xl">
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="relative">
