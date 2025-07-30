@@ -6,12 +6,23 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Send, Bot, User, Copy, Check } from 'lucide-react';
 import { MicrophoneButton } from '@/components/ui/microphone-button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  model?: string;
 }
+
+// Model configuration
+const models = [
+  { id: 'openai/gpt-4o', name: 'gpt-4o', displayName: 'gpt-4o (Fast)' },
+  { id: 'openai/gpt-4.1', name: 'gpt-4.1', displayName: 'gpt-4.1 (Writing)' },
+  { id: 'openai/gpt-4.1-mini', name: 'gpt-4.1-mini', displayName: 'gpt-4.1-mini (Fast)' },
+  { id: 'google/gemini-2.5-flash', name: 'gemini-2.5-flash', displayName: 'gemini-2.5-flash (Fastest)' },
+  { id: 'google/gemini-2.5-pro', name: 'gemini-2.5-pro', displayName: 'gemini-2.5-pro (Largest Context)' },
+];
 
 // Utility to clean up markdown tables (remove trailing pipes, trim whitespace)
 function cleanMarkdownTables(markdown: string): string {
@@ -32,6 +43,7 @@ export default function ChatPage() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copiedMessageId, setCopiedMessageId] = useState<number | null>(null);
+  const [selectedModel, setSelectedModel] = useState(models[0].id);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -63,7 +75,8 @@ export default function ChatPage() {
 
     const userMessage: Message = {
       role: 'user',
-      content: inputValue.trim()
+      content: inputValue.trim(),
+      model: selectedModel
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -73,7 +86,8 @@ export default function ChatPage() {
     // Add an empty assistant message that we'll update as we receive chunks
     const assistantMessage: Message = {
       role: 'assistant',
-      content: ''
+      content: '',
+      model: selectedModel
     };
     
     setMessages(prev => [...prev, assistantMessage]);
@@ -85,7 +99,8 @@ export default function ChatPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          messages: [...messages, userMessage]
+          messages: [...messages, userMessage],
+          model: selectedModel
         }),
       });
 
@@ -151,6 +166,29 @@ export default function ChatPage() {
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
+      {/* Model Selection Header */}
+      <div className="bg-white border-b border-gray-200 px-4 py-3 flex-shrink-0">
+        <div className="max-w-4xl mx-auto flex justify-center">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700">Model:</span>
+            <Select value={selectedModel} onValueChange={setSelectedModel}>
+              <SelectTrigger className="w-64">
+                <SelectValue>
+                  {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {models.map((model) => (
+                  <SelectItem key={model.id} value={model.id}>
+                    {model.displayName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto px-4 pb-6 min-h-0">
         <div className="max-w-4xl mx-auto space-y-6 w-full">
@@ -304,7 +342,9 @@ export default function ChatPage() {
                     <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
                       <div className="flex items-center gap-2">
                         <Bot className="h-4 w-4 text-orange-600" />
-                        <span className="text-xs text-gray-500">rSearch Assistant</span>
+                        <span className="text-xs text-gray-500">
+                          Model {models.find(model => model.id === message.model)?.name || 'Unknown'}
+                        </span>
                       </div>
                       <button
                         onClick={() => copyMessage(message.content, index)}
