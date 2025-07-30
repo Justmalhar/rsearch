@@ -6,12 +6,48 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Send, Bot, User, Copy, Check } from 'lucide-react';
 import { MicrophoneButton } from '@/components/ui/microphone-button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  model?: string;
 }
+
+// Model configuration - All models via OpenRouter
+const models = [
+  {
+    id: 'openai/gpt-4o',
+    name: 'gpt-4o',
+    displayName: 'GPT-4o',
+    description: 'Fast, high-quality general-purpose model (OpenAI)'
+  },
+  {
+    id: 'openai/gpt-4.1',
+    name: 'gpt-4.1',
+    displayName: 'GPT-4.1',
+    description: 'Optimized for writing, reasoning, and complex tasks (OpenAI)'
+  },
+  {
+    id: 'openai/gpt-4.1-mini',
+    name: 'gpt-4.1-mini',
+    displayName: 'GPT-4.1 Mini',
+    description: 'Lightweight, fast, and cost-efficient variant (OpenAI)'
+  },
+  {
+    id: 'google/gemini-2.5-flash',
+    name: 'gemini-2.5-flash',
+    displayName: 'Gemini 2.5 Flash',
+    description: 'Fastest Gemini model for quick responses (Google)'
+  },
+  {
+    id: 'google/gemini-2.5-pro',
+    name: 'gemini-2.5-pro',
+    displayName: 'Gemini 2.5 Pro',
+    description: 'Handles long contexts; ideal for large documents (Google)'
+  },
+];
 
 // Utility to clean up markdown tables (remove trailing pipes, trim whitespace)
 function cleanMarkdownTables(markdown: string): string {
@@ -32,6 +68,7 @@ export default function ChatPage() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copiedMessageId, setCopiedMessageId] = useState<number | null>(null);
+  const [selectedModel, setSelectedModel] = useState(models[0].id);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -63,7 +100,8 @@ export default function ChatPage() {
 
     const userMessage: Message = {
       role: 'user',
-      content: inputValue.trim()
+      content: inputValue.trim(),
+      model: selectedModel
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -73,7 +111,8 @@ export default function ChatPage() {
     // Add an empty assistant message that we'll update as we receive chunks
     const assistantMessage: Message = {
       role: 'assistant',
-      content: ''
+      content: '',
+      model: selectedModel
     };
     
     setMessages(prev => [...prev, assistantMessage]);
@@ -85,7 +124,8 @@ export default function ChatPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          messages: [...messages, userMessage]
+          messages: [...messages, userMessage],
+          model: selectedModel
         }),
       });
 
@@ -150,17 +190,43 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col">
+    <div className="h-[calc(100vh-4rem)] lg:h-screen bg-gray-50 flex flex-col">
+            {/* Model Selection Header */}
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
+        <div className="max-w-4xl mx-auto flex justify-center">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700">Model:</span>
+            <Select value={selectedModel} onValueChange={setSelectedModel}>
+              <SelectTrigger className="w-56 sm:w-64 md:w-72 rounded-full border border-gray-300 hover:border-orange-400 focus:border-orange-500 transition-colors">
+                <SelectValue placeholder="Select Model">
+                  {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="w-80 sm:w-96 rounded-lg border border-gray-200 shadow-lg">
+                {models.map((model) => (
+                  <SelectItem key={model.id} value={model.id} className="py-3 rounded-lg mx-1 my-1 hover:bg-orange-50 focus:bg-orange-50">
+                    <div className="flex flex-col space-y-1">
+                      <span className="font-medium text-sm">{model.displayName}</span>
+                      <span className="text-xs text-gray-500 leading-relaxed">{model.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 pb-6 min-h-0">
-        <div className="max-w-4xl mx-auto space-y-6 w-full">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-4 pb-4 sm:pb-6 min-h-0">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 w-full">
           {messages.length === 0 && (
-            <div className="text-center py-12">
-              <Bot className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="text-center py-8 sm:py-12">
+              <Bot className="h-10 w-10 sm:h-12 sm:w-12 text-orange-600 mx-auto mb-3 sm:mb-4" />
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                 Welcome to rSearch Chat
               </h2>
-              <p className="text-gray-600 max-w-md mx-auto">
+              <p className="text-gray-600 max-w-md mx-auto px-2">
                 Ask me anything! I&apos;m here to help with your questions, provide detailed explanations, and assist with various topics.
               </p>
             </div>
@@ -304,7 +370,9 @@ export default function ChatPage() {
                     <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
                       <div className="flex items-center gap-2">
                         <Bot className="h-4 w-4 text-orange-600" />
-                        <span className="text-xs text-gray-500">rSearch Assistant</span>
+                        <span className="text-xs text-gray-500">
+                          Model {models.find(model => model.id === message.model)?.name || 'Unknown'}
+                        </span>
                       </div>
                       <button
                         onClick={() => copyMessage(message.content, index)}

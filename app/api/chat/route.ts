@@ -3,21 +3,17 @@ import OpenAI from 'openai';
 
 export const runtime = 'edge';
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
-});
+// Type for completion request with OpenRouter headers
+type CompletionRequest = OpenAI.Chat.Completions.ChatCompletionCreateParams & {
+  extra_headers?: {
+    "HTTP-Referer": string;
+    "X-Title": string;
+  };
+};
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if OpenAI API key is configured
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: 'OpenAI API key is not configured' },
-        { status: 500 }
-      );
-    }
-
-    const { messages } = await request.json();
+    const { messages, model = 'openai/gpt-4o' } = await request.json();
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -25,6 +21,20 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Check if OpenRouter API key is configured
+    if (!process.env.OPENROUTER_API_KEY) {
+      return NextResponse.json(
+        { error: 'OpenRouter API key is not configured' },
+        { status: 500 }
+      );
+    }
+
+    // Create OpenRouter client
+    const client = new OpenAI({
+      apiKey: process.env.OPENROUTER_API_KEY,
+      baseURL: 'https://openrouter.ai/api/v1',
+    });
 
     const currentDate = new Date().toISOString();
 
@@ -63,13 +73,20 @@ Remember to be conversational and helpful while maintaining the quality and stru
     // Add the system message to the beginning of the messages array
     const messagesWithSystem = [systemMessage, ...messages];
 
-    const stream = await client.chat.completions.create({
-      model: "gpt-4.1",
+    // Prepare the completion request with OpenRouter headers
+    const completionRequest: CompletionRequest = {
+      model: model,
       messages: messagesWithSystem,
       temperature: 0.7,
       max_tokens: 2000,
       stream: true,
-    });
+      extra_headers: {
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "https://rsearch.ai",
+        "X-Title": process.env.NEXT_PUBLIC_SITE_NAME || "rSearch",
+      },
+    };
+
+    const stream = await client.chat.completions.create(completionRequest);
 
     const encoder = new TextEncoder();
     const readable = new ReadableStream({
