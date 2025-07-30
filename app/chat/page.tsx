@@ -197,18 +197,11 @@ export default function ChatPage() {
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-700">Model:</span>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger className="w-64">
-                <SelectValue placeholder="Select Model">
-                  <div className="flex flex-col">
-                    <span className="font-medium">
-                      {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {models.find(model => model.id === selectedModel)?.description}
-                    </span>
-                  </div>
-                </SelectValue>
-              </SelectTrigger>
+                              <SelectTrigger className="w-64">
+                  <SelectValue placeholder="Select Model">
+                    {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
+                  </SelectValue>
+                </SelectTrigger>
               <SelectContent>
                 {models.map((model) => (
                   <SelectItem key={model.id} value={model.id}>
