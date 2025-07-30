@@ -205,43 +205,42 @@ export default function ImageGenerator() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
-                <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
-                <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
-                  <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {aspectRatioOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </motion.div>
+                <div>
+                  <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
+                  <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {aspectRatioOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 }}
-              >
-                <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
-                <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
-                  <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
-                    <SelectValue placeholder="Select a model" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {modelOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        <div className="flex flex-col">
-                          <span className="font-medium">{option.label}</span>
-                          <span className="text-xs text-gray-500">{option.description}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div>
+                  <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
+                  <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                      <SelectValue placeholder="Select a model" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {modelOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          <div className="flex flex-col">
+                            <span className="font-medium">{option.label}</span>
+                            <span className="text-xs text-gray-500">{option.description}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </motion.div>
 
               <motion.div
