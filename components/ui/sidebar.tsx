@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, Settings } from "lucide-react";
+import { Search, Settings, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SidebarProps {
@@ -40,6 +40,14 @@ export function Sidebar({ className, isMobile }: SidebarProps) {
         >
           <Search className="h-6 w-6" />
           <span className="text-xs font-medium">Search</span>
+        </Link>
+        
+        <Link 
+          href="/image" 
+          className="flex flex-col items-center gap-2 p-3 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors"
+        >
+          <Image className="h-6 w-6" />
+          <span className="text-xs font-medium">Images</span>
         </Link>
       </div>
 
