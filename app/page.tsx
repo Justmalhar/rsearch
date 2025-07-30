@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { 
   Search, Globe, BookText, Video, 
   Zap, ShoppingBag, MapPin, 
-  Newspaper, GraduationCap, Lightbulb 
+  Newspaper, GraduationCap, Lightbulb,
+  Brain, Shield, Zap as ZapIcon, Sparkles
 } from "lucide-react";
 import { SearchSource } from "@/types/search";
 import {
@@ -98,6 +99,29 @@ export default function Home() {
       icon: Lightbulb,
       label: 'Patents',
       description: 'Search patent databases'
+    }
+  ];
+
+  const features = [
+    {
+      icon: Brain,
+      title: "AI-Powered Reasoning",
+      description: "Advanced Chain-of-Thought reasoning with DeepSeek R1 technology"
+    },
+    {
+      icon: Globe,
+      title: "8 Search Modes",
+      description: "Web, Images, Videos, News, Places, Shopping, Scholar & Patents"
+    },
+    {
+      icon: ZapIcon,
+      title: "Lightning Fast",
+      description: "Instant results with intelligent query refinement"
+    },
+    {
+      icon: Shield,
+      title: "Privacy First",
+      description: "Your data is protected with industry-standard encryption"
     }
   ];
 
@@ -272,6 +296,43 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Features Section */}
+        <div className="mt-16 w-full max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-orange-200/50 hover:border-orange-300/70 transition-all duration-300 hover:shadow-lg hover:shadow-orange-100/50 hover:-translate-y-1"
+              >
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="p-3 bg-orange-100/50 rounded-xl group-hover:bg-orange-200/70 transition-colors duration-300">
+                    <feature.icon className="h-8 w-8 text-orange-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-orange-800 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-orange-600/80 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Learn More Section */}
+        <div className="mt-12 text-center">
+          <Link 
+            href="/about"
+            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium transition-colors duration-200 hover:bg-orange-100/50 px-4 py-2 rounded-full"
+          >
+            <Sparkles className="h-4 w-4" />
+            Learn more about rSearch
+          </Link>
         </div>
       </main>
 
