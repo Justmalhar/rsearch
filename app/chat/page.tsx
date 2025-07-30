@@ -15,7 +15,7 @@ interface Message {
   model?: string;
 }
 
-// Model configuration
+// Model configuration - All models via OpenRouter
 const models = [
   {
     id: 'openai/gpt-4o',
