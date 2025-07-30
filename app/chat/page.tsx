@@ -191,42 +191,42 @@ export default function ChatPage() {
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col">
-      {/* Model Selection Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex-shrink-0">
+            {/* Model Selection Header */}
+      <div className="bg-white border-b border-gray-200 px-3 sm:px-4 py-2 sm:py-3 flex-shrink-0">
         <div className="max-w-4xl mx-auto flex justify-center">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-700">Model:</span>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
-                              <SelectTrigger className="w-64 sm:w-72 rounded-full border border-gray-300 hover:border-orange-400 focus:border-orange-500 transition-colors">
-                  <SelectValue placeholder="Select Model">
-                    {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
-                  </SelectValue>
-                </SelectTrigger>
-                              <SelectContent className="w-80 sm:w-96 rounded-lg border border-gray-200 shadow-lg">
-                  {models.map((model) => (
-                    <SelectItem key={model.id} value={model.id} className="py-3 rounded-lg mx-1 my-1 hover:bg-orange-50 focus:bg-orange-50">
-                      <div className="flex flex-col space-y-1">
-                        <span className="font-medium text-sm">{model.displayName}</span>
-                        <span className="text-xs text-gray-500 leading-relaxed">{model.description}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+              <SelectTrigger className="w-56 sm:w-64 md:w-72 rounded-full border border-gray-300 hover:border-orange-400 focus:border-orange-500 transition-colors">
+                <SelectValue placeholder="Select Model">
+                  {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="w-80 sm:w-96 rounded-lg border border-gray-200 shadow-lg">
+                {models.map((model) => (
+                  <SelectItem key={model.id} value={model.id} className="py-3 rounded-lg mx-1 my-1 hover:bg-orange-50 focus:bg-orange-50">
+                    <div className="flex flex-col space-y-1">
+                      <span className="font-medium text-sm">{model.displayName}</span>
+                      <span className="text-xs text-gray-500 leading-relaxed">{model.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
         </div>
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto px-4 pb-6 min-h-0">
-        <div className="max-w-4xl mx-auto space-y-6 w-full">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-4 pb-4 sm:pb-6 min-h-0">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 w-full">
           {messages.length === 0 && (
-            <div className="text-center py-12">
-              <Bot className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="text-center py-8 sm:py-12">
+              <Bot className="h-10 w-10 sm:h-12 sm:w-12 text-orange-600 mx-auto mb-3 sm:mb-4" />
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                 Welcome to rSearch Chat
               </h2>
-              <p className="text-gray-600 max-w-md mx-auto">
+              <p className="text-gray-600 max-w-md mx-auto px-2">
                 Ask me anything! I&apos;m here to help with your questions, provide detailed explanations, and assist with various topics.
               </p>
             </div>
