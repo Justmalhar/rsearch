@@ -35,6 +35,11 @@ export default function ImageGenerator() {
     { value: 'ultra', label: 'Ultra', description: 'Highest quality generation' },
   ];
 
+  const getModelLabel = (value: string) => {
+    const option = modelOptions.find(opt => opt.value === value);
+    return option ? option.label : 'Select a model';
+  };
+
   const generateImages = async () => {
     if (!prompt.trim()) {
       toast({
@@ -227,7 +232,7 @@ export default function ImageGenerator() {
                   <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
                   <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
                     <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
-                      <SelectValue placeholder="Select a model" />
+                      <SelectValue>{getModelLabel(selectedModel)}</SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {modelOptions.map((option) => (
