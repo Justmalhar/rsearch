@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Download, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 interface GeneratedImage {
@@ -31,6 +31,7 @@ export default function ImageGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [images, setImages] = useState<GeneratedImage[]>([]);
   const [enhancedPrompt, setEnhancedPrompt] = useState<string>('');
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
 
   const aspectRatioOptions = [
     { value: '1:1', label: 'Square (1:1)' },
@@ -170,6 +171,27 @@ export default function ImageGenerator() {
       toast({
         title: "Error",
         description: "Failed to download image",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const copyEnhancedPrompt = async () => {
+    if (!enhancedPrompt) return;
+    
+    try {
+      await navigator.clipboard.writeText(enhancedPrompt);
+      setCopiedPrompt(true);
+      toast({
+        title: "Success",
+        description: "Enhanced prompt copied to clipboard!",
+      });
+      setTimeout(() => setCopiedPrompt(false), 2000);
+    } catch (error) {
+      console.error('Error copying prompt:', error);
+      toast({
+        title: "Error",
+        description: "Failed to copy prompt",
         variant: "destructive",
       });
     }
@@ -342,7 +364,21 @@ export default function ImageGenerator() {
                     transition={{ delay: 0.8 }}
                     className="mt-6 p-4 bg-orange-50 border border-orange-200 rounded-xl"
                   >
-                    <p className="text-sm text-orange-700 font-medium mb-2">Enhanced Prompt:</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-orange-700 font-medium">Enhanced Prompt:</p>
+                      <Button
+                        onClick={copyEnhancedPrompt}
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 w-8 p-0 hover:bg-orange-100"
+                      >
+                        {copiedPrompt ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <Copy className="h-4 w-4 text-orange-600" />
+                        )}
+                      </Button>
+                    </div>
                     <p className="text-sm text-gray-700 italic">&ldquo;{enhancedPrompt}&rdquo;</p>
                   </motion.div>
                 )}
@@ -384,7 +420,21 @@ export default function ImageGenerator() {
                 className="mb-8 p-6 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl"
               >
                 <div className="text-center">
-                  <p className="text-sm text-orange-700 font-semibold mb-2">Enhanced Prompt Used:</p>
+                  <div className="flex items-center justify-center gap-3 mb-3">
+                    <p className="text-sm text-orange-700 font-semibold">Enhanced Prompt Used:</p>
+                    <Button
+                      onClick={copyEnhancedPrompt}
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0 hover:bg-orange-200"
+                    >
+                      {copiedPrompt ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <Copy className="h-4 w-4 text-orange-600" />
+                      )}
+                    </Button>
+                  </div>
                   <p className="text-base text-gray-800 italic leading-relaxed">&ldquo;{enhancedPrompt}&rdquo;</p>
                 </div>
               </motion.div>
@@ -402,7 +452,7 @@ export default function ImageGenerator() {
                     stiffness: 100
                   }}
                 >
-                  <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group">
+                  <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group cursor-pointer">
                     <CardContent className="p-0">
                       <div className="relative">
                         <motion.img
@@ -411,24 +461,22 @@ export default function ImageGenerator() {
                           className="w-full h-auto rounded-2xl"
                           whileHover={{ scale: 1.02 }}
                           transition={{ duration: 0.3 }}
+                          onClick={() => downloadImage(image.url, index)}
                         />
                         <motion.div 
                           className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center rounded-2xl"
                           initial={{ opacity: 0 }}
                           whileHover={{ opacity: 1 }}
+                          onClick={() => downloadImage(image.url, index)}
                         >
                           <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             whileHover={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 0.2 }}
+                            className="flex items-center gap-2 text-white font-semibold px-4 py-2 rounded-lg bg-black bg-opacity-50"
                           >
-                            <Button
-                              onClick={() => downloadImage(image.url, index)}
-                              className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold px-6 py-3 rounded-xl shadow-lg"
-                            >
-                              <Download className="mr-2 h-5 w-5" />
-                              Download
-                            </Button>
+                            <Download className="h-5 w-5" />
+                            Click to Download
                           </motion.div>
                         </motion.div>
                       </div>
