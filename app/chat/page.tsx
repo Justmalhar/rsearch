@@ -20,32 +20,32 @@ const models = [
   {
     id: 'openai/gpt-4o',
     name: 'gpt-4o',
-    displayName: 'gpt-4o',
-    description: 'Fast, high-quality, general-purpose model from OpenAI.'
+    displayName: 'GPT-4o',
+    description: 'Fast, high-quality general-purpose model (OpenAI)'
   },
   {
     id: 'openai/gpt-4.1',
     name: 'gpt-4.1',
-    displayName: 'gpt-4.1',
-    description: 'Best for writing, reasoning, and complex tasks (OpenAI).'
+    displayName: 'GPT-4.1',
+    description: 'Optimized for writing, reasoning, and complex tasks (OpenAI)'
   },
   {
     id: 'openai/gpt-4.1-mini',
     name: 'gpt-4.1-mini',
-    displayName: 'gpt-4.1-mini',
-    description: 'Fast, lightweight, cost-effective (OpenAI).'
+    displayName: 'GPT-4.1 Mini',
+    description: 'Lightweight, fast, and cost-efficient variant (OpenAI)'
   },
   {
     id: 'google/gemini-2.5-flash',
     name: 'gemini-2.5-flash',
-    displayName: 'gemini-2.5-flash',
-    description: 'Fastest Gemini model, great for quick responses (Google).'
+    displayName: 'Gemini 2.5 Flash',
+    description: 'Fastest Gemini model for quick responses (Google)'
   },
   {
     id: 'google/gemini-2.5-pro',
     name: 'gemini-2.5-pro',
-    displayName: 'gemini-2.5-pro',
-    description: 'Largest context, best for long documents (Google).'
+    displayName: 'Gemini 2.5 Pro',
+    description: 'Handles long contexts; ideal for large documents (Google)'
   },
 ];
 
