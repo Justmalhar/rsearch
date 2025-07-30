@@ -5,12 +5,24 @@ const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 
+// Model mapping from UI values to actual Replicate model versions
+const MODEL_MAPPING = {
+  fast: "black-forest-labs/flux-dev",
+  pro: "black-forest-labs/flux-1.1-pro", 
+  ultra: "black-forest-labs/flux-1.1-pro-ultra"
+};
+
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, aspectRatio } = await request.json();
+    const { prompt, aspectRatio, model = 'fast' } = await request.json();
 
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
+    }
+
+    // Validate model selection
+    if (!MODEL_MAPPING[model as keyof typeof MODEL_MAPPING]) {
+      return NextResponse.json({ error: 'Invalid model selection' }, { status: 400 });
     }
 
     const input = {
@@ -26,7 +38,7 @@ export async function POST(request: NextRequest) {
     };
 
     const prediction = await replicate.predictions.create({
-      version: "black-forest-labs/flux-dev",
+      version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
       input
     });
 

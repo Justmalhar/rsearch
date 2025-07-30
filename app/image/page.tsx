@@ -19,6 +19,7 @@ export default function ImageGenerator() {
   const { toast } = useToast();
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState('1:1');
+  const [selectedModel, setSelectedModel] = useState('fast');
   const [isGenerating, setIsGenerating] = useState(false);
   const [images, setImages] = useState<GeneratedImage[]>([]);
 
@@ -26,6 +27,12 @@ export default function ImageGenerator() {
     { value: '1:1', label: 'Square (1:1)' },
     { value: '16:9', label: 'Landscape (16:9)' },
     { value: '9:16', label: 'Portrait (9:16)' },
+  ];
+
+  const modelOptions = [
+    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality' },
+    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality' },
+    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation' },
   ];
 
   const generateImages = async () => {
@@ -50,6 +57,7 @@ export default function ImageGenerator() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           aspectRatio,
+          model: selectedModel,
         }),
       });
 
@@ -214,10 +222,34 @@ export default function ImageGenerator() {
               </motion.div>
 
               <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.9 }}
+              >
+                <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
+                <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
+                  <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                    <SelectValue placeholder="Select a model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {modelOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        <div className="flex flex-col">
+                          <span className="font-medium">{option.label}</span>
+                          <span className="text-xs text-gray-500">{option.description}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </motion.div>
+
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
+
                 <Button
                   onClick={generateImages}
                   disabled={isGenerating || !prompt.trim()}
