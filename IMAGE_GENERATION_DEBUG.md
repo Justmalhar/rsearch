@@ -26,16 +26,10 @@ const MODEL_CONFIGS = {
     go_fast: true
   },
   pro: {
-    num_outputs: 1,
-    num_inference_steps: 28,
-    prompt_strength: 0.8
-    // Note: Pro model doesn't support go_fast, guidance, or num_outputs > 1
+    // Note: Pro model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
   },
   ultra: {
-    num_outputs: 1,
-    num_inference_steps: 28,
-    prompt_strength: 0.8
-    // Note: Ultra model doesn't support go_fast, guidance, or num_outputs > 1
+    // Note: Ultra model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
   }
 };
 ```
@@ -98,9 +92,7 @@ const MODEL_CONFIGS = {
   prompt: "enhanced prompt",
   aspect_ratio: "1:1",
   output_format: "jpg",
-  output_quality: 100,
-  prompt_strength: 0.8,
-  num_inference_steps: 28
+  output_quality: 100
 }
 ```
 
@@ -110,9 +102,7 @@ const MODEL_CONFIGS = {
   prompt: "enhanced prompt",
   aspect_ratio: "1:1",
   output_format: "jpg",
-  output_quality: 100,
-  prompt_strength: 0.8,
-  num_inference_steps: 28
+  output_quality: 100
 }
 ```
 
@@ -162,14 +152,17 @@ fast: {
   num_outputs: 4,  // Can be 1-4
   guidance: 3.5,   // Can be adjusted
   go_fast: true,   // Can be true/false
+  prompt_strength: 0.8,  // Can be adjusted
+  num_inference_steps: 28  // Can be adjusted
   // ... other parameters
 }
 
-// For Pro/Ultra models - limited parameters
+// For Pro/Ultra models - no configurable parameters
 pro: {
-  num_outputs: 1,  // Must be 1
-  // Cannot use guidance or go_fast
-  // ... other supported parameters
+  // No configurable parameters - uses only base input
+}
+ultra: {
+  // No configurable parameters - uses only base input
 }
 ```
 

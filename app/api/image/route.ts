@@ -29,16 +29,10 @@ const MODEL_CONFIGS = {
     go_fast: true
   },
   pro: {
-    num_outputs: 1,
-    num_inference_steps: 28,
-    prompt_strength: 0.8
-    // Note: Pro model doesn't support go_fast, guidance, or num_outputs > 1
+    // Note: Pro model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
   },
   ultra: {
-    num_outputs: 1,
-    num_inference_steps: 28,
-    prompt_strength: 0.8
-    // Note: Ultra model doesn't support go_fast, guidance, or num_outputs > 1
+    // Note: Ultra model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
   }
 };
 
@@ -121,9 +115,7 @@ export async function POST(request: NextRequest) {
       prompt: enhancedPrompt,
       aspect_ratio: aspectRatio || "1:1",
       output_format: "jpg",
-      output_quality: 100,
-      prompt_strength: modelConfig.prompt_strength,
-      num_inference_steps: modelConfig.num_inference_steps
+      output_quality: 100
     };
 
     // Add model-specific parameters
@@ -132,7 +124,9 @@ export async function POST(request: NextRequest) {
       ...(model === 'fast' && {
         go_fast: modelConfig.go_fast,
         guidance: modelConfig.guidance,
-        num_outputs: modelConfig.num_outputs
+        num_outputs: modelConfig.num_outputs,
+        prompt_strength: modelConfig.prompt_strength,
+        num_inference_steps: modelConfig.num_inference_steps
       })
     };
 
