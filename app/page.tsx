@@ -155,7 +155,7 @@ export default function Home() {
     <div className="flex-1 flex flex-col min-h-full">
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         {/* Logo Section */}
-        <div className="flex flex-col items-center space-y-4 mb-8">
+        <div className="flex flex-col items-center space-y-4 mb-8 mt-8">
           <Logo className="transform hover:scale-105 transition-transform duration-300" />
             <p className="text-orange-600 text-[12px] sm:text-sm font-small bg-orange-100/50 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-sm text-center max-w-[90vw] mx-auto whitespace-nowrap">
               {process.env.NEXT_PUBLIC_LANDING_PAGE_COPY_TEXT}
