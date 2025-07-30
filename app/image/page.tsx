@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Download, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 interface GeneratedImage {
@@ -15,18 +15,40 @@ interface GeneratedImage {
   id: string;
 }
 
+interface GenerationResponse {
+  requestId?: string;
+  originalPrompt?: string;
+  enhancedPrompt?: string;
+  error?: string;
+  success?: boolean;
+}
+
 export default function ImageGenerator() {
   const { toast } = useToast();
   const [prompt, setPrompt] = useState('');
   const [aspectRatio, setAspectRatio] = useState('1:1');
+  const [selectedModel, setSelectedModel] = useState('fast');
   const [isGenerating, setIsGenerating] = useState(false);
   const [images, setImages] = useState<GeneratedImage[]>([]);
+  const [enhancedPrompt, setEnhancedPrompt] = useState<string>('');
+  const [copiedPrompt, setCopiedPrompt] = useState(false);
 
   const aspectRatioOptions = [
     { value: '1:1', label: 'Square (1:1)' },
     { value: '16:9', label: 'Landscape (16:9)' },
     { value: '9:16', label: 'Portrait (9:16)' },
   ];
+
+  const modelOptions = [
+    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality' },
+    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality' },
+    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation' },
+  ];
+
+  const getModelLabel = (value: string) => {
+    const option = modelOptions.find(opt => opt.value === value);
+    return option ? option.label : 'Select a model';
+  };
 
   const generateImages = async () => {
     if (!prompt.trim()) {
@@ -50,16 +72,24 @@ export default function ImageGenerator() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           aspectRatio,
+          model: selectedModel,
         }),
       });
 
-      const data = await response.json();
+      const data: GenerationResponse = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to generate images');
       }
 
-      pollForResults(data.requestId);
+      // Store the enhanced prompt for display
+      if (data.enhancedPrompt) {
+        setEnhancedPrompt(data.enhancedPrompt);
+      }
+      
+      if (data.requestId) {
+        pollForResults(data.requestId);
+      }
 
     } catch (error) {
       console.error('Error generating images:', error);
@@ -146,6 +176,27 @@ export default function ImageGenerator() {
     }
   };
 
+  const copyEnhancedPrompt = async () => {
+    if (!enhancedPrompt) return;
+    
+    try {
+      await navigator.clipboard.writeText(enhancedPrompt);
+      setCopiedPrompt(true);
+      toast({
+        title: "Success",
+        description: "Enhanced prompt copied to clipboard!",
+      });
+      setTimeout(() => setCopiedPrompt(false), 2000);
+    } catch (error) {
+      console.error('Error copying prompt:', error);
+      toast({
+        title: "Error",
+        description: "Failed to copy prompt",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -197,20 +248,42 @@ export default function ImageGenerator() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
               >
-                <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
-                <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
-                  <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {aspectRatioOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div>
+                  <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
+                  <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {aspectRatioOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
+                  <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                      <SelectValue>{getModelLabel(selectedModel)}</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {modelOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          <div className="flex flex-col">
+                            <span className="font-medium">{option.label}</span>
+                            <span className="text-xs text-gray-500">{option.description}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </motion.div>
 
               <motion.div
@@ -218,6 +291,7 @@ export default function ImageGenerator() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
+
                 <Button
                   onClick={generateImages}
                   disabled={isGenerating || !prompt.trim()}
@@ -283,6 +357,31 @@ export default function ImageGenerator() {
                 >
                   This may take a few minutes
                 </motion.p>
+                {enhancedPrompt && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="mt-6 p-4 bg-orange-50 border border-orange-200 rounded-xl"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm text-orange-700 font-medium">Enhanced Prompt:</p>
+                      <Button
+                        onClick={copyEnhancedPrompt}
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 w-8 p-0 hover:bg-orange-100"
+                      >
+                        {copiedPrompt ? (
+                          <Check className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <Copy className="h-4 w-4 text-orange-600" />
+                        )}
+                      </Button>
+                    </div>
+                    <p className="text-sm text-gray-700 italic">&ldquo;{enhancedPrompt}&rdquo;</p>
+                  </motion.div>
+                )}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -309,10 +408,37 @@ export default function ImageGenerator() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl font-bold mb-10 text-orange-600 font-serif text-center"
+              className="text-4xl font-bold mb-6 text-orange-600 font-serif text-center"
             >
               Generated Images
             </motion.h2>
+            {enhancedPrompt && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="mb-8 p-6 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl"
+              >
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-3 mb-3">
+                    <p className="text-sm text-orange-700 font-semibold">Enhanced Prompt Used:</p>
+                    <Button
+                      onClick={copyEnhancedPrompt}
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 w-8 p-0 hover:bg-orange-200"
+                    >
+                      {copiedPrompt ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <Copy className="h-4 w-4 text-orange-600" />
+                      )}
+                    </Button>
+                  </div>
+                  <p className="text-base text-gray-800 italic leading-relaxed">&ldquo;{enhancedPrompt}&rdquo;</p>
+                </div>
+              </motion.div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {images.map((image, index) => (
                 <motion.div
@@ -326,7 +452,7 @@ export default function ImageGenerator() {
                     stiffness: 100
                   }}
                 >
-                  <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group">
+                  <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group cursor-pointer">
                     <CardContent className="p-0">
                       <div className="relative">
                         <motion.img
@@ -335,24 +461,22 @@ export default function ImageGenerator() {
                           className="w-full h-auto rounded-2xl"
                           whileHover={{ scale: 1.02 }}
                           transition={{ duration: 0.3 }}
+                          onClick={() => downloadImage(image.url, index)}
                         />
                         <motion.div 
                           className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center rounded-2xl"
                           initial={{ opacity: 0 }}
                           whileHover={{ opacity: 1 }}
+                          onClick={() => downloadImage(image.url, index)}
                         >
                           <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             whileHover={{ scale: 1, opacity: 1 }}
                             transition={{ duration: 0.2 }}
+                            className="flex items-center gap-2 text-white font-semibold px-4 py-2 rounded-lg bg-black bg-opacity-50"
                           >
-                            <Button
-                              onClick={() => downloadImage(image.url, index)}
-                              className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold px-6 py-3 rounded-xl shadow-lg"
-                            >
-                              <Download className="mr-2 h-5 w-5" />
-                              Download
-                            </Button>
+                            <Download className="h-5 w-5" />
+                            Click to Download
                           </motion.div>
                         </motion.div>
                       </div>
