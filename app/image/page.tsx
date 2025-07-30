@@ -15,6 +15,14 @@ interface GeneratedImage {
   id: string;
 }
 
+interface GenerationResponse {
+  requestId?: string;
+  originalPrompt?: string;
+  enhancedPrompt?: string;
+  error?: string;
+  success?: boolean;
+}
+
 export default function ImageGenerator() {
   const { toast } = useToast();
   const [prompt, setPrompt] = useState('');
@@ -22,6 +30,7 @@ export default function ImageGenerator() {
   const [selectedModel, setSelectedModel] = useState('fast');
   const [isGenerating, setIsGenerating] = useState(false);
   const [images, setImages] = useState<GeneratedImage[]>([]);
+  const [enhancedPrompt, setEnhancedPrompt] = useState<string>('');
 
   const aspectRatioOptions = [
     { value: '1:1', label: 'Square (1:1)' },
@@ -66,13 +75,20 @@ export default function ImageGenerator() {
         }),
       });
 
-      const data = await response.json();
+      const data: GenerationResponse = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to generate images');
       }
 
-      pollForResults(data.requestId);
+      // Store the enhanced prompt for display
+      if (data.enhancedPrompt) {
+        setEnhancedPrompt(data.enhancedPrompt);
+      }
+      
+      if (data.requestId) {
+        pollForResults(data.requestId);
+      }
 
     } catch (error) {
       console.error('Error generating images:', error);
@@ -319,6 +335,17 @@ export default function ImageGenerator() {
                 >
                   This may take a few minutes
                 </motion.p>
+                {enhancedPrompt && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="mt-6 p-4 bg-orange-50 border border-orange-200 rounded-xl"
+                  >
+                    <p className="text-sm text-orange-700 font-medium mb-2">Enhanced Prompt:</p>
+                    <p className="text-sm text-gray-700 italic">&ldquo;{enhancedPrompt}&rdquo;</p>
+                  </motion.div>
+                )}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -345,10 +372,23 @@ export default function ImageGenerator() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl font-bold mb-10 text-orange-600 font-serif text-center"
+              className="text-4xl font-bold mb-6 text-orange-600 font-serif text-center"
             >
               Generated Images
             </motion.h2>
+            {enhancedPrompt && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="mb-8 p-6 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl"
+              >
+                <div className="text-center">
+                  <p className="text-sm text-orange-700 font-semibold mb-2">Enhanced Prompt Used:</p>
+                  <p className="text-base text-gray-800 italic leading-relaxed">&ldquo;{enhancedPrompt}&rdquo;</p>
+                </div>
+              </motion.div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {images.map((image, index) => (
                 <motion.div

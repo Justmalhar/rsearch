@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Replicate from 'replicate';
+import OpenAI from 'openai';
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
+
+// Initialize OpenRouter client for prompt enhancement
+const openRouterClient = process.env.OPENROUTER_API_KEY ? new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+}) : null;
 
 // Model mapping from UI values to actual Replicate model versions
 const MODEL_MAPPING = {
@@ -11,6 +18,56 @@ const MODEL_MAPPING = {
   pro: "black-forest-labs/flux-1.1-pro", 
   ultra: "black-forest-labs/flux-1.1-pro-ultra"
 };
+
+// Function to enhance prompt using LLM
+async function enhancePrompt(inputPrompt: string): Promise<string> {
+  try {
+    if (!openRouterClient) {
+      console.log('OpenRouter API key not configured, using original prompt');
+      return inputPrompt;
+    }
+    
+    const completion = await openRouterClient.chat.completions.create({
+      model: "google/gemini-2.5-flash",
+      messages: [
+        {
+          role: "system",
+          content: `You are PROMPTgineer, an expert AI visual prompt enhancer for text-to-image generation models such as Midjourney, DALL·E, and Stable Diffusion. Your job is to take a simple or short image description from the user and transform it into a rich, detailed, and highly visual prompt optimized for photorealistic or stylized AI image generation.
+
+Instructions:
+- Always enhance the prompt by adding relevant descriptors, such as camera angles, lighting, environment, color palette, style (e.g., cyberpunk, baroque, surreal), mood, realism level (photorealistic, digital art, anime), and composition framing.
+- Expand nouns with descriptive adjectives.
+- Replace vague terms with specific ones (e.g., "bird" → "majestic bald eagle soaring over pine forest").
+- Keep the structure concise but expressive, aiming for maximum visual clarity.
+- Output only the enhanced prompt, no preamble or commentary.
+- Use commas to separate descriptors, and avoid using full sentences.
+
+Example input: "A cat sitting on a windowsill"
+Example output: "Cozy orange tabby cat lounging on sunlit windowsill, soft morning light, indoor urban apartment, warm color palette, shallow depth of field, photorealistic"
+
+Begin enhancing user image prompts now.`
+        },
+        {
+          role: "user",
+          content: inputPrompt
+        }
+      ],
+      max_tokens: 500,
+      temperature: 0.7,
+    }, {
+      headers: {
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "https://rsearch.ai",
+        "X-Title": "rSearch AI",
+      }
+    });
+
+    return completion.choices[0].message.content || inputPrompt;
+  } catch (error) {
+    console.error('Prompt enhancement error:', error);
+    // Return original prompt if enhancement fails
+    return inputPrompt;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,8 +82,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid model selection' }, { status: 400 });
     }
 
+    // Enhance the prompt using LLM
+    const enhancedPrompt = await enhancePrompt(prompt);
+    console.log('Original prompt:', prompt);
+    console.log('Enhanced prompt:', enhancedPrompt);
+
     const input = {
-      prompt,
+      prompt: enhancedPrompt,
       go_fast: true,
       guidance: 3.5,
       num_outputs: 4,
@@ -44,7 +106,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true, 
-      requestId: prediction.id 
+      requestId: prediction.id,
+      originalPrompt: prompt,
+      enhancedPrompt: enhancedPrompt
     });
 
   } catch (error) {
