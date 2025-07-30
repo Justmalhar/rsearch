@@ -115,17 +115,34 @@ export default function ImageGenerator() {
           throw new Error(data.error || 'Failed to check status');
         }
 
+        console.log('Poll response:', data);
+
         if (data.status === 'succeeded' && data.output) {
+          console.log('Generation succeeded, output length:', data.output.length);
+          console.log('Output URLs:', data.output);
+          
           const generatedImages = data.output.map((url: string, index: number) => ({
             url,
             id: `${id}-${index}`,
           }));
+          
+          console.log('Generated images array:', generatedImages);
           setImages(generatedImages);
           setIsGenerating(false);
-          toast({
-            title: "Success",
-            description: "Images generated successfully!",
-          });
+          
+          if (generatedImages.length < 4) {
+            console.warn(`Expected 4 images but got ${generatedImages.length}`);
+            toast({
+              title: "Partial Success",
+              description: `Generated ${generatedImages.length} images (expected 4). This may be due to high demand on the ${selectedModel} model.`,
+              variant: "default",
+            });
+          } else {
+            toast({
+              title: "Success",
+              description: "Images generated successfully!",
+            });
+          }
           return;
         } else if (data.status === 'failed') {
           throw new Error('Image generation failed');
@@ -283,6 +300,9 @@ export default function ImageGenerator() {
                       ))}
                     </SelectContent>
                   </Select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    All models generate up to 4 images. Pro and Ultra models may generate fewer images during high demand.
+                  </p>
                 </div>
               </motion.div>
 

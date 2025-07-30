@@ -19,6 +19,28 @@ const MODEL_MAPPING = {
   ultra: "black-forest-labs/flux-1.1-pro-ultra"
 };
 
+// Model-specific configurations
+const MODEL_CONFIGS = {
+  fast: {
+    num_outputs: 4,
+    num_inference_steps: 28,
+    guidance: 3.5,
+    prompt_strength: 0.8
+  },
+  pro: {
+    num_outputs: 4,
+    num_inference_steps: 28,
+    guidance: 3.5,
+    prompt_strength: 0.8
+  },
+  ultra: {
+    num_outputs: 4,
+    num_inference_steps: 28,
+    guidance: 3.5,
+    prompt_strength: 0.8
+  }
+};
+
 // Function to enhance prompt using LLM
 async function enhancePrompt(inputPrompt: string): Promise<string> {
   try {
@@ -86,23 +108,60 @@ export async function POST(request: NextRequest) {
     const enhancedPrompt = await enhancePrompt(prompt);
     console.log('Original prompt:', prompt);
     console.log('Enhanced prompt:', enhancedPrompt);
+    console.log('Selected model:', model);
+    console.log('Model version:', MODEL_MAPPING[model as keyof typeof MODEL_MAPPING]);
+
+    // Get model-specific configuration
+    const modelConfig = MODEL_CONFIGS[model as keyof typeof MODEL_CONFIGS];
+    console.log('Model config:', modelConfig);
 
     const input = {
       prompt: enhancedPrompt,
       go_fast: true,
-      guidance: 3.5,
-      num_outputs: 4,
+      guidance: modelConfig.guidance,
+      num_outputs: modelConfig.num_outputs,
       aspect_ratio: aspectRatio || "1:1",
       output_format: "jpg",
       output_quality: 100,
-      prompt_strength: 0.8,
-      num_inference_steps: 28
+      prompt_strength: modelConfig.prompt_strength,
+      num_inference_steps: modelConfig.num_inference_steps
     };
 
-    const prediction = await replicate.predictions.create({
-      version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
-      input
-    });
+    console.log('Replicate input parameters:', JSON.stringify(input, null, 2));
+
+    // For Pro and Ultra models, we might need to handle potential resource constraints
+    let prediction;
+    try {
+      prediction = await replicate.predictions.create({
+        version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
+        input
+      });
+    } catch (error: any) {
+      console.error(`Error creating prediction for model ${model}:`, error);
+      
+      // If it's a resource constraint error, try with reduced parameters
+      if (error.message?.includes('resource') || error.message?.includes('capacity') || error.message?.includes('queue')) {
+        console.log('Attempting with reduced parameters due to resource constraints...');
+        
+        const reducedInput = {
+          ...input,
+          num_outputs: 2, // Reduce to 2 outputs
+          num_inference_steps: Math.floor(modelConfig.num_inference_steps * 0.8) // Reduce steps by 20%
+        };
+        
+        prediction = await replicate.predictions.create({
+          version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
+          input: reducedInput
+        });
+        
+        console.log('Successfully created prediction with reduced parameters');
+      } else {
+        throw error; // Re-throw if it's not a resource issue
+      }
+    }
+
+    console.log('Prediction created with ID:', prediction.id);
+    console.log('Prediction status:', prediction.status);
 
     return NextResponse.json({ 
       success: true, 
@@ -130,6 +189,13 @@ export async function GET(request: NextRequest) {
     }
 
     const prediction = await replicate.predictions.get(requestId);
+
+    console.log('Prediction status check for ID:', requestId);
+    console.log('Prediction status:', prediction.status);
+    console.log('Prediction output length:', prediction.output ? prediction.output.length : 0);
+    if (prediction.output) {
+      console.log('Output URLs:', prediction.output);
+    }
 
     return NextResponse.json({ 
       success: true, 
