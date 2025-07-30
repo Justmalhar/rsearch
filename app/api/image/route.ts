@@ -25,19 +25,20 @@ const MODEL_CONFIGS = {
     num_outputs: 4,
     num_inference_steps: 28,
     guidance: 3.5,
-    prompt_strength: 0.8
+    prompt_strength: 0.8,
+    go_fast: true
   },
   pro: {
-    num_outputs: 4,
+    num_outputs: 1,
     num_inference_steps: 28,
-    guidance: 3.5,
     prompt_strength: 0.8
+    // Note: Pro model doesn't support go_fast, guidance, or num_outputs > 1
   },
   ultra: {
-    num_outputs: 4,
+    num_outputs: 1,
     num_inference_steps: 28,
-    guidance: 3.5,
     prompt_strength: 0.8
+    // Note: Ultra model doesn't support go_fast, guidance, or num_outputs > 1
   }
 };
 
@@ -115,11 +116,9 @@ export async function POST(request: NextRequest) {
     const modelConfig = MODEL_CONFIGS[model as keyof typeof MODEL_CONFIGS];
     console.log('Model config:', modelConfig);
 
-    const input = {
+    // Build input object with only supported parameters for each model
+    const baseInput = {
       prompt: enhancedPrompt,
-      go_fast: true,
-      guidance: modelConfig.guidance,
-      num_outputs: modelConfig.num_outputs,
       aspect_ratio: aspectRatio || "1:1",
       output_format: "jpg",
       output_quality: 100,
@@ -127,38 +126,22 @@ export async function POST(request: NextRequest) {
       num_inference_steps: modelConfig.num_inference_steps
     };
 
+    // Add model-specific parameters
+    const input = {
+      ...baseInput,
+      ...(model === 'fast' && {
+        go_fast: modelConfig.go_fast,
+        guidance: modelConfig.guidance,
+        num_outputs: modelConfig.num_outputs
+      })
+    };
+
     console.log('Replicate input parameters:', JSON.stringify(input, null, 2));
 
-    // For Pro and Ultra models, we might need to handle potential resource constraints
-    let prediction;
-    try {
-      prediction = await replicate.predictions.create({
-        version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
-        input
-      });
-    } catch (error: any) {
-      console.error(`Error creating prediction for model ${model}:`, error);
-      
-      // If it's a resource constraint error, try with reduced parameters
-      if (error.message?.includes('resource') || error.message?.includes('capacity') || error.message?.includes('queue')) {
-        console.log('Attempting with reduced parameters due to resource constraints...');
-        
-        const reducedInput = {
-          ...input,
-          num_outputs: 2, // Reduce to 2 outputs
-          num_inference_steps: Math.floor(modelConfig.num_inference_steps * 0.8) // Reduce steps by 20%
-        };
-        
-        prediction = await replicate.predictions.create({
-          version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
-          input: reducedInput
-        });
-        
-        console.log('Successfully created prediction with reduced parameters');
-      } else {
-        throw error; // Re-throw if it's not a resource issue
-      }
-    }
+    const prediction = await replicate.predictions.create({
+      version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
+      input
+    });
 
     console.log('Prediction created with ID:', prediction.id);
     console.log('Prediction status:', prediction.status);

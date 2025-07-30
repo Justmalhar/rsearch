@@ -54,7 +54,8 @@ async function testImageGeneration() {
         const statusData = await statusResponse.json();
         
         if (statusData.status === 'succeeded') {
-          console.log(`✅ ${model} model completed with ${statusData.output?.length || 0} images`);
+          const expectedCount = model === 'fast' ? 4 : 1;
+          console.log(`✅ ${model} model completed with ${statusData.output?.length || 0} images (expected ${expectedCount})`);
           if (statusData.output) {
             console.log(`   URLs: ${statusData.output.join(', ')}`);
           }

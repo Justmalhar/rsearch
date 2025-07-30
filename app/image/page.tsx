@@ -40,9 +40,9 @@ export default function ImageGenerator() {
   ];
 
   const modelOptions = [
-    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality' },
-    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality' },
-    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation' },
+    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality (4 images)' },
+    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality (1 image)' },
+    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation (1 image)' },
   ];
 
   const getModelLabel = (value: string) => {
@@ -130,11 +130,14 @@ export default function ImageGenerator() {
           setImages(generatedImages);
           setIsGenerating(false);
           
-          if (generatedImages.length < 4) {
-            console.warn(`Expected 4 images but got ${generatedImages.length}`);
+          // Check expected image count based on model
+          const expectedCount = selectedModel === 'fast' ? 4 : 1;
+          
+          if (generatedImages.length < expectedCount) {
+            console.warn(`Expected ${expectedCount} images but got ${generatedImages.length}`);
             toast({
               title: "Partial Success",
-              description: `Generated ${generatedImages.length} images (expected 4). This may be due to high demand on the ${selectedModel} model.`,
+              description: `Generated ${generatedImages.length} images (expected ${expectedCount}).`,
               variant: "default",
             });
           } else {
@@ -301,7 +304,7 @@ export default function ImageGenerator() {
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-gray-500 mt-1">
-                    All models generate up to 4 images. Pro and Ultra models may generate fewer images during high demand.
+                    Fast model generates 4 images. Pro and Ultra models generate 1 high-quality image.
                   </p>
                 </div>
               </motion.div>
