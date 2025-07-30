@@ -17,11 +17,36 @@ interface Message {
 
 // Model configuration
 const models = [
-  { id: 'openai/gpt-4o', name: 'gpt-4o', displayName: 'gpt-4o (Fast)' },
-  { id: 'openai/gpt-4.1', name: 'gpt-4.1', displayName: 'gpt-4.1 (Writing)' },
-  { id: 'openai/gpt-4.1-mini', name: 'gpt-4.1-mini', displayName: 'gpt-4.1-mini (Fast)' },
-  { id: 'google/gemini-2.5-flash', name: 'gemini-2.5-flash', displayName: 'gemini-2.5-flash (Fastest)' },
-  { id: 'google/gemini-2.5-pro', name: 'gemini-2.5-pro', displayName: 'gemini-2.5-pro (Largest Context)' },
+  {
+    id: 'openai/gpt-4o',
+    name: 'gpt-4o',
+    displayName: 'gpt-4o',
+    description: 'Fast, high-quality, general-purpose model from OpenAI.'
+  },
+  {
+    id: 'openai/gpt-4.1',
+    name: 'gpt-4.1',
+    displayName: 'gpt-4.1',
+    description: 'Best for writing, reasoning, and complex tasks (OpenAI).'
+  },
+  {
+    id: 'openai/gpt-4.1-mini',
+    name: 'gpt-4.1-mini',
+    displayName: 'gpt-4.1-mini',
+    description: 'Fast, lightweight, cost-effective (OpenAI).'
+  },
+  {
+    id: 'google/gemini-2.5-flash',
+    name: 'gemini-2.5-flash',
+    displayName: 'gemini-2.5-flash',
+    description: 'Fastest Gemini model, great for quick responses (Google).'
+  },
+  {
+    id: 'google/gemini-2.5-pro',
+    name: 'gemini-2.5-pro',
+    displayName: 'gemini-2.5-pro',
+    description: 'Largest context, best for long documents (Google).'
+  },
 ];
 
 // Utility to clean up markdown tables (remove trailing pipes, trim whitespace)
@@ -173,14 +198,24 @@ export default function ChatPage() {
             <span className="text-sm font-medium text-gray-700">Model:</span>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
               <SelectTrigger className="w-64">
-                <SelectValue>
-                  {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
+                <SelectValue placeholder="Select Model">
+                  <div className="flex flex-col">
+                    <span className="font-medium">
+                      {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {models.find(model => model.id === selectedModel)?.description}
+                    </span>
+                  </div>
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {models.map((model) => (
                   <SelectItem key={model.id} value={model.id}>
-                    {model.displayName}
+                    <div className="flex items-center justify-between">
+                      <span>{model.displayName}</span>
+                      <span className="text-xs text-gray-500">{model.description}</span>
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
