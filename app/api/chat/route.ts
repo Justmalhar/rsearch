@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if OpenRouter API key is configured
-    if (!process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY) {
+    if (!process.env.OPENROUTER_API_KEY) {
       return NextResponse.json(
         { error: 'OpenRouter API key is not configured' },
         { status: 500 }
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // Create OpenRouter client
     const client = new OpenAI({
-      apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
+      apiKey: process.env.OPENROUTER_API_KEY,
       baseURL: 'https://openrouter.ai/api/v1',
     });
 
