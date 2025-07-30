@@ -34,6 +34,22 @@ const MODEL_CONFIGS = {
   ultra: {
     // Note: Ultra model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
   }
+} as const;
+
+// Type for Fast model config
+type FastModelConfig = typeof MODEL_CONFIGS.fast;
+
+// Type for input parameters
+type InputParams = {
+  prompt: string;
+  aspect_ratio: string;
+  output_format: string;
+  output_quality: number;
+  go_fast?: boolean;
+  guidance?: number;
+  num_outputs?: number;
+  prompt_strength?: number;
+  num_inference_steps?: number;
 };
 
 // Function to enhance prompt using LLM
@@ -111,7 +127,7 @@ export async function POST(request: NextRequest) {
     console.log('Model config:', modelConfig);
 
     // Build input object with only supported parameters for each model
-    const baseInput = {
+    const baseInput: InputParams = {
       prompt: enhancedPrompt,
       aspect_ratio: aspectRatio || "1:1",
       output_format: "jpg",
@@ -119,16 +135,19 @@ export async function POST(request: NextRequest) {
     };
 
     // Add model-specific parameters
-    const input = {
-      ...baseInput,
-      ...(model === 'fast' && {
-        go_fast: modelConfig.go_fast,
-        guidance: modelConfig.guidance,
-        num_outputs: modelConfig.num_outputs,
-        prompt_strength: modelConfig.prompt_strength,
-        num_inference_steps: modelConfig.num_inference_steps
-      })
-    };
+    let input: InputParams = { ...baseInput };
+    
+    if (model === 'fast') {
+      const fastConfig = modelConfig as FastModelConfig;
+      input = {
+        ...baseInput,
+        go_fast: fastConfig.go_fast,
+        guidance: fastConfig.guidance,
+        num_outputs: fastConfig.num_outputs,
+        prompt_strength: fastConfig.prompt_strength,
+        num_inference_steps: fastConfig.num_inference_steps
+      };
+    }
 
     console.log('Replicate input parameters:', JSON.stringify(input, null, 2));
 

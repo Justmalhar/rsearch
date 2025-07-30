@@ -31,6 +31,22 @@ const MODEL_CONFIGS = {
   ultra: {
     // Note: Ultra model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
   }
+} as const;
+
+// Type for Fast model config
+type FastModelConfig = typeof MODEL_CONFIGS.fast;
+
+// Type for input parameters
+type InputParams = {
+  prompt: string;
+  aspect_ratio: string;
+  output_format: string;
+  output_quality: number;
+  go_fast?: boolean;
+  guidance?: number;
+  num_outputs?: number;
+  prompt_strength?: number;
+  num_inference_steps?: number;
 };
 ```
 
