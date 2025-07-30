@@ -48,20 +48,36 @@
     "lastUpdated": "January 24, 2025",
     "sections": [
       {
+        "heading": "What is rSearch?",
+        "content": "rSearch is an AI-powered research assistant that revolutionizes how you discover and understand information. Unlike traditional search engines that return lists of links, rSearch provides intelligent, well-reasoned responses to complex queries by combining advanced AI reasoning with comprehensive data gathering."
+      },
+      {
         "heading": "Our Mission",
-        "content": "rSearch aims to revolutionize research by delivering precise, well-reasoned responses to complex queries through advanced AI technology. We help users discover insights, not just results, through sophisticated reasoning capabilities."
+        "content": "We believe that research should be about insights, not just results. Our mission is to help users discover deeper understanding through sophisticated AI reasoning, making complex information accessible and actionable for everyone."
       },
       {
-        "heading": "How It Works",
-        "content": "Our platform leverages DeepSeek's Reasoner - R1 model for Chain-of-Thought reasoning on search results. We refine queries intelligently, gather comprehensive data via Serper.dev API, and synthesize information through sophisticated reasoning processes."
+        "heading": "How rSearch Works",
+        "content": "rSearch operates through a sophisticated Chain-of-Thought process: First, we intelligently refine your query to capture the essence of what you're looking for. Then, we gather comprehensive data from multiple sources using our Serper.dev API integration. Next, our DeepSeek R1 model analyzes this information through advanced reasoning. Finally, we synthesize everything into a clear, well-structured response that answers your question directly."
       },
       {
-        "heading": "Features",
-        "content": "rSearch offers multiple search modes including web search, images, videos, news, places, shopping, scholar, and patents. Our modern UI features responsive navigation, mobile optimization, and dynamic result displays, all powered by Next.js and TypeScript."
+        "heading": "Advanced AI Technology",
+        "content": "At the heart of rSearch is the DeepSeek R1 model, a state-of-the-art AI system that excels in mathematical reasoning, code analysis, and logical thinking. This technology enables rSearch to understand context, draw connections between different pieces of information, and provide responses that go beyond simple fact retrieval."
       },
       {
-        "heading": "Technology",
-        "content": "Built with cutting-edge technology including Next.js, TypeScript, and TailwindCSS, rSearch harnesses the DeepSeek R1 model's advanced reasoning capabilities. Our platform offers exceptional performance in math, code, and reasoning tasks, comparable to leading AI models."
+        "heading": "Comprehensive Search Modes",
+        "content": "rSearch offers eight specialized search modes to meet your specific needs: Web Search for general internet queries, Images for visual content discovery, Videos for multimedia content, News for current events and updates, Places for location-based information, Shopping for product research and deals, Scholar for academic papers and research, and Patents for intellectual property exploration."
+      },
+      {
+        "heading": "Modern User Experience",
+        "content": "Built with Next.js and TypeScript, rSearch features a responsive, modern interface that works seamlessly across all devices. Our intuitive design focuses on simplicity while providing powerful functionality, with features like mobile-optimized navigation, dynamic result displays, and smooth animations."
+      },
+      {
+        "heading": "Privacy and Security",
+        "content": "Your privacy is paramount. We employ industry-standard encryption and security measures to protect your data. All searches are processed securely, and we never sell your personal information to third parties. You maintain full control over your data with options to access, modify, or delete your information at any time."
+      },
+      {
+        "heading": "Continuous Improvement",
+        "content": "rSearch is constantly evolving. We regularly update our AI models, expand our data sources, and enhance our reasoning capabilities based on user feedback and the latest advances in artificial intelligence. This ensures that rSearch remains at the forefront of AI-powered research technology."
       }
     ]
   }
