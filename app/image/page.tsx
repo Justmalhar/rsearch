@@ -40,9 +40,9 @@ export default function ImageGenerator() {
   ];
 
   const modelOptions = [
-    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality' },
-    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality' },
-    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation' },
+    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality (4 images)' },
+    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality (1 image)' },
+    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation (1 image)' },
   ];
 
   const getModelLabel = (value: string) => {
@@ -115,17 +115,41 @@ export default function ImageGenerator() {
           throw new Error(data.error || 'Failed to check status');
         }
 
+        console.log('Poll response:', data);
+
         if (data.status === 'succeeded' && data.output) {
-          const generatedImages = data.output.map((url: string, index: number) => ({
+          console.log('Generation succeeded, output type:', typeof data.output);
+          console.log('Output URLs:', data.output);
+          
+          // Handle both single URL (Pro/Ultra) and array of URLs (Fast)
+          const outputArray = Array.isArray(data.output) ? data.output : [data.output];
+          console.log('Output array length:', outputArray.length);
+          
+          const generatedImages = outputArray.map((url: string, index: number) => ({
             url,
             id: `${id}-${index}`,
           }));
+          
+          console.log('Generated images array:', generatedImages);
           setImages(generatedImages);
           setIsGenerating(false);
-          toast({
-            title: "Success",
-            description: "Images generated successfully!",
-          });
+          
+          // Check expected image count based on model
+          const expectedCount = selectedModel === 'fast' ? 4 : 1;
+          
+          if (generatedImages.length < expectedCount) {
+            console.warn(`Expected ${expectedCount} images but got ${generatedImages.length}`);
+            toast({
+              title: "Partial Success",
+              description: `Generated ${generatedImages.length} images (expected ${expectedCount}).`,
+              variant: "default",
+            });
+          } else {
+            toast({
+              title: "Success",
+              description: "Images generated successfully!",
+            });
+          }
           return;
         } else if (data.status === 'failed') {
           throw new Error('Image generation failed');
@@ -253,7 +277,7 @@ export default function ImageGenerator() {
                 <div>
                   <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
                   <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
-                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -269,7 +293,7 @@ export default function ImageGenerator() {
                 <div>
                   <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
                   <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
-                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-full">
                       <SelectValue>{getModelLabel(selectedModel)}</SelectValue>
                     </SelectTrigger>
                     <SelectContent>
@@ -295,7 +319,7 @@ export default function ImageGenerator() {
                 <Button
                   onClick={generateImages}
                   disabled={isGenerating || !prompt.trim()}
-                  className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                   size="lg"
                 >
                   {isGenerating ? (
@@ -439,7 +463,7 @@ export default function ImageGenerator() {
                 </div>
               </motion.div>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className={`grid gap-8 ${images.length === 1 ? 'justify-center' : 'grid-cols-1 md:grid-cols-2'}`}>
               {images.map((image, index) => (
                 <motion.div
                   key={image.id}
@@ -451,6 +475,7 @@ export default function ImageGenerator() {
                     type: "spring",
                     stiffness: 100
                   }}
+                  className={images.length === 1 ? 'max-w-2xl mx-auto' : ''}
                 >
                   <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group cursor-pointer">
                     <CardContent className="p-0">

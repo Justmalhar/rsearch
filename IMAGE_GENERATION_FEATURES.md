@@ -7,9 +7,9 @@ The image generation page now includes advanced features for creating high-quali
 
 ### 1. Model Selection
 Users can choose from three different Flux models:
-- **Fast**: `black-forest-labs/flux-dev` - Quick generation with good quality
-- **Pro**: `black-forest-labs/flux-1.1-pro` - Balanced speed and quality  
-- **Ultra**: `black-forest-labs/flux-1.1-pro-ultra` - Highest quality generation
+- **Fast**: `black-forest-labs/flux-dev` - Quick generation with good quality (generates 4 images)
+- **Pro**: `black-forest-labs/flux-1.1-pro` - Balanced speed and quality (generates 1 image)  
+- **Ultra**: `black-forest-labs/flux-1.1-pro-ultra` - Highest quality generation (generates 1 image)
 
 ### 2. Prompt Enhancement
 - Automatically enhances user prompts using Google Gemini 2.5 Flash via OpenRouter
@@ -59,7 +59,7 @@ NEXT_PUBLIC_SITE_URL=https://your-site.com
 
 1. **Enter a prompt**: Describe the image you want to generate
 2. **Select aspect ratio**: Choose from Square (1:1), Landscape (16:9), or Portrait (9:16)
-3. **Choose model**: Select Fast, Pro, or Ultra based on your needs
+3. **Choose model**: Select Fast (4 images), Pro (1 image), or Ultra (1 image) based on your needs
 4. **Generate**: Click "Generate Images" to create your artwork
 5. **Copy enhanced prompt**: Use the copy button to save the enhanced prompt
 6. **Download images**: Click on any generated image to download it
@@ -80,5 +80,5 @@ NEXT_PUBLIC_SITE_URL=https://your-site.com
 
 ### Performance
 - Prompt enhancement typically takes 1-3 seconds
-- Image generation time varies by model (Fast: ~30s, Pro: ~60s, Ultra: ~90s)
+- Image generation time varies by model (Fast: ~30s for 4 images, Pro: ~60s for 1 image, Ultra: ~90s for 1 image)
 - Responsive UI with loading states and progress indicators

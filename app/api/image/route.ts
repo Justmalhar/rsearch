@@ -19,6 +19,39 @@ const MODEL_MAPPING = {
   ultra: "black-forest-labs/flux-1.1-pro-ultra"
 };
 
+// Model-specific configurations
+const MODEL_CONFIGS = {
+  fast: {
+    num_outputs: 4,
+    num_inference_steps: 28,
+    guidance: 3.5,
+    prompt_strength: 0.8,
+    go_fast: true
+  },
+  pro: {
+    // Note: Pro model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
+  },
+  ultra: {
+    // Note: Ultra model doesn't support go_fast, guidance, num_outputs, num_inference_steps, or prompt_strength
+  }
+} as const;
+
+// Type for Fast model config
+type FastModelConfig = typeof MODEL_CONFIGS.fast;
+
+// Type for input parameters
+type InputParams = {
+  prompt: string;
+  aspect_ratio: string;
+  output_format: string;
+  output_quality: number;
+  go_fast?: boolean;
+  guidance?: number;
+  num_outputs?: number;
+  prompt_strength?: number;
+  num_inference_steps?: number;
+};
+
 // Function to enhance prompt using LLM
 async function enhancePrompt(inputPrompt: string): Promise<string> {
   try {
@@ -86,23 +119,45 @@ export async function POST(request: NextRequest) {
     const enhancedPrompt = await enhancePrompt(prompt);
     console.log('Original prompt:', prompt);
     console.log('Enhanced prompt:', enhancedPrompt);
+    console.log('Selected model:', model);
+    console.log('Model version:', MODEL_MAPPING[model as keyof typeof MODEL_MAPPING]);
 
-    const input = {
+    // Get model-specific configuration
+    const modelConfig = MODEL_CONFIGS[model as keyof typeof MODEL_CONFIGS];
+    console.log('Model config:', modelConfig);
+
+    // Build input object with only supported parameters for each model
+    const baseInput: InputParams = {
       prompt: enhancedPrompt,
-      go_fast: true,
-      guidance: 3.5,
-      num_outputs: 4,
       aspect_ratio: aspectRatio || "1:1",
       output_format: "jpg",
-      output_quality: 100,
-      prompt_strength: 0.8,
-      num_inference_steps: 28
+      output_quality: 100
     };
+
+    // Add model-specific parameters
+    let input: InputParams = { ...baseInput };
+    
+    if (model === 'fast') {
+      const fastConfig = modelConfig as FastModelConfig;
+      input = {
+        ...baseInput,
+        go_fast: fastConfig.go_fast,
+        guidance: fastConfig.guidance,
+        num_outputs: fastConfig.num_outputs,
+        prompt_strength: fastConfig.prompt_strength,
+        num_inference_steps: fastConfig.num_inference_steps
+      };
+    }
+
+    console.log('Replicate input parameters:', JSON.stringify(input, null, 2));
 
     const prediction = await replicate.predictions.create({
       version: MODEL_MAPPING[model as keyof typeof MODEL_MAPPING],
       input
     });
+
+    console.log('Prediction created with ID:', prediction.id);
+    console.log('Prediction status:', prediction.status);
 
     return NextResponse.json({ 
       success: true, 
@@ -130,6 +185,19 @@ export async function GET(request: NextRequest) {
     }
 
     const prediction = await replicate.predictions.get(requestId);
+
+    console.log('Prediction status check for ID:', requestId);
+    console.log('Prediction status:', prediction.status);
+    console.log('Prediction output type:', typeof prediction.output);
+    console.log('Prediction output:', prediction.output);
+    if (prediction.output) {
+      if (Array.isArray(prediction.output)) {
+        console.log('Output is array with length:', prediction.output.length);
+        console.log('Output URLs:', prediction.output);
+      } else {
+        console.log('Output is single URL:', prediction.output);
+      }
+    }
 
     return NextResponse.json({ 
       success: true, 
