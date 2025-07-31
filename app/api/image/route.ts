@@ -188,9 +188,15 @@ export async function GET(request: NextRequest) {
 
     console.log('Prediction status check for ID:', requestId);
     console.log('Prediction status:', prediction.status);
-    console.log('Prediction output length:', prediction.output ? prediction.output.length : 0);
+    console.log('Prediction output type:', typeof prediction.output);
+    console.log('Prediction output:', prediction.output);
     if (prediction.output) {
-      console.log('Output URLs:', prediction.output);
+      if (Array.isArray(prediction.output)) {
+        console.log('Output is array with length:', prediction.output.length);
+        console.log('Output URLs:', prediction.output);
+      } else {
+        console.log('Output is single URL:', prediction.output);
+      }
     }
 
     return NextResponse.json({ 

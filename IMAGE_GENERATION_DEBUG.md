@@ -122,6 +122,40 @@ type InputParams = {
 }
 ```
 
+## API Response Formats
+
+### Fast Model Response
+```javascript
+{
+  status: "succeeded",
+  output: [
+    "https://replicate.delivery/.../image1.jpg",
+    "https://replicate.delivery/.../image2.jpg",
+    "https://replicate.delivery/.../image3.jpg",
+    "https://replicate.delivery/.../image4.jpg"
+  ]
+}
+```
+
+### Pro/Ultra Model Response
+```javascript
+{
+  status: "succeeded",
+  output: "https://replicate.delivery/.../image.jpg"
+}
+```
+
+### Frontend Handling
+The frontend code handles both response formats:
+```javascript
+// Handle both single URL (Pro/Ultra) and array of URLs (Fast)
+const outputArray = Array.isArray(data.output) ? data.output : [data.output];
+const generatedImages = outputArray.map((url: string, index: number) => ({
+  url,
+  id: `${id}-${index}`,
+}));
+```
+
 ## Testing
 
 ### Run the Test Script
@@ -130,9 +164,9 @@ npm run test:images
 ```
 
 This will now correctly test:
-- Fast model: Expects 4 images
-- Pro model: Expects 1 image
-- Ultra model: Expects 1 image
+- Fast model: Expects 4 images (array response)
+- Pro model: Expects 1 image (single URL response)
+- Ultra model: Expects 1 image (single URL response)
 
 ### Manual Testing
 1. Test each model with different prompts
@@ -156,6 +190,11 @@ This will now correctly test:
 1. Check the enhanced logging output
 2. Verify the prompt is valid
 3. Check Replicate API status and account limits
+
+### If frontend shows "map is not a function" error:
+1. This indicates the API is returning a single URL instead of an array
+2. The fix is already implemented to handle both formats
+3. Check the console logs to see the actual response format
 
 ## Configuration Options
 
@@ -187,6 +226,7 @@ ultra: {
 The enhanced logging will help track:
 - Which parameters are being sent to each model
 - Expected vs actual image counts
+- Response format (array vs single URL)
 - Any API errors or unexpected responses
 - User experience with different models
 

@@ -118,10 +118,14 @@ export default function ImageGenerator() {
         console.log('Poll response:', data);
 
         if (data.status === 'succeeded' && data.output) {
-          console.log('Generation succeeded, output length:', data.output.length);
+          console.log('Generation succeeded, output type:', typeof data.output);
           console.log('Output URLs:', data.output);
           
-          const generatedImages = data.output.map((url: string, index: number) => ({
+          // Handle both single URL (Pro/Ultra) and array of URLs (Fast)
+          const outputArray = Array.isArray(data.output) ? data.output : [data.output];
+          console.log('Output array length:', outputArray.length);
+          
+          const generatedImages = outputArray.map((url: string, index: number) => ({
             url,
             id: `${id}-${index}`,
           }));
