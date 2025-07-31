@@ -277,7 +277,7 @@ export default function ImageGenerator() {
                 <div>
                   <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
                   <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
-                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -293,7 +293,7 @@ export default function ImageGenerator() {
                 <div>
                   <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
                   <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
-                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl">
+                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-full">
                       <SelectValue>{getModelLabel(selectedModel)}</SelectValue>
                     </SelectTrigger>
                     <SelectContent>
@@ -319,7 +319,7 @@ export default function ImageGenerator() {
                 <Button
                   onClick={generateImages}
                   disabled={isGenerating || !prompt.trim()}
-                  className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                   size="lg"
                 >
                   {isGenerating ? (
