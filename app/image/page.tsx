@@ -307,9 +307,6 @@ export default function ImageGenerator() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Fast model generates 4 images. Pro and Ultra models generate 1 high-quality image.
-                  </p>
                 </div>
               </motion.div>
 
