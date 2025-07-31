@@ -466,7 +466,7 @@ export default function ImageGenerator() {
                 </div>
               </motion.div>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className={`grid gap-8 ${images.length === 1 ? 'justify-center' : 'grid-cols-1 md:grid-cols-2'}`}>
               {images.map((image, index) => (
                 <motion.div
                   key={image.id}
@@ -478,6 +478,7 @@ export default function ImageGenerator() {
                     type: "spring",
                     stiffness: 100
                   }}
+                  className={images.length === 1 ? 'max-w-2xl mx-auto' : ''}
                 >
                   <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group cursor-pointer">
                     <CardContent className="p-0">
