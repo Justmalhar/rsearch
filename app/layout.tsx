@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileHeader } from "@/components/ui/mobile-header";
@@ -7,6 +7,18 @@ import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-playfair",
+});
 
 export const metadata: Metadata = {
   title: "rSearch: AI-Powered Reasoning Engine | Alternative to Perplexity",
@@ -194,7 +206,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${poppins.variable} ${playfair.variable}`}>
         <div className="min-h-screen bg-white flex">
           <Sidebar />
           <div className="flex-1 lg:ml-24 flex flex-col">
