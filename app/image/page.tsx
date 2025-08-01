@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check, Wand2, Palette, Zap, Square, Rectangle, RectangleVertical } from 'lucide-react';
+import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check, Wand2, Palette, Zap, Square, RectangleHorizontal, RectangleVertical } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 interface GeneratedImage {
@@ -35,7 +35,7 @@ export default function ImageGenerator() {
 
   const aspectRatioOptions = [
     { value: '1:1', label: 'Square', icon: Square },
-    { value: '16:9', label: 'Landscape', icon: Rectangle },
+    { value: '16:9', label: 'Landscape', icon: RectangleHorizontal },
     { value: '9:16', label: 'Portrait', icon: RectangleVertical },
   ];
 
