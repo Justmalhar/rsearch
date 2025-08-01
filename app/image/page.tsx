@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check, Wand2, Palette, Zap } from 'lucide-react';
+import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check, Wand2, Palette, Zap, Square, Rectangle, RectangleVertical } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 interface GeneratedImage {
@@ -34,9 +34,9 @@ export default function ImageGenerator() {
   const [copiedPrompt, setCopiedPrompt] = useState(false);
 
   const aspectRatioOptions = [
-    { value: '1:1', label: 'Square', icon: '⬜' },
-    { value: '16:9', label: 'Landscape', icon: '⬜' },
-    { value: '9:16', label: 'Portrait', icon: '⬜' },
+    { value: '1:1', label: 'Square', icon: Square },
+    { value: '16:9', label: 'Landscape', icon: Rectangle },
+    { value: '9:16', label: 'Portrait', icon: RectangleVertical },
   ];
 
   const modelOptions = [
@@ -239,7 +239,7 @@ export default function ImageGenerator() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl mb-6 shadow-lg">
             <ImageIcon className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent tracking-tight">
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent tracking-tight font-serif">
             Image Generator
           </h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
@@ -262,7 +262,8 @@ export default function ImageGenerator() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  <Label htmlFor="prompt" className="text-base font-semibold text-gray-800 mb-3 block">
+                  <Label htmlFor="prompt" className="text-base font-semibold text-gray-800 mb-3 block flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-orange-600" />
                     Describe your vision
                   </Label>
                   <Textarea
@@ -285,7 +286,8 @@ export default function ImageGenerator() {
                 >
                   {/* Aspect Ratio */}
                   <div>
-                    <Label htmlFor="aspect-ratio" className="text-base font-semibold text-gray-800 mb-3 block">
+                    <Label htmlFor="aspect-ratio" className="text-base font-semibold text-gray-800 mb-3 block flex items-center gap-2">
+                      <Square className="h-4 w-4 text-orange-600" />
                       Format
                     </Label>
                     <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
@@ -293,21 +295,25 @@ export default function ImageGenerator() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-2xl border-2 border-gray-200">
-                        {aspectRatioOptions.map((option) => (
-                          <SelectItem key={option.value} value={option.value} className="text-base py-3">
-                            <div className="flex items-center gap-3">
-                              <span className="text-xl">{option.icon}</span>
-                              <span>{option.label}</span>
-                            </div>
-                          </SelectItem>
-                        ))}
+                        {aspectRatioOptions.map((option) => {
+                          const IconComponent = option.icon;
+                          return (
+                            <SelectItem key={option.value} value={option.value} className="text-base py-3">
+                              <div className="flex items-center gap-3">
+                                <IconComponent className="h-5 w-5 text-orange-600" />
+                                <span>{option.label}</span>
+                              </div>
+                            </SelectItem>
+                          );
+                        })}
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* Model Selection */}
                   <div>
-                    <Label htmlFor="model" className="text-base font-semibold text-gray-800 mb-3 block">
+                    <Label htmlFor="model" className="text-base font-semibold text-gray-800 mb-3 block flex items-center gap-2">
+                      <Wand2 className="h-4 w-4 text-orange-600" />
                       Quality
                     </Label>
                     <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
@@ -418,7 +424,10 @@ export default function ImageGenerator() {
                       className="max-w-2xl mx-auto p-4 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl"
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-semibold text-orange-800">Enhanced Prompt:</p>
+                        <p className="text-sm font-semibold text-orange-800 flex items-center gap-2">
+                          <Sparkles className="h-4 w-4" />
+                          Enhanced Prompt:
+                        </p>
                         <Button
                           onClick={copyEnhancedPrompt}
                           size="sm"
@@ -466,7 +475,7 @@ export default function ImageGenerator() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-center mb-8"
               >
-                <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent tracking-tight">
+                <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent tracking-tight font-serif">
                   Your Creations
                 </h2>
                 <p className="text-lg text-gray-600">Here are your AI-generated masterpieces</p>
@@ -481,7 +490,10 @@ export default function ImageGenerator() {
                 >
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-3 mb-3">
-                      <p className="text-base font-semibold text-orange-800">Enhanced Prompt Used:</p>
+                      <p className="text-base font-semibold text-orange-800 flex items-center gap-2">
+                        <Sparkles className="h-4 w-4" />
+                        Enhanced Prompt Used:
+                      </p>
                       <Button
                         onClick={copyEnhancedPrompt}
                         size="sm"
