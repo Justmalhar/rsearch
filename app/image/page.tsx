@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check } from 'lucide-react';
+import { Loader2, Download, Image as ImageIcon, Sparkles, Copy, Check, Wand2, Palette, Zap } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 interface GeneratedImage {
@@ -34,15 +34,15 @@ export default function ImageGenerator() {
   const [copiedPrompt, setCopiedPrompt] = useState(false);
 
   const aspectRatioOptions = [
-    { value: '1:1', label: 'Square (1:1)' },
-    { value: '16:9', label: 'Landscape (16:9)' },
-    { value: '9:16', label: 'Portrait (9:16)' },
+    { value: '1:1', label: 'Square', icon: '⬜' },
+    { value: '16:9', label: 'Landscape', icon: '⬜' },
+    { value: '9:16', label: 'Portrait', icon: '⬜' },
   ];
 
   const modelOptions = [
-    { value: 'fast', label: 'Fast', description: 'Quick generation with good quality (4 images)' },
-    { value: 'pro', label: 'Pro', description: 'Balanced speed and quality (1 image)' },
-    { value: 'ultra', label: 'Ultra', description: 'Highest quality generation (1 image)' },
+    { value: 'fast', label: 'Fast', description: 'Quick generation', icon: Zap },
+    { value: 'pro', label: 'Pro', description: 'Balanced quality', icon: Palette },
+    { value: 'ultra', label: 'Ultra', description: 'Highest quality', icon: Wand2 },
   ];
 
   const getModelLabel = (value: string) => {
@@ -222,297 +222,335 @@ export default function ImageGenerator() {
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="container mx-auto px-4 py-8 max-w-4xl"
-    >
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50">
       <motion.div 
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="text-center mb-12"
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="container mx-auto px-6 py-12 max-w-5xl"
       >
-        <h1 className="text-5xl font-bold mb-6 text-orange-600 font-serif">Generate Images</h1>
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full">
-          <Sparkles className="h-4 w-4 text-orange-600" />
-          <p className="text-gray-700 text-sm font-medium">
-            Transform your ideas into beautiful artwork
+        {/* Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl mb-8 shadow-2xl">
+            <ImageIcon className="h-10 w-10 text-white" />
+          </div>
+          <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent tracking-tight">
+            Image Generator
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Transform your ideas into stunning artwork with AI-powered image generation
           </p>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-      >
-        <Card className="mb-8 border-orange-200 shadow-xl rounded-2xl overflow-hidden">
-          <CardContent className="p-8">
-            <div className="space-y-6">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                <Label htmlFor="prompt" className="text-orange-700 font-semibold text-lg">Image Prompt</Label>
-                <Textarea
-                  id="prompt"
-                  placeholder="Describe the image you want to generate... (e.g., 'A majestic dragon flying over a medieval castle at sunset')"
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  className="mt-3 min-h-[100px] resize-none border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-xl text-base"
-                  disabled={isGenerating}
-                  rows={3}
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              >
-                <div>
-                  <Label htmlFor="aspect-ratio" className="text-orange-700 font-semibold text-lg">Aspect Ratio</Label>
-                  <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
-                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {aspectRatioOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="model" className="text-orange-700 font-semibold text-lg">Model</Label>
-                  <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
-                    <SelectTrigger className="mt-3 border-orange-200 focus:border-orange-500 focus:ring-orange-500 rounded-full">
-                      <SelectValue>{getModelLabel(selectedModel)}</SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {modelOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          <div className="flex flex-col">
-                            <span className="font-medium">{option.label}</span>
-                            <span className="text-xs text-gray-500">{option.description}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.0 }}
-              >
-
-                <Button
-                  onClick={generateImages}
-                  disabled={isGenerating || !prompt.trim()}
-                  className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                  size="lg"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-                      <span className="flex items-center gap-2">
-                        Generating Images
-                        <motion.div
-                          animate={{ opacity: [1, 0.5, 1] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          ...
-                        </motion.div>
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <ImageIcon className="mr-3 h-6 w-6" />
-                      Generate Images
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      <AnimatePresence>
-        {isGenerating && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="mb-8 border-orange-200 shadow-xl rounded-2xl overflow-hidden">
-              <CardContent className="p-12 text-center">
+        {/* Main Form Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
+          <Card className="backdrop-blur-xl bg-white/80 border-0 shadow-2xl rounded-3xl overflow-hidden">
+            <CardContent className="p-12">
+              <div className="space-y-8">
+                {/* Prompt Input */}
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="mb-6"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                  <Loader2 className="h-16 w-16 mx-auto text-orange-600" />
+                  <Label htmlFor="prompt" className="text-lg font-semibold text-gray-800 mb-4 block">
+                    Describe your vision
+                  </Label>
+                  <Textarea
+                    id="prompt"
+                    placeholder="A majestic dragon soaring over a medieval castle at golden hour, cinematic lighting, detailed scales..."
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    className="min-h-[120px] resize-none border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 rounded-2xl text-lg p-6 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                    disabled={isGenerating}
+                    rows={4}
+                  />
                 </motion.div>
-                <motion.h3 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="text-2xl font-bold text-orange-700 mb-3"
+
+                {/* Settings Row */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
                 >
-                  Generating your images...
-                </motion.h3>
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="text-gray-600 text-lg"
+                  {/* Aspect Ratio */}
+                  <div>
+                    <Label htmlFor="aspect-ratio" className="text-lg font-semibold text-gray-800 mb-4 block">
+                      Format
+                    </Label>
+                    <Select value={aspectRatio} onValueChange={setAspectRatio} disabled={isGenerating}>
+                      <SelectTrigger className="h-14 border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 rounded-2xl bg-white/50 backdrop-blur-sm text-lg">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border-2 border-gray-200">
+                        {aspectRatioOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value} className="text-lg py-3">
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl">{option.icon}</span>
+                              <span>{option.label}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Model Selection */}
+                  <div>
+                    <Label htmlFor="model" className="text-lg font-semibold text-gray-800 mb-4 block">
+                      Quality
+                    </Label>
+                    <Select value={selectedModel} onValueChange={setSelectedModel} disabled={isGenerating}>
+                      <SelectTrigger className="h-14 border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 rounded-2xl bg-white/50 backdrop-blur-sm text-lg">
+                        <SelectValue>{getModelLabel(selectedModel)}</SelectValue>
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border-2 border-gray-200">
+                        {modelOptions.map((option) => {
+                          const IconComponent = option.icon;
+                          return (
+                            <SelectItem key={option.value} value={option.value} className="text-lg py-3">
+                              <div className="flex items-center gap-3">
+                                <IconComponent className="h-5 w-5 text-orange-600" />
+                                <div className="flex flex-col">
+                                  <span className="font-semibold">{option.label}</span>
+                                  <span className="text-sm text-gray-500">{option.description}</span>
+                                </div>
+                              </div>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </motion.div>
+
+                {/* Generate Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.0 }}
+                  className="pt-4"
                 >
-                  This may take a few minutes
-                </motion.p>
-                {enhancedPrompt && (
+                  <Button
+                    onClick={generateImages}
+                    disabled={isGenerating || !prompt.trim()}
+                    className="w-full h-16 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold text-xl rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    size="lg"
+                  >
+                    {isGenerating ? (
+                      <div className="flex items-center gap-3">
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          <Loader2 className="h-6 w-6" />
+                        </motion.div>
+                        <span>Creating your masterpiece...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3">
+                        <Sparkles className="h-6 w-6" />
+                        <span>Generate Images</span>
+                      </div>
+                    )}
+                  </Button>
+                </motion.div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Loading State */}
+        <AnimatePresence>
+          {isGenerating && (
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.95 }}
+              transition={{ duration: 0.6 }}
+              className="mt-12"
+            >
+              <Card className="backdrop-blur-xl bg-white/80 border-0 shadow-2xl rounded-3xl overflow-hidden">
+                <CardContent className="p-16 text-center">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="mb-8"
+                  >
+                    <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto shadow-2xl">
+                      <Loader2 className="h-10 w-10 text-white" />
+                    </div>
+                  </motion.div>
+                  
+                  <motion.h3 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-3xl font-bold text-gray-800 mb-4"
+                  >
+                    Crafting your vision
+                  </motion.h3>
+                  
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="text-lg text-gray-600 mb-8"
+                  >
+                    Our AI is working its magic to bring your imagination to life
+                  </motion.p>
+                  
+                  {enhancedPrompt && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8 }}
+                      className="max-w-2xl mx-auto p-6 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-sm font-semibold text-orange-800">Enhanced Prompt:</p>
+                        <Button
+                          onClick={copyEnhancedPrompt}
+                          size="sm"
+                          variant="ghost"
+                          className="h-8 w-8 p-0 hover:bg-orange-200 rounded-full"
+                        >
+                          {copiedPrompt ? (
+                            <Check className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <Copy className="h-4 w-4 text-orange-600" />
+                          )}
+                        </Button>
+                      </div>
+                      <p className="text-sm text-gray-700 italic leading-relaxed">&ldquo;{enhancedPrompt}&rdquo;</p>
+                    </motion.div>
+                  )}
+                  
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8 }}
-                    className="mt-6 p-4 bg-orange-50 border border-orange-200 rounded-xl"
+                    transition={{ delay: 1.0 }}
+                    className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-orange-100 to-orange-200 border border-orange-300 rounded-full"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-sm text-orange-700 font-medium">Enhanced Prompt:</p>
+                    <Sparkles className="h-5 w-5 text-orange-600" />
+                    <span className="text-sm font-medium text-orange-800">AI is creating magic...</span>
+                  </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Results Section */}
+        <AnimatePresence>
+          {images.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+              className="mt-16"
+            >
+              <motion.div 
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="text-center mb-12"
+              >
+                <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent tracking-tight">
+                  Your Creations
+                </h2>
+                <p className="text-xl text-gray-600">Here are your AI-generated masterpieces</p>
+              </motion.div>
+              
+              {enhancedPrompt && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="mb-12 max-w-4xl mx-auto p-8 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-3xl backdrop-blur-sm"
+                >
+                  <div className="text-center">
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                      <p className="text-lg font-semibold text-orange-800">Enhanced Prompt Used:</p>
                       <Button
                         onClick={copyEnhancedPrompt}
                         size="sm"
                         variant="ghost"
-                        className="h-8 w-8 p-0 hover:bg-orange-100"
+                        className="h-10 w-10 p-0 hover:bg-orange-200 rounded-full"
                       >
                         {copiedPrompt ? (
-                          <Check className="h-4 w-4 text-green-600" />
+                          <Check className="h-5 w-5 text-green-600" />
                         ) : (
-                          <Copy className="h-4 w-4 text-orange-600" />
+                          <Copy className="h-5 w-5 text-orange-600" />
                         )}
                       </Button>
                     </div>
-                    <p className="text-sm text-gray-700 italic">&ldquo;{enhancedPrompt}&rdquo;</p>
-                  </motion.div>
-                )}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.9 }}
-                  className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full"
-                >
-                  <Sparkles className="h-4 w-4 text-orange-600" />
-                  <span className="text-sm text-orange-700 font-medium">AI is creating magic...</span>
-                </motion.div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {images.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <motion.h2 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl font-bold mb-6 text-orange-600 font-serif text-center"
-            >
-              Generated Images
-            </motion.h2>
-            {enhancedPrompt && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="mb-8 p-6 bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl"
-              >
-                <div className="text-center">
-                  <div className="flex items-center justify-center gap-3 mb-3">
-                    <p className="text-sm text-orange-700 font-semibold">Enhanced Prompt Used:</p>
-                    <Button
-                      onClick={copyEnhancedPrompt}
-                      size="sm"
-                      variant="ghost"
-                      className="h-8 w-8 p-0 hover:bg-orange-200"
-                    >
-                      {copiedPrompt ? (
-                        <Check className="h-4 w-4 text-green-600" />
-                      ) : (
-                        <Copy className="h-4 w-4 text-orange-600" />
-                      )}
-                    </Button>
+                    <p className="text-lg text-gray-800 italic leading-relaxed">&ldquo;{enhancedPrompt}&rdquo;</p>
                   </div>
-                  <p className="text-base text-gray-800 italic leading-relaxed">&ldquo;{enhancedPrompt}&rdquo;</p>
-                </div>
-              </motion.div>
-            )}
-            <div className={`grid gap-8 ${images.length === 1 ? 'justify-center' : 'grid-cols-1 md:grid-cols-2'}`}>
-              {images.map((image, index) => (
-                <motion.div
-                  key={image.id}
-                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: 0.6 + (index * 0.1),
-                    type: "spring",
-                    stiffness: 100
-                  }}
-                  className={images.length === 1 ? 'max-w-2xl mx-auto' : ''}
-                >
-                  <Card className="overflow-hidden border-orange-200 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group cursor-pointer">
-                    <CardContent className="p-0">
-                      <div className="relative">
-                        <motion.img
-                          src={image.url}
-                          alt={`Generated image ${index + 1}`}
-                          className="w-full h-auto rounded-2xl"
-                          whileHover={{ scale: 1.02 }}
-                          transition={{ duration: 0.3 }}
-                          onClick={() => downloadImage(image.url, index)}
-                        />
-                        <motion.div 
-                          className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center rounded-2xl"
-                          initial={{ opacity: 0 }}
-                          whileHover={{ opacity: 1 }}
-                          onClick={() => downloadImage(image.url, index)}
-                        >
-                          <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            whileHover={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.2 }}
-                            className="flex items-center gap-2 text-white font-semibold px-4 py-2 rounded-lg bg-black bg-opacity-50"
-                          >
-                            <Download className="h-5 w-5" />
-                            Click to Download
-                          </motion.div>
-                        </motion.div>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+              )}
+              
+              <div className={`grid gap-8 ${images.length === 1 ? 'justify-center max-w-4xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
+                {images.map((image, index) => (
+                  <motion.div
+                    key={image.id}
+                    initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: 0.8 + (index * 0.1),
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    className="group"
+                  >
+                    <Card className="overflow-hidden border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-3xl bg-white/80 backdrop-blur-xl">
+                      <CardContent className="p-0">
+                        <div className="relative">
+                          <motion.img
+                            src={image.url}
+                            alt={`Generated image ${index + 1}`}
+                            className="w-full h-auto rounded-3xl"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ duration: 0.4 }}
+                            onClick={() => downloadImage(image.url, index)}
+                          />
+                          <motion.div 
+                            className="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-all duration-500 flex items-center justify-center rounded-3xl"
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                            onClick={() => downloadImage(image.url, index)}
+                          >
+                            <motion.div
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              whileHover={{ scale: 1, opacity: 1 }}
+                              transition={{ duration: 0.3 }}
+                              className="flex items-center gap-3 text-white font-semibold px-6 py-4 rounded-2xl bg-black/50 backdrop-blur-sm border border-white/20"
+                            >
+                              <Download className="h-6 w-6" />
+                              <span className="text-lg">Download Image</span>
+                            </motion.div>
+                          </motion.div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }
