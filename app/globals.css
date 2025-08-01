@@ -41,8 +41,6 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --font-poppins: var(--font-poppins);
-    --font-playfair: var(--font-playfair);
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -77,8 +75,6 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --font-poppins: var(--font-poppins);
-    --font-playfair: var(--font-playfair);
   }
 }
 
@@ -93,16 +89,16 @@ body {
 
 /* Apple-style polished components */
 @layer components {
-  .apple-input {
-    @apply w-full px-6 py-4 pr-16 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl 
+  .apple-textarea {
+    @apply w-full px-6 py-4 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl 
            focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500/50 
            transition-all duration-300 ease-out shadow-sm hover:shadow-md
-           placeholder:text-gray-400 text-gray-900 font-medium;
+           placeholder:text-gray-400 text-gray-900 font-medium resize-none;
   }
   
   .apple-button {
-    @apply px-6 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 
-           text-white rounded-2xl transition-all duration-300 ease-out shadow-lg hover:shadow-xl
+    @apply px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 
+           text-white rounded-xl transition-all duration-300 ease-out shadow-lg hover:shadow-xl
            disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-sm
            font-semibold tracking-wide;
   }
@@ -110,13 +106,5 @@ body {
   .apple-card {
     @apply bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-lg 
            hover:shadow-xl transition-all duration-300 ease-out;
-  }
-  
-  .apple-text {
-    font-family: var(--font-playfair), serif;
-  }
-  
-  .apple-ui {
-    font-family: var(--font-poppins), sans-serif;
   }
 }

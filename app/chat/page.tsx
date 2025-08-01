@@ -196,10 +196,10 @@ export default function ChatPage() {
         <div className="max-w-4xl mx-auto flex justify-center">
           <div className="flex items-center gap-3">
             <Sparkles className="h-5 w-5 text-orange-500" />
-            <span className="text-sm font-medium text-gray-700 apple-ui">Model:</span>
+            <span className="text-sm font-medium text-gray-700">Model:</span>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
               <SelectTrigger className="w-64 md:w-80 rounded-2xl border border-gray-200/60 hover:border-orange-400/60 focus:border-orange-500/60 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md">
-                <SelectValue placeholder="Select Model" className="apple-ui">
+                <SelectValue placeholder="Select Model">
                   {models.find(model => model.id === selectedModel)?.displayName || 'Select Model'}
                 </SelectValue>
               </SelectTrigger>
@@ -207,8 +207,8 @@ export default function ChatPage() {
                 {models.map((model) => (
                   <SelectItem key={model.id} value={model.id} className="py-4 rounded-xl mx-2 my-1 hover:bg-orange-50/80 focus:bg-orange-50/80 transition-colors">
                     <div className="flex flex-col space-y-1">
-                      <span className="font-semibold text-sm apple-ui">{model.displayName}</span>
-                      <span className="text-xs text-gray-500 leading-relaxed apple-ui">{model.description}</span>
+                      <span className="font-semibold text-sm">{model.displayName}</span>
+                      <span className="text-xs text-gray-500 leading-relaxed">{model.description}</span>
                     </div>
                   </SelectItem>
                 ))}
@@ -227,10 +227,10 @@ export default function ChatPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full blur-2xl opacity-20 animate-pulse"></div>
                 <Bot className="h-16 w-16 text-orange-600 mx-auto mb-6 relative z-10" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-3 apple-ui">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">
                 Welcome to rSearch Chat
               </h2>
-              <p className="text-gray-600 max-w-lg mx-auto px-4 apple-ui leading-relaxed">
+              <p className="text-gray-600 max-w-lg mx-auto px-4 leading-relaxed">
                 Ask me anything! I&apos;m here to help with your questions, provide detailed explanations, and assist with various topics.
               </p>
             </div>
@@ -243,18 +243,18 @@ export default function ChatPage() {
                 <div className="flex-1 flex justify-end">
                   <div className="max-w-[80%] lg:max-w-[70%]">
                     <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-3xl rounded-br-lg px-6 py-4 shadow-lg hover:shadow-xl transition-all duration-300">
-                      <p className="text-sm leading-relaxed apple-ui font-medium">{message.content}</p>
+                      <p className="text-sm leading-relaxed font-medium">{message.content}</p>
                     </div>
                     <div className="flex items-center justify-end gap-2 mt-3">
                       <div className="h-8 w-8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center">
                         <User className="h-4 w-4 text-white" />
                       </div>
-                      <span className="text-xs text-gray-500 apple-ui font-medium">You</span>
+                      <span className="text-xs text-gray-500 font-medium">You</span>
                     </div>
                   </div>
                 </div>
               ) : (
-                // Assistant message - polished card with serif font for content
+                // Assistant message - polished card with default font
                 <div className="flex-1">
                   <div className="apple-card p-8 w-full max-w-[90vw]">
                     <div className="prose prose-orange max-w-none w-full overflow-hidden">
@@ -262,22 +262,22 @@ export default function ChatPage() {
                         remarkPlugins={[remarkGfm]}
                         components={{
                           h1: ({...props}) => (
-                            <h1 {...props} className="text-3xl font-bold text-orange-600 mb-6 apple-text" />
+                            <h1 {...props} className="text-3xl font-bold text-orange-600 mb-6" />
                           ),
                           h2: ({...props}) => (
-                            <h2 {...props} className="text-2xl font-bold text-orange-600 mt-8 mb-4 apple-text" />
+                            <h2 {...props} className="text-2xl font-bold text-orange-600 mt-8 mb-4" />
                           ),
                           h3: ({...props}) => (
-                            <h3 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3 apple-text" />
+                            <h3 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3" />
                           ),
                           h4: ({...props}) => (
-                            <h4 {...props} className="text-lg font-bold text-orange-600 mt-6 mb-3 apple-text" />
+                            <h4 {...props} className="text-lg font-bold text-orange-600 mt-6 mb-3" />
                           ),
                           h5: ({...props}) => (
-                            <h5 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3 apple-text" />
+                            <h5 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3" />
                           ),
                           h6: ({...props}) => (
-                            <h6 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3 apple-text" />
+                            <h6 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3" />
                           ),
                           table: ({...props}) => (
                             <div className="w-full overflow-x-auto my-8 rounded-2xl border border-gray-200/60 shadow-lg max-w-full">
@@ -296,13 +296,13 @@ export default function ChatPage() {
                             <tr {...props} className="hover:bg-orange-50/40 transition-colors duration-200" />
                           ),
                           th: ({...props}) => (
-                            <th {...props} className="px-6 py-4 text-left text-sm font-semibold text-orange-700 uppercase tracking-wider apple-ui" />
+                            <th {...props} className="px-6 py-4 text-left text-sm font-semibold text-orange-700 uppercase tracking-wider" />
                           ),
                           td: ({...props}) => (
-                            <td {...props} className="px-6 py-4 text-sm text-gray-700 whitespace-normal apple-text" />
+                            <td {...props} className="px-6 py-4 text-sm text-gray-700 whitespace-normal" />
                           ),
                           p: ({children, ...props}) => (
-                            <p {...props} className="text-gray-700 mb-6 leading-relaxed apple-text text-base">{children}</p>
+                            <p {...props} className="text-gray-700 mb-6 leading-relaxed text-base">{children}</p>
                           ),
                           ul: ({...props}) => (
                             <ul {...props} className="list-disc pl-8 mb-6 space-y-3 marker:text-orange-500" />
@@ -311,24 +311,24 @@ export default function ChatPage() {
                             <ol {...props} className="list-decimal pl-8 mb-6 space-y-3 marker:text-orange-500" />
                           ),
                           li: ({...props}) => (
-                            <li {...props} className="text-gray-700 apple-text" />
+                            <li {...props} className="text-gray-700" />
                           ),
                           a: ({...props}) => (
                             <a 
                               {...props} 
-                              className="text-orange-600 hover:text-orange-700 font-medium underline decoration-orange-200 hover:decoration-orange-500 transition-colors apple-text"
+                              className="text-orange-600 hover:text-orange-700 font-medium underline decoration-orange-200 hover:decoration-orange-500 transition-colors"
                               target="_blank"
                               rel="noopener noreferrer"
                             />
                           ),
                           blockquote: ({...props}) => (
-                            <blockquote {...props} className="border-l-4 border-orange-300 pl-6 italic my-6 text-gray-600 bg-orange-50/40 py-4 rounded-r-2xl apple-text" />
+                            <blockquote {...props} className="border-l-4 border-orange-300 pl-6 italic my-6 text-gray-600 bg-orange-50/40 py-4 rounded-r-2xl" />
                           ),
                           strong: ({...props}) => (
-                            <strong {...props} className="font-bold text-orange-600 apple-text" />
+                            <strong {...props} className="font-bold text-orange-600" />
                           ),
                           em: ({...props}) => (
-                            <em {...props} className="italic text-orange-600/90 font-semibold apple-text" />
+                            <em {...props} className="italic text-orange-600/90 font-semibold" />
                           ),
                           pre: ({children, ...props}) => {
                             const child = children as React.ReactElement<{ className?: string; children?: React.ReactNode }>;
@@ -378,13 +378,13 @@ export default function ChatPage() {
                         <div className="h-8 w-8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center">
                           <Bot className="h-4 w-4 text-white" />
                         </div>
-                        <span className="text-xs text-gray-500 apple-ui font-medium">
+                        <span className="text-xs text-gray-500 font-medium">
                           Model {models.find(model => model.id === message.model)?.name || 'Unknown'}
                         </span>
                       </div>
                       <button
                         onClick={() => copyMessage(message.content, index)}
-                        className="flex items-center gap-2 px-4 py-2 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50/80 rounded-xl transition-all duration-200 apple-ui font-medium"
+                        className="flex items-center gap-2 px-4 py-2 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50/80 rounded-xl transition-all duration-200 font-medium"
                       >
                         {copiedMessageId === index ? (
                           <>
@@ -409,31 +409,33 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Input Form - Apple-style polished design */}
+      {/* Input Form - 3-row textarea with send button in bottom right */}
       <div className="bg-white/80 backdrop-blur-sm border-t border-gray-200/60 px-6 py-6 flex-shrink-0">
         <div className="max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className="flex gap-4">
-            <div className="relative flex-1">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ask me anything..."
-                className="apple-input"
-                disabled={isLoading}
-              />
+          <form onSubmit={handleSubmit} className="relative">
+            <textarea
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Ask me anything..."
+              className="apple-textarea"
+              rows={3}
+              disabled={isLoading}
+            />
+            
+            {/* Send Button - positioned in bottom right corner */}
+            <div className="absolute bottom-4 right-4 flex items-center gap-2">
               {/* Microphone Button */}
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                <MicrophoneButton onTranscriptReceived={handleTranscriptReceived} />
-              </div>
+              <MicrophoneButton onTranscriptReceived={handleTranscriptReceived} />
+              
+              {/* Send Button */}
+              <button
+                type="submit"
+                disabled={!inputValue.trim() || isLoading}
+                className="apple-button flex items-center justify-center w-10 h-10 p-0"
+              >
+                <Send className="h-4 w-4" />
+              </button>
             </div>
-            <button
-              type="submit"
-              disabled={!inputValue.trim() || isLoading}
-              className="apple-button flex items-center justify-center min-w-[60px]"
-            >
-              <Send className="h-5 w-5" />
-            </button>
           </form>
         </div>
       </div>

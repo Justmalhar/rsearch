@@ -10,10 +10,6 @@ export default {
   ],
   theme: {
   	extend: {
-  		fontFamily: {
-  			'poppins': ['var(--font-poppins)', 'sans-serif'],
-  			'playfair': ['var(--font-playfair)', 'serif'],
-  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
