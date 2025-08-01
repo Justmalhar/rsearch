@@ -194,7 +194,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <div className="min-h-screen bg-white flex">
           <Sidebar />
           <div className="flex-1 lg:ml-24 flex flex-col">
