@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Nata_Sans } from "next/font/google";
+import { Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileHeader } from "@/components/ui/mobile-header";
@@ -13,10 +13,10 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif"
 });
 
-const nataSans = Nata_Sans({ 
+const inter = Inter({ 
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-nata-sans"
+  variable: "--font-inter"
 });
 
 export const metadata: Metadata = {
@@ -205,7 +205,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${instrumentSerif.variable} ${nataSans.variable} ${nataSans.className}`}>
+      <body className={`${instrumentSerif.variable} ${inter.variable} ${inter.className}`}>
         <div className="min-h-screen bg-white flex">
           <Sidebar />
           <div className="flex-1 lg:ml-24 flex flex-col">

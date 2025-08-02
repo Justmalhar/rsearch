@@ -12,7 +12,7 @@ export default {
   	extend: {
   		fontFamily: {
   			'instrument-serif': ['var(--font-instrument-serif)', 'serif'],
-  			'nata-sans': ['var(--font-nata-sans)', 'sans-serif'],
+  			'inter': ['var(--font-inter)', 'sans-serif'],
   		},
   		colors: {
   			background: 'hsl(var(--background))',
