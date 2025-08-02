@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Instrument_Serif, Nata_Sans } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/ui/sidebar";
 import { MobileHeader } from "@/components/ui/mobile-header";
 import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const instrumentSerif = Instrument_Serif({ 
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif"
+});
+
+const nataSans = Nata_Sans({ 
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-nata-sans"
+});
 
 export const metadata: Metadata = {
   title: "rSearch: AI-Powered Reasoning Engine | Alternative to Perplexity",
@@ -194,7 +205,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className}`}>
+      <body className={`${instrumentSerif.variable} ${nataSans.variable} ${nataSans.className}`}>
         <div className="min-h-screen bg-white flex">
           <Sidebar />
           <div className="flex-1 lg:ml-24 flex flex-col">

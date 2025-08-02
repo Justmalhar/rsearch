@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			'instrument-serif': ['var(--font-instrument-serif)', 'serif'],
+  			'nata-sans': ['var(--font-nata-sans)', 'sans-serif'],
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

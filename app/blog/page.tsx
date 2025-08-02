@@ -115,7 +115,7 @@ export default function BlogPage() {
               </span>
             </div>
             
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+            <h2 className="text-2xl font-bold text-orange-900 mb-4 font-instrument-serif">
               {blogPosts[0].title}
             </h2>
             
@@ -149,7 +149,7 @@ export default function BlogPage() {
 
         {/* Blog Posts Grid */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-8">
+          <h2 className="text-2xl font-bold text-orange-900 mb-8 font-instrument-serif">
             Latest Articles
           </h2>
           

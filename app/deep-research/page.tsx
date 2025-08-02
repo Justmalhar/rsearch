@@ -410,7 +410,7 @@ This deep research analysis provides a comprehensive overview of "${query}" base
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Brain className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Deep Research</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2 font-instrument-serif">Deep Research</h1>
           <p className="text-gray-600">No query provided for deep research.</p>
         </div>
       </div>

@@ -160,10 +160,10 @@ export default function LibraryPage() {
                     <Markdown
                       components={{
                         h1: ({...props}) => (
-                          <h1 {...props} className="text-2xl font-bold text-orange-600 mb-4" />
+                          <h1 {...props} className="text-2xl font-bold text-orange-600 mb-4 font-instrument-serif" />
                         ),
-                        h2: ({...props}) => (
-                          <h2 {...props} className="text-xl font-bold text-orange-600 mt-4 mb-3" />
+                                                  h2: ({...props}) => (
+                            <h2 {...props} className="text-xl font-bold text-orange-600 mt-4 mb-3 font-instrument-serif" />
                         ),
                         h3: ({...props}) => (
                           <h3 {...props} className="text-lg font-bold text-orange-600 mt-4 mb-2" />
