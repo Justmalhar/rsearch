@@ -17,22 +17,22 @@ export default function Thinking({ reasoningContent }: ThinkingProps) {
               <Markdown className="prose prose-orange max-w-none"
               components={{
                 h1: (props) => (
-                  <h1 {...props} className="text-2xl font-bold text-orange-600  mb-4" />
+                  <h1 {...props} className="text-2xl font-bold text-orange-600 mb-4 font-instrument-serif" />
                 ),
-                h2: (props) => (
-                  <h2 {...props} className="text-xl font-bold text-orange-600  mt-6 mb-3" />
+                                  h2: (props) => (
+                    <h2 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3 font-instrument-serif" />
                 ),
-                h3: (props) => (
-                  <h3 {...props} className="text-lg font-bold text-orange-600  mt-4 mb-2" />
+                                  h3: (props) => (
+                    <h3 {...props} className="text-lg font-bold text-orange-600 mt-4 mb-2 font-instrument-serif" />
                 ),
-                h4: (props) => (
-                  <h4 {...props} className="text-base font-bold text-orange-600  mt-4 mb-2" />
+                                  h4: (props) => (
+                    <h4 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2 font-instrument-serif" />
                 ),
-                h5: (props) => (
-                  <h5 {...props} className="text-base font-bold text-orange-600  mt-4 mb-2" />
+                                  h5: (props) => (
+                    <h5 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2 font-instrument-serif" />
                 ),
-                h6: (props) => (
-                  <h6 {...props} className="text-base font-bold text-orange-600  mt-4 mb-2" />
+                                  h6: (props) => (
+                    <h6 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2 font-instrument-serif" />
                 ),
                 table: (props) => (
                   <table {...props} className="table-auto border-collapse border border-gray-300" />

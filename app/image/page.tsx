@@ -369,7 +369,7 @@ export default function ImageGenerator() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-2xl font-bold text-orange-700 mb-3"
+                  className="text-2xl font-bold text-orange-700 mb-3 font-instrument-serif"
                 >
                   Generating your images...
                 </motion.h3>

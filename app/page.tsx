@@ -372,7 +372,7 @@ export default function Home() {
         {/* SEO Content Section */}
         <section className="mt-16 max-w-4xl mx-auto px-4">
           <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-8 border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center">
+            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center font-instrument-serif">
               The Most Advanced AI-Powered Reasoning Engine
             </h2>
             
@@ -416,7 +416,7 @@ export default function Home() {
         {/* Search Modes Highlight Section */}
         <section className="mt-12 max-w-4xl mx-auto px-4">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center">
+            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center font-instrument-serif">
               Comprehensive Search Modes Available
             </h2>
             <p className="text-orange-700 text-center mb-8 leading-relaxed">
@@ -493,7 +493,7 @@ export default function Home() {
 
         {/* Features Section */}
         <section className="mt-12 max-w-4xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-orange-900 mb-6 text-center">
+          <h2 className="text-xl font-bold text-orange-900 mb-6 text-center font-instrument-serif">
             Why Choose rSearch Over Other AI Search Engines?
           </h2>
           

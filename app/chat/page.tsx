@@ -227,7 +227,7 @@ export default function ChatPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full blur-2xl opacity-20 animate-pulse"></div>
                 <Bot className="h-16 w-16 text-orange-600 mx-auto mb-6 relative z-10" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3 font-instrument-serif">
                 Welcome to rSearch Chat
               </h2>
               <p className="text-gray-600 max-w-lg mx-auto px-4 leading-relaxed">
@@ -262,22 +262,22 @@ export default function ChatPage() {
                         remarkPlugins={[remarkGfm]}
                         components={{
                           h1: ({...props}) => (
-                            <h1 {...props} className="text-3xl font-bold text-orange-600 mb-6" />
+                            <h1 {...props} className="text-3xl font-bold text-orange-600 mb-6 font-instrument-serif" />
                           ),
                           h2: ({...props}) => (
-                            <h2 {...props} className="text-2xl font-bold text-orange-600 mt-8 mb-4" />
+                            <h2 {...props} className="text-2xl font-bold text-orange-600 mt-8 mb-4 font-instrument-serif" />
                           ),
                           h3: ({...props}) => (
-                            <h3 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3" />
+                            <h3 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3 font-instrument-serif" />
                           ),
                           h4: ({...props}) => (
-                            <h4 {...props} className="text-lg font-bold text-orange-600 mt-6 mb-3" />
+                            <h4 {...props} className="text-lg font-bold text-orange-600 mt-6 mb-3 font-instrument-serif" />
                           ),
                           h5: ({...props}) => (
-                            <h5 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3" />
+                            <h5 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3 font-instrument-serif" />
                           ),
                           h6: ({...props}) => (
-                            <h6 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3" />
+                            <h6 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3 font-instrument-serif" />
                           ),
                           table: ({...props}) => (
                             <div className="w-full overflow-x-auto my-8 rounded-2xl border border-gray-200/60 shadow-lg max-w-full">

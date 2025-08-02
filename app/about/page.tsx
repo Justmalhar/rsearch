@@ -45,7 +45,7 @@ export default function AboutPage() {
         {/* Mission Section */}
         <section className="mb-12">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+            <h2 className="text-2xl font-bold text-orange-900 mb-4 font-instrument-serif">
               Our Mission
             </h2>
             <p className="text-orange-700 leading-relaxed text-lg">
@@ -60,7 +60,7 @@ export default function AboutPage() {
 
         {/* Technology Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-6">
+          <h2 className="text-2xl font-bold text-orange-900 mb-6 font-instrument-serif">
             Powered by Advanced AI Technology
           </h2>
           
@@ -97,7 +97,7 @@ export default function AboutPage() {
 
         {/* Search Modes Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-6">
+          <h2 className="text-2xl font-bold text-orange-900 mb-6 font-instrument-serif">
             Comprehensive Search Modes
           </h2>
           
@@ -186,7 +186,7 @@ export default function AboutPage() {
 
         {/* Features Section */}
         <section className="mb-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-6">
+          <h2 className="text-2xl font-bold text-orange-900 mb-6 font-instrument-serif">
             Key Features
           </h2>
           
@@ -256,7 +256,7 @@ export default function AboutPage() {
         {/* Comparison Section */}
         <section className="mb-12">
           <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-8 border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center">
+            <h2 className="text-2xl font-bold text-orange-900 mb-6 text-center font-instrument-serif">
               Why Choose rSearch Over Perplexity?
             </h2>
             
@@ -309,7 +309,7 @@ export default function AboutPage() {
         {/* CTA Section */}
         <section className="text-center">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+            <h2 className="text-2xl font-bold text-orange-900 mb-4 font-instrument-serif">
               Ready to Experience Advanced AI Reasoning?
             </h2>
             <p className="text-orange-700 mb-6">
