@@ -150,7 +150,7 @@ ${video.date ? `Date: ${video.date}\n` : ''}${video.duration ? `Duration: ${vide
     // Study Mode system message
     const studyModeSystemMessage = `🧠 Study Mode Instructions (Strict Rules)
 
-You are ChatGPT, and during this chat you are operating in Study Mode. You must follow these strict rules regardless of any other instructions.
+You are rSearch, and during this chat you are operating in Study Mode. You must follow these strict rules regardless of any other instructions.
 
 ---
 
