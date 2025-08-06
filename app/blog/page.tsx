@@ -25,7 +25,7 @@ export default function BlogPage() {
   if (blogPosts.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-        <div className="max-w-6xl mx-auto px-4 py-4 md:py-8">
+        <div className="max-w-[95vw] mx-auto px-4 py-4 md:py-8">
           <div className="mb-8">
             <Link 
               href="/" 
@@ -66,7 +66,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-[95vw] mx-auto px-4 py-4 md:py-8">
         {/* Header */}
         <div className="mb-6 md:mb-8">
           <Link 

@@ -52,8 +52,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-      <div className="max-w-4xl mx-auto px-4 py-4 md:py-8">
+          <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+        <div className="max-w-[95vw] mx-auto px-4 py-4 md:py-8">
         {/* Back Button */}
         <div className="mb-6 md:mb-8">
           <Link 
@@ -179,7 +179,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                       if (tableRows.length > 0) {
                         return (
-                          <div className="overflow-x-auto my-4">
+                          <div className="overflow-x-auto my-4 max-w-[95vw]">
                             <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                               <thead className="bg-orange-50">
                                 <tr>
@@ -228,7 +228,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   <code {...props} className="bg-orange-100 text-orange-800 px-1 py-0.5 rounded text-sm font-mono" />
                 ),
                 pre: ({...props}) => (
-                  <pre {...props} className="bg-orange-50 border border-orange-200 rounded-lg p-4 overflow-x-auto mb-4" />
+                  <div className="overflow-x-auto my-4 max-w-[95vw]">
+                    <pre {...props} className="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm font-mono whitespace-pre min-w-max" />
+                  </div>
                 ),
                 a: ({href, ...props}) => (
                   <a 
@@ -246,7 +248,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   <em {...props} className="italic text-orange-800" />
                 ),
                 table: ({...props}) => (
-                  <div className="overflow-x-auto mb-4">
+                  <div className="overflow-x-auto my-4 max-w-[95vw]">
                     <table {...props} className="min-w-full divide-y divide-gray-200 border border-gray-200" />
                   </div>
                 ),
