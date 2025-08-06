@@ -6,9 +6,9 @@ import Markdown from "react-markdown";
 import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/blog";
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = getBlogPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getBlogPostBySlug(slug);
   
   if (!post) {
     return {
@@ -42,8 +43,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getBlogPostBySlug(params.slug);
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
+  const post = getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -141,7 +143,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 h6: ({...props}) => (
                   <h6 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
                 ),
-                p: ({children, ...props}) => (
+                p: ({...props}) => (
                   <p {...props} className="text-orange-800 leading-relaxed mb-4" />
                 ),
                 ul: ({...props}) => (
@@ -156,13 +158,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 blockquote: ({...props}) => (
                   <blockquote {...props} className="border-l-4 border-orange-300 pl-4 italic text-orange-700 mb-4" />
                 ),
-                code: ({children, ...props}) => (
+                code: ({...props}) => (
                   <code {...props} className="bg-orange-100 text-orange-800 px-1 py-0.5 rounded text-sm font-mono" />
                 ),
-                pre: ({children, ...props}) => (
+                pre: ({...props}) => (
                   <pre {...props} className="bg-orange-50 border border-orange-200 rounded-lg p-4 overflow-x-auto mb-4" />
                 ),
-                a: ({href, children, ...props}) => (
+                a: ({href, ...props}) => (
                   <a 
                     href={href} 
                     {...props} 
