@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, User, Search } from "lucide-react";
-import { getAllBlogPosts, getAllCategories } from "@/lib/blog";
+import { getAllBlogPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: "rSearch Blog - AI Search, Reasoning Engine & Technology Insights",
@@ -20,7 +20,6 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const blogPosts = getAllBlogPosts();
-  const categories = getAllCategories();
 
   // If no posts found, show empty state
   if (blogPosts.length === 0) {
@@ -196,26 +195,7 @@ export default function BlogPage() {
           </section>
         )}
 
-        {/* Categories Section */}
-        {categories.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-orange-900 mb-6">
-              Browse by Category
-            </h2>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {categories.map((category) => (
-                <Link
-                  key={category}
-                  href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="bg-white rounded-xl p-4 shadow-md border border-orange-200/50 hover:shadow-lg transition-shadow text-center"
-                >
-                  <h3 className="font-semibold text-orange-800">{category}</h3>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
+
 
         {/* CTA Section */}
         <section className="text-center">
