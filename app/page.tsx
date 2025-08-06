@@ -516,6 +516,13 @@ export default function Home() {
               >
                 About
               </Link>
+              <span className="hidden md:inline text-orange-400">•</span>
+              <Link 
+                href="/blog" 
+                className="text-orange-800/90 hover:text-orange-900 transition-colors  hover:scale-105 transform duration-200"
+              >
+                Blog
+              </Link>
             </div>
 
             {/* Credits Section */}
