@@ -25,7 +25,7 @@ export default function BlogPage() {
   if (blogPosts.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-4 py-4 md:py-8">
           <div className="mb-8">
             <Link 
               href="/" 
@@ -44,18 +44,18 @@ export default function BlogPage() {
             </p>
           </div>
 
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+          <div className="text-center py-8 md:py-12">
+            <h2 className="text-xl md:text-2xl font-bold text-orange-900 mb-3 md:mb-4">
               No Blog Posts Found
             </h2>
-            <p className="text-orange-700 mb-6">
+            <p className="text-sm md:text-base text-orange-700 mb-4 md:mb-6">
               Blog posts will appear here once they are added to the posts folder.
             </p>
             <Link 
               href="/" 
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
+              className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium text-sm md:text-base"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-4 w-4 md:h-5 md:w-5" />
               Start Searching with AI
             </Link>
           </div>
@@ -68,19 +68,19 @@ export default function BlogPage() {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 transition-colors mb-4 md:mb-6"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Search
           </Link>
           
-          <h1 className="text-4xl font-bold text-orange-900 mb-4">
+          <h1 className="text-2xl md:text-4xl font-bold text-orange-900 mb-3 md:mb-4">
             rSearch Blog
           </h1>
-          <p className="text-xl text-orange-700 leading-relaxed">
+          <p className="text-base md:text-xl text-orange-700 leading-relaxed">
             Insights, tutorials, and deep dives into AI-powered search engines, 
             reasoning technology, and the future of intelligent search.
           </p>
@@ -134,29 +134,29 @@ export default function BlogPage() {
 
         {/* Blog Posts Grid */}
         {blogPosts.length > 1 && (
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-orange-900 mb-8">
+          <section className="mb-8 md:mb-12">
+            <h2 className="text-xl md:text-2xl font-bold text-orange-900 mb-6 md:mb-8">
               Latest Articles
             </h2>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
               {blogPosts.slice(1).map((post) => (
-                <article key={post.slug} className="bg-white rounded-xl p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow">
+                <article key={post.slug} className="bg-white rounded-xl p-4 md:p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs font-medium">
                       {post.category}
                     </span>
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-orange-800 mb-3 line-clamp-2">
+                  <h3 className="text-base md:text-lg font-semibold text-orange-800 mb-3 line-clamp-2">
                     {post.title}
                   </h3>
                   
-                  <p className="text-orange-700 text-sm leading-relaxed mb-4 line-clamp-3">
+                  <p className="text-orange-700 text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
                     {post.description}
                   </p>
                   
-                  <div className="flex items-center gap-4 text-xs text-orange-600 mb-4">
+                  <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs text-orange-600 mb-4">
                     <div className="flex items-center gap-1">
                       <User className="h-3 w-3" />
                       {post.author}
@@ -175,7 +175,7 @@ export default function BlogPage() {
                     {post.keywords.slice(0, 3).map((keyword, idx) => (
                       <span 
                         key={idx}
-                        className="text-xs bg-orange-50 text-orange-600 px-2 py-1 rounded-full"
+                        className="text-xs bg-orange-50 text-orange-600 px-1 md:px-2 py-1 rounded-full"
                       >
                         {keyword}
                       </span>
@@ -199,19 +199,19 @@ export default function BlogPage() {
 
         {/* CTA Section */}
         <section className="text-center">
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-8 border border-orange-200/50">
-            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+          <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-2xl p-4 md:p-8 border border-orange-200/50">
+            <h2 className="text-xl md:text-2xl font-bold text-orange-900 mb-3 md:mb-4">
               Experience AI-Powered Search Today
             </h2>
-            <p className="text-orange-700 mb-6">
+            <p className="text-sm md:text-base text-orange-700 mb-4 md:mb-6">
               Ready to try the advanced reasoning capabilities you&apos;ve been reading about? 
               Start using rSearch and discover the power of AI-powered search.
             </p>
             <Link 
               href="/" 
-              className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
+              className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium text-sm md:text-base"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-4 w-4 md:h-5 md:w-5" />
               Start Searching with AI
             </Link>
           </div>

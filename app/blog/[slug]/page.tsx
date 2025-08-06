@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
       <div className="max-w-4xl mx-auto px-4 py-4 md:py-8">
         {/* Back Button */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <Link 
             href="/blog" 
             className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 transition-colors"
@@ -276,31 +276,31 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
 
         {/* Related Posts Section */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-orange-900 mb-6">
+        <div className="mt-8 md:mt-12">
+          <h2 className="text-xl md:text-2xl font-bold text-orange-900 mb-4 md:mb-6">
             More from rSearch Blog
           </h2>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid gap-4 md:gap-6 md:grid-cols-2">
             {/* You can add related posts logic here */}
             <Link 
               href="/blog" 
-              className="bg-white rounded-xl p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow"
+              className="bg-white rounded-xl p-4 md:p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow"
             >
-              <h3 className="text-lg font-semibold text-orange-800 mb-2">
+              <h3 className="text-base md:text-lg font-semibold text-orange-800 mb-2">
                 Explore All Articles
               </h3>
-              <p className="text-orange-700 text-sm">
+              <p className="text-orange-700 text-xs md:text-sm">
                 Discover more insights about AI-powered search and reasoning technology.
               </p>
             </Link>
             <Link 
               href="/" 
-              className="bg-white rounded-xl p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow"
+              className="bg-white rounded-xl p-4 md:p-6 shadow-lg border border-orange-200/50 hover:shadow-xl transition-shadow"
             >
-              <h3 className="text-lg font-semibold text-orange-800 mb-2">
+              <h3 className="text-base md:text-lg font-semibold text-orange-800 mb-2">
                 Try rSearch
               </h3>
-              <p className="text-orange-700 text-sm">
+              <p className="text-orange-700 text-xs md:text-sm">
                 Experience the advanced reasoning capabilities you just read about.
               </p>
             </Link>
