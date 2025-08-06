@@ -90,42 +90,42 @@ export default function BlogPage() {
         {/* Featured Post */}
         {blogPosts.length > 0 && (
           <section className="mb-12">
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
+            <div className="bg-white rounded-2xl p-4 md:p-8 shadow-lg border border-orange-200/50">
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className="bg-orange-100 text-orange-700 px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium">
                   Featured
                 </span>
-                <span className="text-orange-600 text-sm">
+                <span className="text-orange-600 text-xs md:text-sm">
                   {blogPosts[0].category}
                 </span>
               </div>
               
-              <h2 className="text-2xl font-bold text-orange-900 mb-4">
+              <h2 className="text-lg md:text-2xl font-bold text-orange-900 mb-3 md:mb-4">
                 {blogPosts[0].title}
               </h2>
               
-              <p className="text-orange-700 leading-relaxed mb-6">
+              <p className="text-sm md:text-base text-orange-700 leading-relaxed mb-4 md:mb-6">
                 {blogPosts[0].description}
               </p>
               
-              <div className="flex items-center gap-4 text-sm text-orange-600 mb-6">
+              <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-orange-600 mb-4 md:mb-6">
                 <div className="flex items-center gap-1">
-                  <User className="h-4 w-4" />
+                  <User className="h-3 w-3 md:h-4 md:w-4" />
                   {blogPosts[0].author}
                 </div>
                 <div className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
+                  <Calendar className="h-3 w-3 md:h-4 md:w-4" />
                   {new Date(blogPosts[0].publishDate).toLocaleDateString()}
                 </div>
                 <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
+                  <Clock className="h-3 w-3 md:h-4 md:w-4" />
                   {blogPosts[0].readTime}
                 </div>
               </div>
               
               <Link 
                 href={`/blog/${blogPosts[0].slug}`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium"
+                className="inline-flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 font-medium text-sm md:text-base"
               >
                 Read Full Article
               </Link>

@@ -53,7 +53,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-4 md:py-8">
         {/* Back Button */}
         <div className="mb-8">
           <Link 
@@ -66,7 +66,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
 
         {/* Article Header */}
-        <article className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50 mb-8">
+        <article className="bg-white rounded-2xl p-4 md:p-8 shadow-lg border border-orange-200/50 mb-8">
           {/* Category Badge */}
           <div className="mb-4">
             <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
@@ -75,23 +75,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-bold text-orange-900 mb-4">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-orange-900 mb-3 md:mb-4">
             {post.title}
           </h1>
 
           {/* Description */}
-          <p className="text-xl text-orange-700 leading-relaxed mb-6">
+          <p className="text-base md:text-xl text-orange-700 leading-relaxed mb-4 md:mb-6">
             {post.description}
           </p>
 
           {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-orange-600 mb-6">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-orange-600 mb-4 md:mb-6">
             <div className="flex items-center gap-1">
-              <User className="h-4 w-4" />
+              <User className="h-3 w-3 md:h-4 md:w-4" />
               {post.author}
             </div>
             <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
+              <Calendar className="h-3 w-3 md:h-4 md:w-4" />
               {new Date(post.publishDate).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
@@ -99,29 +99,29 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               })}
             </div>
             <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
+              <Clock className="h-3 w-3 md:h-4 md:w-4" />
               {post.readTime}
             </div>
           </div>
 
           {/* Keywords */}
           {post.keywords.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-1 md:gap-2 mb-4 md:mb-6">
               {post.keywords.map((keyword, idx) => (
-                <span 
-                  key={idx}
-                  className="inline-flex items-center gap-1 text-xs bg-orange-50 text-orange-600 px-2 py-1 rounded-full"
-                >
-                  <Tag className="h-3 w-3" />
-                  {keyword}
-                </span>
+                                  <span 
+                    key={idx}
+                    className="inline-flex items-center gap-1 text-xs bg-orange-50 text-orange-600 px-1 md:px-2 py-1 rounded-full"
+                  >
+                    <Tag className="h-2 w-2 md:h-3 md:w-3" />
+                    {keyword}
+                  </span>
               ))}
             </div>
           )}
         </article>
 
         {/* Article Content */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg border border-orange-200/50">
+        <div className="bg-white rounded-2xl p-4 md:p-8 shadow-lg border border-orange-200/50">
           <div className="prose prose-orange max-w-none">
             <Markdown
               components={{
@@ -143,9 +143,75 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 h6: ({...props}) => (
                   <h6 {...props} className="text-base font-bold text-orange-600 mt-4 mb-2" />
                 ),
-                p: ({...props}) => (
-                  <p {...props} className="text-orange-800 leading-relaxed mb-4" />
-                ),
+                p: ({children, ...props}) => {
+                  // Get text content from React children
+                  const content = Array.isArray(children) 
+                    ? children
+                        .map(child => {
+                          if (typeof child === 'string') return child;
+                          if (child && typeof child === 'object' && 'props' in child) {
+                            return child.props.children || '';
+                          }
+                          return '';
+                        })
+                        .join('')
+                    : children?.toString() || '';
+                  
+                  // Check if content looks like a table
+                  if (content.includes('|')) {
+                    const lines = content.split('\n').filter(line => line.trim());
+                    
+                    // Only process as table if we have header and separator rows
+                    if (lines.length >= 2 && lines[1].includes('-')) {
+                      // Parse table rows, excluding separator row
+                      const tableRows = lines
+                        .filter(line => !line.includes('---'))
+                        .map(line => {
+                          // Split by | and clean each cell
+                          const cells = line.split('|')
+                            .map(cell => cell.trim())
+                            .filter(cell => cell);
+                          
+                          // Return null if no valid cells (helps filter empty rows)
+                          return cells.length > 0 ? cells : null;
+                        })
+                        .filter((row): row is string[] => row !== null);
+
+                      if (tableRows.length > 0) {
+                        return (
+                          <div className="overflow-x-auto my-4">
+                            <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
+                              <thead className="bg-orange-50">
+                                <tr>
+                                  {tableRows[0].map((header) => (
+                                    <th key={`header-${header}`} className="px-6 py-3 text-left text-sm font-semibold text-orange-600">
+                                      {header}
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody className="bg-white divide-y divide-gray-200">
+                                {tableRows.slice(1).map((row) => (
+                                  <tr key={`row-${row.join('-')}`} className="hover:bg-orange-50/50 transition-colors">
+                                    {row.map((cell) => (
+                                      <td key={`cell-${cell}`} className="px-6 py-4 text-sm text-gray-700 whitespace-normal">
+                                        {cell}
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        );
+                      }
+                    }
+                  }
+                  
+                  return (
+                    <p {...props} className="text-orange-800 leading-relaxed mb-4" />
+                  );
+                },
                 ul: ({...props}) => (
                   <ul {...props} className="list-disc list-inside text-orange-800 mb-4 space-y-1" />
                 ),
