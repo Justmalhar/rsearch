@@ -23,12 +23,12 @@ export async function POST(req: Request) {
 
     const currentDate = new Date().toISOString().split('T')[0];
 
-    const prompt = refineSearchQueryPrompt(searchTerm, mode, currentDate); 
+    const prompt = refineSearchQueryPrompt(searchTerm, mode, currentDate);
 
     const model = process.env.NEXT_PUBLIC_AI_REFINER_MODEL;
 
     // Add context information if this is a follow-up question
-    const userMessage = contextTerm 
+    const userMessage = contextTerm
       ? `Original search: "${contextTerm}"\nFollow-up question: ${searchTerm}`
       : searchTerm;
 
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       ],
       response_format: { type: "json_object" },
       temperature: 0.6,
-      max_tokens: 500,
+      max_completion_tokens: 500,
     });
 
     const content = response.choices[0].message.content;
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     }
 
     const refinedSearch = JSON.parse(content);
-    
+
     // Validate the response against our schema
     const validatedResponse = RefinedSearchSchema.parse(refinedSearch);
 
@@ -60,10 +60,10 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Search refinement error:', error);
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: 'Failed to refine search query',
         details: error instanceof Error ? error.message : 'Unknown error'
-      }), 
+      }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
