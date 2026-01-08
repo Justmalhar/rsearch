@@ -39,7 +39,6 @@ export async function POST(req: Request) {
         { role: 'user', content: userMessage }
       ],
       response_format: { type: "json_object" },
-      temperature: 0.6,
       max_completion_tokens: 500,
     });
 
