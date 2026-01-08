@@ -18,35 +18,35 @@ interface Message {
 // Model configuration - All models via OpenRouter
 const models = [
   {
-    id: 'openai/gpt-4o',
-    name: 'gpt-4o',
-    displayName: 'GPT-4o',
+    id: 'openai/gpt-5.2-mini',
+    name: 'gpt-5.2',
+    displayName: 'GPT-5.2',
     description: 'Fast, high-quality general-purpose model (OpenAI)'
   },
   {
-    id: 'openai/gpt-4.1',
-    name: 'gpt-4.1',
-    displayName: 'GPT-4.1',
-    description: 'Optimized for writing, reasoning, and complex tasks (OpenAI)'
-  },
-  {
-    id: 'openai/gpt-4.1-mini',
-    name: 'gpt-4.1-mini',
-    displayName: 'GPT-4.1 Mini',
+    id: 'openai/gpt-5.2-mini',
+    name: 'gpt-5.2-mini',
+    displayName: 'GPT-5.2 Mini',
     description: 'Lightweight, fast, and cost-efficient variant (OpenAI)'
   },
   {
-    id: 'google/gemini-2.5-flash',
-    name: 'gemini-2.5-flash',
-    displayName: 'Gemini 2.5 Flash',
+    id: 'google/gemini-3-flash-preview',
+    name: 'gemini-3-flash-preview',
+    displayName: 'Gemini 3 Flash Preview',
     description: 'Fastest Gemini model for quick responses (Google)'
   },
   {
-    id: 'google/gemini-2.5-pro',
-    name: 'gemini-2.5-pro',
-    displayName: 'Gemini 2.5 Pro',
+    id: 'google/gemini-3-pro-preview',
+    name: 'gemini-3-pro-preview',
+    displayName: 'Gemini 3 Pro Preview',
     description: 'Handles long contexts; ideal for large documents (Google)'
   },
+  {
+    id: 'google/gemini-3-flash-preview',
+    name: 'claude-4-5-sonnet',
+    displayName: 'Claude 4.5 Sonnet',
+    description: 'Handles long contexts; ideal for large documents (Anthropic)'
+  }
 ];
 
 // Utility to clean up markdown tables (remove trailing pipes, trim whitespace)
@@ -95,7 +95,7 @@ export default function ChatPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!inputValue.trim() || isLoading) return;
 
     const userMessage: Message = {
@@ -114,7 +114,7 @@ export default function ChatPage() {
       content: '',
       model: selectedModel
     };
-    
+
     setMessages(prev => [...prev, assistantMessage]);
 
     try {
@@ -142,20 +142,20 @@ export default function ChatPage() {
 
       while (true) {
         const { done, value } = await reader.read();
-        
+
         if (done) break;
-        
+
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
-        
+
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const data = line.slice(6);
-            
+
             if (data === '[DONE]') {
               break;
             }
-            
+
             try {
               const parsed = JSON.parse(data);
               if (parsed.content) {
@@ -261,76 +261,76 @@ export default function ChatPage() {
                       <Markdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                          h1: ({...props}) => (
+                          h1: ({ ...props }) => (
                             <h1 {...props} className="text-3xl font-bold text-orange-600 mb-6" />
                           ),
-                          h2: ({...props}) => (
+                          h2: ({ ...props }) => (
                             <h2 {...props} className="text-2xl font-bold text-orange-600 mt-8 mb-4" />
                           ),
-                          h3: ({...props}) => (
+                          h3: ({ ...props }) => (
                             <h3 {...props} className="text-xl font-bold text-orange-600 mt-6 mb-3" />
                           ),
-                          h4: ({...props}) => (
+                          h4: ({ ...props }) => (
                             <h4 {...props} className="text-lg font-bold text-orange-600 mt-6 mb-3" />
                           ),
-                          h5: ({...props}) => (
+                          h5: ({ ...props }) => (
                             <h5 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3" />
                           ),
-                          h6: ({...props}) => (
+                          h6: ({ ...props }) => (
                             <h6 {...props} className="text-base font-bold text-orange-600 mt-6 mb-3" />
                           ),
-                          table: ({...props}) => (
+                          table: ({ ...props }) => (
                             <div className="w-full overflow-x-auto my-8 rounded-2xl border border-gray-200/60 shadow-lg max-w-full">
                               <div className="min-w-max max-w-full">
                                 <table {...props} className="w-full divide-y divide-gray-200/60" />
                               </div>
                             </div>
                           ),
-                          thead: ({...props}) => (
+                          thead: ({ ...props }) => (
                             <thead {...props} className="bg-gradient-to-r from-orange-50/80 to-orange-100/80" />
                           ),
-                          tbody: ({...props}) => (
+                          tbody: ({ ...props }) => (
                             <tbody {...props} className="bg-white divide-y divide-gray-200/60" />
                           ),
-                          tr: ({...props}) => (
+                          tr: ({ ...props }) => (
                             <tr {...props} className="hover:bg-orange-50/40 transition-colors duration-200" />
                           ),
-                          th: ({...props}) => (
+                          th: ({ ...props }) => (
                             <th {...props} className="px-6 py-4 text-left text-sm font-semibold text-orange-700 uppercase tracking-wider" />
                           ),
-                          td: ({...props}) => (
+                          td: ({ ...props }) => (
                             <td {...props} className="px-6 py-4 text-sm text-gray-700 whitespace-normal" />
                           ),
-                          p: ({children, ...props}) => (
+                          p: ({ children, ...props }) => (
                             <p {...props} className="text-gray-700 mb-6 leading-relaxed text-base">{children}</p>
                           ),
-                          ul: ({...props}) => (
+                          ul: ({ ...props }) => (
                             <ul {...props} className="list-disc pl-8 mb-6 space-y-3 marker:text-orange-500" />
                           ),
-                          ol: ({...props}) => (
+                          ol: ({ ...props }) => (
                             <ol {...props} className="list-decimal pl-8 mb-6 space-y-3 marker:text-orange-500" />
                           ),
-                          li: ({...props}) => (
+                          li: ({ ...props }) => (
                             <li {...props} className="text-gray-700" />
                           ),
-                          a: ({...props}) => (
-                            <a 
-                              {...props} 
+                          a: ({ ...props }) => (
+                            <a
+                              {...props}
                               className="text-orange-600 hover:text-orange-700 font-medium underline decoration-orange-200 hover:decoration-orange-500 transition-colors"
                               target="_blank"
                               rel="noopener noreferrer"
                             />
                           ),
-                          blockquote: ({...props}) => (
+                          blockquote: ({ ...props }) => (
                             <blockquote {...props} className="border-l-4 border-orange-300 pl-6 italic my-6 text-gray-600 bg-orange-50/40 py-4 rounded-r-2xl" />
                           ),
-                          strong: ({...props}) => (
+                          strong: ({ ...props }) => (
                             <strong {...props} className="font-bold text-orange-600" />
                           ),
-                          em: ({...props}) => (
+                          em: ({ ...props }) => (
                             <em {...props} className="italic text-orange-600/90 font-semibold" />
                           ),
-                          pre: ({children, ...props}) => {
+                          pre: ({ children, ...props }) => {
                             const child = children as React.ReactElement<{ className?: string; children?: React.ReactNode }>;
                             if (child?.props?.className) {
                               const language = child.props.className.replace('language-', '');
@@ -358,7 +358,7 @@ export default function ChatPage() {
                               </pre>
                             );
                           },
-                          code: ({children, className, ...props}) => {
+                          code: ({ children, className, ...props }) => {
                             if (className && className.startsWith('language-')) {
                               return null; // Handled by pre component
                             }
@@ -421,12 +421,12 @@ export default function ChatPage() {
               rows={3}
               disabled={isLoading}
             />
-            
+
             {/* Send Button - positioned in bottom right corner */}
             <div className="absolute bottom-4 right-4 flex items-center gap-2">
               {/* Microphone Button */}
               <MicrophoneButton onTranscriptReceived={handleTranscriptReceived} />
-              
+
               {/* Send Button */}
               <button
                 type="submit"
