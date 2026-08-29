@@ -1,5 +1,5 @@
-import OpenAI from 'openai';
 import type { SearchResult, SearchSource } from '@/types/search';
+import { createAiClient } from '@/lib/ai-provider';
 
 // Make sure to export these properly for Next.js API routes
 export const runtime = 'edge';
@@ -145,11 +145,7 @@ Focus on providing actionable insights and comprehensive understanding rather th
 
 export async function POST(req: Request) {
   try {
-    // Create OpenAI client at runtime to avoid build-time evaluation
-    const openai = new OpenAI({
-      apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
-      baseURL: process.env.NEXT_PUBLIC_AI_PROVIDER_BASE_URL,
-    });
+    const openai = createAiClient();
 
     const { 
       query, 

@@ -61,7 +61,7 @@ Try rSearch* for free here - [rsearch.app](https://rsearch.app)
 
 Deploying **rSearch** is simple and fast with Vercel's one-click deployment option. Vercel provides a powerful and scalable environment for your project.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/justmalhar/rsearch&env=SERPER_API_KEY&env=NEXT_PUBLIC_AI_PROVIDER_API_KEY&env=NEXT_PUBLIC_AI_PROVIDER_BASE_URL&env=NEXT_PUBLIC_AI_REFINER_MODEL&env=NEXT_PUBLIC_AI_REASONING_MODEL&env=NEXT_PUBLIC_LANDING_PAGE_COPY_TEXT)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/justmalhar/rsearch&env=SERPER_API_KEY&env=AI_PROVIDER_API_KEY&env=AI_PROVIDER_BASE_URL&env=AI_REFINER_MODEL&env=AI_REASONING_MODEL&env=NEXT_PUBLIC_LANDING_PAGE_COPY_TEXT)
 
 
 ## Tech Stack
@@ -106,29 +106,26 @@ Deploying **rSearch** is simple and fast with Vercel's one-click deployment opti
     # Serper API Key (Google Search API) - https://serper.dev/api-key
     SERPER_API_KEY=
 
-    # You can either use OpenAI, OpenRouter or DeepSeek as your AI provider.
-    # OpenAI API Key (AI Provider) - https://platform.openai.com/api-keys
-    # OpenRouter API Key (AI Provider) - https://openrouter.ai/settings/keys
-    # DeepSeek API Key (AI Provider) - https://platform.deepseek.com/api_keys
-    NEXT_PUBLIC_AI_PROVIDER_API_KEY=
+    # AI provider key — server-side only. Never use NEXT_PUBLIC_ for API keys.
+    # OpenAI: https://platform.openai.com/api-keys
+    # OpenRouter: https://openrouter.ai/settings/keys
+    # DeepSeek: https://platform.deepseek.com/api_keys
+    AI_PROVIDER_API_KEY=
+    # Alternative (already used by /api/chat): OPENROUTER_API_KEY=
 
-    # AI Provider Base URL (AI Provider)
-    # DeepSeek Base URL (AI Provider) - https://api.deepseek.com
-    # OpenAI Base URL (AI Provider) - https://api.openai.com
-    # OpenRouter Base URL (AI Provider) - https://openrouter.ai/api/v1
-    NEXT_PUBLIC_AI_PROVIDER_BASE_URL=https://api.deepseek.com
+    # AI Provider Base URL (server-side)
+    # DeepSeek: https://api.deepseek.com
+    # OpenAI: https://api.openai.com/v1
+    # OpenRouter: https://openrouter.ai/api/v1
+    AI_PROVIDER_BASE_URL=https://api.deepseek.com
 
-    # AI Query Refiner Model (AI Provider)
-    # DeepSeek Refiner Model (AI Provider) - deepseek-chat
-    # OpenAI Refiner Model (AI Provider) - gpt-4o-mini
-    # OpenRouter Refiner Model (AI Provider) - openai/gpt-4o-mini
-    NEXT_PUBLIC_AI_REFINER_MODEL=gpt-4o-mini
+    # AI Query Refiner Model
+    # DeepSeek: deepseek-chat | OpenAI: gpt-4o-mini | OpenRouter: openai/gpt-4o-mini
+    AI_REFINER_MODEL=gpt-4o-mini
 
-    # AI Reasoning Model (AI Provider)
-    # DeepSeek Reasoning Model (AI Provider) - deepseek-reasoner
-    # OpenAI Reasoning Model (AI Provider) - gpt-4o
-    # OpenRouter Reasoning Model (AI Provider) - openai/gpt-4o
-    NEXT_PUBLIC_AI_REASONING_MODEL=gpt-4o
+    # AI Reasoning Model
+    # DeepSeek: deepseek-reasoner | OpenAI: gpt-4o | OpenRouter: openai/gpt-4o
+    AI_REASONING_MODEL=gpt-4o
 
     # Landing Page Copy Text
     NEXT_PUBLIC_LANDING_PAGE_COPY_TEXT="AI-powered search with advanced reasoning capabilities"

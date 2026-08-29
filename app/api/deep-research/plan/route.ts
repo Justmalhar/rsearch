@@ -1,5 +1,5 @@
-import OpenAI from 'openai';
 import type { SearchSource } from '@/types/search';
+import { createAiClient, getAiReasoningModel } from '@/lib/ai-provider';
 
 // Make sure to export these properly for Next.js API routes
 export const runtime = 'edge';
@@ -56,11 +56,7 @@ Make sure the queries are diverse and will provide different types of informatio
 
 export async function POST(req: Request) {
   try {
-    // Create OpenAI client at runtime to avoid build-time evaluation
-    const openai = new OpenAI({
-      apiKey: process.env.NEXT_PUBLIC_AI_PROVIDER_API_KEY,
-      baseURL: process.env.NEXT_PUBLIC_AI_PROVIDER_BASE_URL,
-    });
+    const openai = createAiClient();
 
     const { query, mode }: { 
       query: string; 
@@ -75,7 +71,7 @@ export async function POST(req: Request) {
     }
 
     const prompt = deepResearchPlanPrompt(query, mode);
-    const model = process.env.NEXT_PUBLIC_AI_REASONING_MODEL;
+    const model = getAiReasoningModel();
 
     const response = await openai.chat.completions.create({
       model: model as string,
